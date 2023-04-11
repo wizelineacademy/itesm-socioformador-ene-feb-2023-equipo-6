@@ -2,7 +2,14 @@
 module.exports = {
   content: ["./app/**/*.{js,jsx,ts,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        wizeblue: {
+          100 : "#43C2FF",
+          200 : "#00ACFF"
+        },
+      }
+    },
   },
   plugins: [],
 }
