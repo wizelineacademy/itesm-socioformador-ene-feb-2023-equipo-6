@@ -2,8 +2,8 @@
 
 export default function WizelineHeader() {
     return (
-        <section class="bg-">
-            <h1>Wizeline</h1>
-        </ section>
+        <nav className="bg-wizegray-100 flex justify-center mx-auto p-4">
+            <h1 className="text-white font-sans font-extrabold text-2xl">WIZELINE</h1>
+        </nav>
     );
 }
