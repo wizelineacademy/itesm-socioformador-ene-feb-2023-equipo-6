@@ -1,4 +1,9 @@
 import { useEffect, useRef, useState } from "react";
+import { useLoaderData } from '@remix-run/react';
+import { Configuration, OpenAIApi } from 'openai';
+import { json } from '@remix-run/node';
+import { getQuestions } from '../data/questions';
+import { getTranscript } from "../data/api";
 
 export default function WebCamRecorder() {
   const [isRecording, setIsRecording] = useState(false);
@@ -7,12 +12,16 @@ export default function WebCamRecorder() {
   const streamRef = useRef(null);
   const streamRecorderRef = useRef(null);
   const chunks = useRef([]);
+  const [audioAvailable, setIsAudioAvailable] = useState(false);
   const [downloadLink, setDownloadLink] = useState("");
+  const [downloadAudioLink, setAudioDownloadLink] = useState("");
   const [audioSource, setAudioSource] = useState("");
   const [videoSource, setVideoSource] = useState("");
   const [audioSourceOptions, setAudioSourceOptions] = useState([]);
   const [videoSourceOptions, setVideoSourceOptions] = useState([]);
   const [error, setError] = useState(null);
+  const [audioBlobFile, setAudioBlob] = useState(null);
+  const [transcript, setTranscript] = useState("");
 
   function startRecording() {
     if (isRecording) {
@@ -33,6 +42,7 @@ export default function WebCamRecorder() {
   }
 
   useEffect(
+
     function () {
       if (isRecording) {
         return;
@@ -43,14 +53,31 @@ export default function WebCamRecorder() {
       const blob = new Blob(chunks.current, {
         type: "video/mp4",
       });
-      setDownloadLink(URL.createObjectURL(blob));
+      const audioBlob = new Blob(chunks.current, {
+        type: "audio/mpeg"
+      });
+      setDownloadLink(URL.createObjectURL(blob));  
+      setAudioDownloadLink(URL.createObjectURL(audioBlob));
+      setAudioBlob(audioBlob); 
+      //getTranscript(audioBlob);
+      //Agregar función de WHISPER
       chunks.current = [];
       setIsDataAvailable(false);
+      setIsAudioAvailable(true); 
+      //var trans = getTranscript(audioBlob); 
+      const myFile = new File([blob], 'question.mp4', {
+        type: blob.type,
+    });
+    var mp4Url = URL.createObjectURL(myFile); 
+    const form = new FormData(); 
+    form.append('data', blob, 'video.mp4'); 
+    getTranscript(blob);
+    
     },
     [isDataAvailable]
   );
 
-  function stopRecording() {
+  async function stopRecording() {
     if (!streamRecorderRef.current) {
       return;
     }
@@ -125,6 +152,8 @@ export default function WebCamRecorder() {
     [audioSource, videoSource]
   );
 
+
+
   return (
     <div>
       <div>
@@ -173,8 +202,15 @@ export default function WebCamRecorder() {
             Descargar
           </a>
         )}
+        {downloadAudioLink && <audio src={downloadAudioLink} controls></audio>}
+        {downloadAudioLink && (
+          <a href={downloadAudioLink} download="file">
+            Descargar Audio
+          </a>
+        )}
+        <p>{transcript}</p>
       </div>
       <div>{error && <p>{error.message}</p>}</div>
-    </div>
-  );
+    </div>
+  );
 }
