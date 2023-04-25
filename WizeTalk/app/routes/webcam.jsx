@@ -44,6 +44,28 @@ export default function WebCamRecorder() {
   useEffect(
 
     function () {
+      const configuration = new Configuration({
+        apiKey: "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",
+    });
+    //console.log(audioBlub);
+      const openai = new OpenAIApi(configuration);
+      
+      //Async function to transcribe 
+      async function trans(blob){
+        const res = await openai.createTranscription(
+          blob.stream(),
+          "whisper-1"
+        );
+        /*const res = await fetch(`https://api.openai.com/v1/audio/transcriptions`, {
+          method: 'POST',
+          headers: {
+          "Authorization": `Bearer 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`,
+          },
+          body: blob
+  });*/
+      console.log(res);
+      }
+
       if (isRecording) {
         return;
       }
@@ -61,17 +83,22 @@ export default function WebCamRecorder() {
       setAudioBlob(audioBlob); 
       //getTranscript(audioBlob);
       //Agregar función de WHISPER
+      
       chunks.current = [];
       setIsDataAvailable(false);
       setIsAudioAvailable(true); 
       //var trans = getTranscript(audioBlob); 
-      const myFile = new File([blob], 'question.mp4', {
-        type: blob.type,
+      blob.lastModified = new Date(); 
+      const myFile = new File([audioBlob], 'question.mpeg', {
+        type: audioBlob.type,
     });
+
     var mp4Url = URL.createObjectURL(myFile); 
     const form = new FormData(); 
-    form.append('data', blob, 'video.mp4'); 
-    getTranscript(blob);
+    form.append('file', audioBlob); 
+    form.append('model', 'whisper-1'); 
+    console.log(myFile);
+    trans(audioBlob); 
     
     },
     [isDataAvailable]
