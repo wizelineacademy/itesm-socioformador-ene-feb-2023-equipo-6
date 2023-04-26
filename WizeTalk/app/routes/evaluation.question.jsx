@@ -3,7 +3,7 @@ import { useLoaderData, useNavigate } from "@remix-run/react";
 import VideoShow from '~/components/evaluation/VideoShow';
 import { useEffect, useState } from "react";
 import useSound from "use-sound";
-import { getQuestions } from "../../data/questions.server";
+import { getQuestions } from "../data/questions.server";
 
 export default function QuestionPage() {
 
