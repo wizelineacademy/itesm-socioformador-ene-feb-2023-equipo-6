@@ -555,6 +555,10 @@ video {
   margin: 5rem;
 }
 
+.m-auto {
+  margin: auto;
+}
+
 .mx-\[10\%\] {
   margin-left: 10%;
   margin-right: 10%;
