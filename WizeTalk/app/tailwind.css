@@ -1,5 +1,5 @@
 /*
-! tailwindcss v3.3.1 | MIT License | https://tailwindcss.com
+! tailwindcss v3.3.2 | MIT License | https://tailwindcss.com
 */
 
 /*
@@ -436,6 +436,9 @@ video {
   --tw-pan-y:  ;
   --tw-pinch-zoom:  ;
   --tw-scroll-snap-strictness: proximity;
+  --tw-gradient-from-position:  ;
+  --tw-gradient-via-position:  ;
+  --tw-gradient-to-position:  ;
   --tw-ordinal:  ;
   --tw-slashed-zero:  ;
   --tw-numeric-figure:  ;
@@ -483,6 +486,9 @@ video {
   --tw-pan-y:  ;
   --tw-pinch-zoom:  ;
   --tw-scroll-snap-strictness: proximity;
+  --tw-gradient-from-position:  ;
+  --tw-gradient-via-position:  ;
+  --tw-gradient-to-position:  ;
   --tw-ordinal:  ;
   --tw-slashed-zero:  ;
   --tw-numeric-figure:  ;
@@ -593,6 +599,16 @@ video {
   margin-bottom: 1.25rem;
 }
 
+.my-\[1\%\] {
+  margin-top: 1%;
+  margin-bottom: 1%;
+}
+
+.my-\[3\%\] {
+  margin-top: 3%;
+  margin-bottom: 3%;
+}
+
 .my-\[4\%\] {
   margin-top: 4%;
   margin-bottom: 4%;
@@ -643,6 +659,10 @@ video {
   height: 1.25rem;
 }
 
+.h-72 {
+  height: 18rem;
+}
+
 .h-\[30\%\] {
   height: 30%;
 }
@@ -661,6 +681,10 @@ video {
 
 .w-5 {
   width: 1.25rem;
+}
+
+.w-\[60\%\] {
+  width: 60%;
 }
 
 .w-full {
@@ -810,16 +834,12 @@ video {
 
 .from-white {
   --tw-gradient-from: #fff var(--tw-gradient-from-position);
-  --tw-gradient-from-position:  ;
-  --tw-gradient-to: rgb(255 255 255 / 0)  var(--tw-gradient-from-position);
-  --tw-gradient-to-position:  ;
+  --tw-gradient-to: rgb(255 255 255 / 0) var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
 }
 
 .via-white {
-  --tw-gradient-via-position:  ;
   --tw-gradient-to: rgb(255 255 255 / 0)  var(--tw-gradient-to-position);
-  --tw-gradient-to-position:  ;
   --tw-gradient-stops: var(--tw-gradient-from), #fff var(--tw-gradient-via-position), var(--tw-gradient-to);
 }
 
@@ -829,7 +849,6 @@ video {
 
 .to-wizeblue-100 {
   --tw-gradient-to: #43C2FF var(--tw-gradient-to-position);
-  --tw-gradient-to-position:  ;
 }
 
 .to-60\% {

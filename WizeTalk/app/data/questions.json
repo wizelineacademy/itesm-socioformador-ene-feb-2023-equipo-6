@@ -11,6 +11,36 @@
             "instructions": "For this question, listen to the audio and once it has finished answer what has been asked.",
             "audio_path": "../Q_02.mp3",
             "time": 60
+        },
+        {
+            "type": "english",
+            "instructions": "For this question, listen to the audio and once it has finished answer what has been asked.",
+            "audio_path": "../Q_03.mp3",
+            "time": 60
+        },
+        {
+            "type": "english",
+            "instructions": "For this question, listen to the audio and once it has finished answer what has been asked.",
+            "audio_path": "../Q_04.mp3",
+            "time": 60
+        },
+        {
+            "type": "english",
+            "instructions": "For this question, listen to the audio and once it has finished answer what has been asked.",
+            "audio_path": "../Q_05.mp3",
+            "time": 60
+        },
+        {
+            "type": "english",
+            "instructions": "For this question, listen to the audio and once it has finished answer what has been asked.",
+            "audio_path": "../Q_06.mp3",
+            "time": 60
+        },
+        {
+            "type": "english",
+            "instructions": "For this question, listen to the audio and once it has finished answer what has been asked.",
+            "audio_path": "../Q_07.mp3",
+            "time": 60
         }
     ]
 }

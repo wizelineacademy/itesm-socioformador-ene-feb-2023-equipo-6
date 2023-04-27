@@ -1,9 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useLoaderData } from '@remix-run/react';
 import { Configuration, OpenAIApi } from 'openai';
-import { json } from '@remix-run/node';
-import { getQuestions } from '../data/questions';
-import { getTranscript } from "../data/api";
 
 export default function WebCamRecorder() {
   const [isRecording, setIsRecording] = useState(false);
@@ -179,63 +175,10 @@ export default function WebCamRecorder() {
     [audioSource, videoSource]
   );
 
-
-
   return (
     <div>
       <div>
-        <select
-          id="videoSource"
-          name="videoSource"
-          value={videoSource}
-          onChange={(e) => setVideoSource(e.target.value)}
-        >
-          {videoSourceOptions.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
-      </div>
-      <div>
-        <select
-          id="audioSource"
-          name="audioSource"
-          value={audioSource}
-          onChange={(e) => setAudioSource(e.target.value)}
-        >
-          {audioSourceOptions.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
-      </div>
-      <div>
         <video ref={videoRef} autoPlay muted playsInline></video>
-      </div>
-      <div>
-        <button onClick={startRecording} disabled={isRecording}>
-          Grabar
-        </button>
-        <button onClick={stopRecording} disabled={!isRecording}>
-          Parar
-        </button>
-      </div>
-      <div>
-        {downloadLink && <video src={downloadLink} controls></video>}
-        {downloadLink && (
-          <a href={downloadLink} download="file">
-            Descargar
-          </a>
-        )}
-        {downloadAudioLink && <audio src={downloadAudioLink} controls></audio>}
-        {downloadAudioLink && (
-          <a href={downloadAudioLink} download="file">
-            Descargar Audio
-          </a>
-        )}
-        <p>{transcript}</p>
       </div>
       <div>{error && <p>{error.message}</p>}</div>
     </div>
