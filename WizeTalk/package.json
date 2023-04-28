@@ -14,6 +14,7 @@
     "@remix-run/node": "^1.14.1",
     "@remix-run/react": "^1.14.1",
     "@remix-run/serve": "^1.14.1",
+    "ffmpeg-kit-react-native": "^5.1.0",
     "isbot": "^3.6.5",
     "openai": "^3.2.1",
     "react": "^18.2.0",
