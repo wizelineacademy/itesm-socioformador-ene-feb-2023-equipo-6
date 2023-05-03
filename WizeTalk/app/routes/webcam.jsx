@@ -46,7 +46,7 @@ export default function WebCamRecorder() {
     //console.log(audioBlub);
       const openai = new OpenAIApi(configuration);
       
-      //Async function to transcribe 
+      //Async function to transcribe
       async function trans(blob){
         const res = await openai.createTranscription(
           blob.stream(),

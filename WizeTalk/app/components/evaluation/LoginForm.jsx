@@ -10,7 +10,7 @@ export default function LoginForm() {
                     personal english evaluation exam.
                 </div>
                 <div>
-                    <label for="code" class="block mb-2 text-sm font-medium text-gray-90">Examination Code</label>
+                    <label className="block mb-2 text-sm font-medium text-gray-90">Examination Code</label>
                     <input type="text" name="code" className="bg-gray-50 border-4 border-b-wizeblue-100 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="XXXX-XXXX"/>
                 </div>
                 <button type="submit" className="w-full text-white bg-wizeblue-100 hover:bg-wizeblue-200 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-md px-5 py-2.5 text-center"><Link to="/evaluation/instructions">Log In</ Link></button>
