@@ -81,8 +81,8 @@ export default function ResultPage() {
                     </div>
                 </div>
                 <div className="flex justify-end my-[4%]">
-                <Form method='post' action="/logout" className="w-1/5 h-10">
-                    <button className="w-1/5 h-10 bg-wizeblue-100 text-white font-bold rounded-md">End Test</button>
+                <Form method='post' action="/logout" className="w-1/5 h-10 bg-wizeblue-100 text-white font-bold rounded-md flex justify-center">
+                    <button classname="text-center">End Test</button>
                 </Form>
                 </div>
             </section>

@@ -6,6 +6,10 @@ export default function VerifyIdPage() {
 
     const user = useLoaderData();
 
+    function setTestStatus() {
+        return null;
+    }
+
     return (
         < >
             <div className="">
@@ -38,9 +42,9 @@ export default function VerifyIdPage() {
                             </Link>
                             <div className="w-20"></div>
                             <Link to="/evaluation/instructions">
-                                <span className="block w-32 bg-green-500 font-bold border-solid border-2 border-black text-center rounded-md text-white">
+                                <button onClick={setTestStatus} className="block w-32 bg-green-500 font-bold border-solid border-2 border-black text-center rounded-md text-white">
                                     Validate
-                                </span>
+                                </button>
                             </Link>
                         </div>
                     </div>
