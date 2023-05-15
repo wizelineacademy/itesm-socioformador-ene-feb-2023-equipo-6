@@ -3,6 +3,8 @@ import wizetalk from '../../public/wizetalk.png';
 import LoginForm from "~/components/evaluation/LoginForm";
 import WizelineHeader from '~/components/WizelineHeader';
 
+import { login } from '../data/auth.server';
+
 export default function Index() {
 
     return (
@@ -22,4 +24,18 @@ export default function Index() {
             </section>
         </main>
     );
+}
+
+export async function action({ request }) {
+    
+    const formData = await request.formData();
+    const credentials = Object.fromEntries(formData);
+
+    try {
+        return await login(credentials);
+    } catch (error) {
+        if(error.status === 422) {
+            return {credentials: error.message};
+        } 
+    }
 }

@@ -5,8 +5,13 @@
             "category": "english",
             "instructions": "For this question, listen to the audio and once it has finished answer what has been asked.",
             "audio_path": "../Q_01.mp3",
+<<<<<<< HEAD
             "min_time": 10,
             "max_time": 15,
+=======
+            "min_time": 60,
+            "max_time": 120,
+>>>>>>> 2551fe9e6fb9676f24a6cc63c17787b03189c4e2
             "value": 10
         },
         {
@@ -14,8 +19,13 @@
             "category": "english",
             "instructions": "For this question, listen to the audio and once it has finished answer what has been asked.",
             "audio_path": "../Q_02.mp3",
+<<<<<<< HEAD
             "min_time": 10,
             "max_time": 15,
+=======
+            "min_time": 60,
+            "max_time": 120,
+>>>>>>> 2551fe9e6fb9676f24a6cc63c17787b03189c4e2
             "value": 10
         },
         {
@@ -23,8 +33,13 @@
             "category": "english",
             "instructions": "For this question, listen to the audio and once it has finished answer what has been asked.",
             "audio_path": "../Q_03.mp3",
+<<<<<<< HEAD
             "min_time": 10,
             "max_time": 15,
+=======
+            "min_time": 60,
+            "max_time": 120,
+>>>>>>> 2551fe9e6fb9676f24a6cc63c17787b03189c4e2
             "value": 10
         },
         {
@@ -32,8 +47,13 @@
             "category": "english",
             "instructions": "For this question, listen to the audio and once it has finished answer what has been asked.",
             "audio_path": "../Q_04.mp3",
+<<<<<<< HEAD
             "min_time": 10,
             "max_time": 15,
+=======
+            "min_time": 60,
+            "max_time": 120,
+>>>>>>> 2551fe9e6fb9676f24a6cc63c17787b03189c4e2
             "value": 10
         },
         {
@@ -41,8 +61,13 @@
             "category": "english",
             "instructions": "For this question, listen to the audio and once it has finished answer what has been asked.",
             "audio_path": "../Q_05.mp3",
+<<<<<<< HEAD
             "min_time": 10,
             "max_time": 15,
+=======
+            "min_time": 60,
+            "max_time": 120,
+>>>>>>> 2551fe9e6fb9676f24a6cc63c17787b03189c4e2
             "value": 10
         },
         {
@@ -50,8 +75,13 @@
             "category": "english",
             "instructions": "For this question, listen to the audio and once it has finished answer what has been asked.",
             "audio_path": "../Q_06.mp3",
+<<<<<<< HEAD
             "min_time": 10,
             "max_time": 15,
+=======
+            "min_time": 60,
+            "max_time": 120,
+>>>>>>> 2551fe9e6fb9676f24a6cc63c17787b03189c4e2
             "value": 10
         },
         {
@@ -59,8 +89,13 @@
             "category": "english",
             "instructions": "For this question, listen to the audio and once it has finished answer what has been asked.",
             "audio_path": "../Q_07.mp3",
+<<<<<<< HEAD
             "min_time": 10,
             "max_time": 15,
+=======
+            "min_time": 60,
+            "max_time": 120,
+>>>>>>> 2551fe9e6fb9676f24a6cc63c17787b03189c4e2
             "value": 10
         }
     ]

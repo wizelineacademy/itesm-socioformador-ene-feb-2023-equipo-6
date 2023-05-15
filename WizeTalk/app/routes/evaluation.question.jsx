@@ -4,6 +4,7 @@ import VideoShow from '../components/evaluation/VideoShow';
 import { createContext, useEffect, useState } from "react";
 import useSound from "use-sound";
 import { getQuestions } from "../data/questions.server";
+import { requireUserSession } from "../data/auth.server";
 
 
 //export const audioContext = createContext({value: false, question: null, isNext:false}); 
@@ -121,7 +122,8 @@ export default function QuestionPage() {
     )
 }
 
-export async function loader() {
+export async function loader(request) {
     const questions = await getQuestions();
+    console.log(questions[0]);
     return questions;
 }

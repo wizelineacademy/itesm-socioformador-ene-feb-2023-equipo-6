@@ -1,6 +1,6 @@
 import { Outlet } from "@remix-run/react";
 import WizelineHeader from "../components/WizelineHeader";
-
+import { getUserFromSession, requireUserSession } from "../data/auth.server";
 
 export default function EvaluationMainPage() {
     return(
@@ -9,4 +9,10 @@ export default function EvaluationMainPage() {
     <Outlet/>
     </>
     );
+}
+
+export async function loader({ request }) {
+    await requireUserSession(request);
+
+    return getUserFromSession(request);
 }
