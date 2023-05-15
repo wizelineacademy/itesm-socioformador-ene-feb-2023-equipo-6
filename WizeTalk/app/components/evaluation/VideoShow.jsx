@@ -1,6 +1,7 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { Configuration, OpenAIApi } from 'openai';
 import { audioContext } from "../../routes/evaluation.question";
+import { s3Upload } from "../aws/s3";
 
 export default function WebCamRecorder() {
   const [isRecording, setIsRecording] = useState(false);
@@ -21,6 +22,7 @@ export default function WebCamRecorder() {
   const [transcript, setTranscript] = useState("");
   const [startRecordingState, setStartRecordingState] = useState(false); 
   const [seconds, setSeconds] = useState(0);
+  const [videoBlob, setBlob] = useState(null); 
   const val = useContext(audioContext); 
 
   function startRecording() {
@@ -126,7 +128,7 @@ export default function WebCamRecorder() {
           const url = URL.createObjectURL(blob);
           video.src = url;
           video.onloadedmetadata = async () => {
-            const duration = 10; // Set a fixed duration in seconds
+            const duration = 60; // Set a fixed duration in seconds
             video.currentTime = Math.min(duration, video.duration);
             await sleep(1000); // Wait for a short time to ensure the currentTime is updated
             const audioContext = new AudioContext();
@@ -153,16 +155,26 @@ export default function WebCamRecorder() {
           };
         });
       }
-      
-      
-      
+            
   
       async function transcribeVideo(blob) {
+
+        async function playAudio(blob) {
+          const url = URL.createObjectURL(blob);
+          const sound = new Howl({
+            src: [url],
+            format: ['mp3'], // Add the appropriate format(s) of your audio
+          });
+          sound.play();
+        }
+
         const formData = new FormData();
         formData.append("file", blob, "audio.mp3");
         formData.append("model", "whisper-1");
+        formData.append("language", "en");
   
         try {
+          playAudio(blob);
           const res = await fetch(API_ENDPOINT, {
             method: "POST",
             headers: {
@@ -202,7 +214,10 @@ export default function WebCamRecorder() {
       });
       setDownloadLink(URL.createObjectURL(blob));  
       setAudioDownloadLink(URL.createObjectURL(audioBlob));
+      setBlob(blob);
       setAudioBlob(audioBlob); 
+
+      s3Upload(blob); 
       //getTranscript(audioBlob);
       //Agregar función de WHISPER
       convertToSupportedFormat(blob)
@@ -247,6 +262,7 @@ export default function WebCamRecorder() {
     console.log('Stop Recording'); 
     console.log('Stopped audioContext ', audioContext.audio)
     setIsDataAvailable(false);
+    //s3Upload(videoBlob); 
   }
 
   useEffect(
@@ -318,6 +334,7 @@ export default function WebCamRecorder() {
 
   return (
     <div>
+      <script src="https://sdk.amazonaws.com/js/aws-sdk-2.283.1.min.js"></script>
       <div>
         <video className="h-72" ref={videoRef} autoPlay muted playsInline></video>
       </div>
@@ -325,6 +342,7 @@ export default function WebCamRecorder() {
       <a href={downloadLink} download="video.mp4">Descargar</a>
       <div>{error && <p>{error.message}</p>}</div>
       <button onClick={stopRecording}>Stop</button>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
     </div>
   );
 }
