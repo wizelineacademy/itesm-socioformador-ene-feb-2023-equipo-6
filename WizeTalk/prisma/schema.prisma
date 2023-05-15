@@ -12,9 +12,10 @@ datasource db {
 
 model User {
   id              Int    @id @default(autoincrement())
+  code            String @unique
   name            String
   lastname        String
   status          Int    @default(0)
   overall         Int?
-  evaluation_type Int    
+  evaluation_type Int
 }

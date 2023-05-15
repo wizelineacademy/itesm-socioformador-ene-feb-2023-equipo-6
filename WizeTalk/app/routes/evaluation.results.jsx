@@ -1,7 +1,14 @@
-
+import { destroyUserSession, requireUserSession } from "../data/auth.server";
+import { useNavigate, Form } from "@remix-run/react";
 
 export default function ResultPage() {
 
+    const navigate = useNavigate();
+
+    function endTest() {
+        destroyUserSession({ request })
+        navigate('/evaluation/results');
+    }
 
     return (
         <>
@@ -74,9 +81,17 @@ export default function ResultPage() {
                     </div>
                 </div>
                 <div className="flex justify-end my-[4%]">
+                <Form method='post' action="/logout" className="w-1/5 h-10">
                     <button className="w-1/5 h-10 bg-wizeblue-100 text-white font-bold rounded-md">End Test</button>
+                </Form>
                 </div>
             </section>
         </>
     );
+}
+
+export async function loader({ request }) { 
+    await requireUserSession(request);
+
+    return null;
 }
