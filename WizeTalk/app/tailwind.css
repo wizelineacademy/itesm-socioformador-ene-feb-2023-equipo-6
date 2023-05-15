@@ -560,8 +560,8 @@ video {
   visibility: visible;
 }
 
-.m-20 {
-  margin: 5rem;
+.fixed {
+  position: fixed;
 }
 
 .mx-\[10\%\] {
@@ -661,10 +661,6 @@ video {
 
 .h-72 {
   height: 18rem;
-}
-
-.h-\[30\%\] {
-  height: 30%;
 }
 
 .min-h-screen {
