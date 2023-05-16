@@ -217,7 +217,7 @@ export default function WebCamRecorder() {
       setBlob(blob);
       setAudioBlob(audioBlob); 
 
-      s3Upload(blob); 
+      s3Upload(blob, "XXXX1234" + val.question.id); 
       //getTranscript(audioBlob);
       //Agregar función de WHISPER
       convertToSupportedFormat(blob)

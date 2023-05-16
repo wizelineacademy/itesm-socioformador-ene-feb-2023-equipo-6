@@ -18,11 +18,7 @@
     "@remix-run/node": "^1.14.1",
     "@remix-run/react": "^1.14.1",
     "@remix-run/serve": "^1.14.1",
-<<<<<<< HEAD
-    "aws-sdk": "^2.1377.0",
-=======
     "bcryptjs": "^2.4.3",
->>>>>>> 2551fe9e6fb9676f24a6cc63c17787b03189c4e2
     "howler": "^2.2.3",
     "i": "^0.3.7",
     "isbot": "^3.6.5",

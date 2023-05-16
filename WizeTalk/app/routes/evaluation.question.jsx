@@ -27,7 +27,6 @@ export default function QuestionPage() {
     const [isNextAvailable, setIsNextAvailable] = useState(false); 
 
 
-
     const [play, { pause, duration, sound }] = useSound(audio, {onend: () => {
         console.log('Audio finished'); 
         setIsAudioDone(true); 

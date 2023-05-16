@@ -1,4 +1,4 @@
-export function s3Upload(blob) {
+export function s3Upload(blob, name) {
 
   AWS.config.update({ region: "us-east-1" });
 
@@ -33,7 +33,7 @@ export function s3Upload(blob) {
   });
   s3.putObject(
     {
-      Key: "Test1.mp4",
+      Key: name,
       Body: blob,
       ContentType: "video/mp4",
       //ACL: "public-read",
