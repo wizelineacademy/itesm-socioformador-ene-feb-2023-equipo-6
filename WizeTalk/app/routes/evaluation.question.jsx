@@ -5,6 +5,7 @@ import { createContext, useEffect, useState } from "react";
 import useSound from "use-sound";
 import { getQuestions } from "../data/questions.server";
 import { requireUserSession } from "../data/auth.server";
+import { getUserInfo } from "../data/evaluation.server";
 
 
 //export const audioContext = createContext({value: false, question: null, isNext:false}); 
@@ -12,7 +13,7 @@ export const audioContext = createContext({isAudioDone: false})
 
 export default function QuestionPage() {
 
-    const questions = useLoaderData();
+    const [questions, userId] = useLoaderData();
 
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [isPlaying, setIsPlaying] = useState(false);
@@ -56,13 +57,18 @@ export default function QuestionPage() {
         
     }
 
-    const endTest = () => {
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    const endTest = async () => {
         if(isRecording){
             setIsRecording(false); 
         }
         setIsNextAvailable(false); 
         setIsPlaying(false);
         setIsAudioDone(false); 
+        await sleep(3000);
         navigate('/evaluation/results');
     }
 
@@ -96,7 +102,7 @@ export default function QuestionPage() {
                     </div>
                 </div>
                 
-                <audioContext.Provider value={{isAudioDone: isAudioDone, isRecording: isRecording, setIsRecording: setIsRecording, isNextAvailable: isNextAvailable, setIsNextAvailable: setIsNextAvailable, question:questions[currentQuestionIndex], nextQuestion:handleNextQuestionClick}}>
+                <audioContext.Provider value={{isAudioDone: isAudioDone, isRecording: isRecording, setIsRecording: setIsRecording, isNextAvailable: isNextAvailable, setIsNextAvailable: setIsNextAvailable, question:questions[currentQuestionIndex], nextQuestion:handleNextQuestionClick, userId:userId}}>
                     <div className="flex justify-center my-[3%] rounded-md">
                         <VideoShow/>
                     </div>       
@@ -121,8 +127,10 @@ export default function QuestionPage() {
     )
 }
 
-export async function loader(request) {
+export async function loader({request}) {
+    const userId = await requireUserSession(request);  
+    console.log(userId);
     const questions = await getQuestions();
     console.log(questions[0]);
-    return questions;
+    return [questions, userId];
 }

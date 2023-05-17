@@ -1,13 +1,15 @@
 import { useLoaderData } from "@remix-run/react";
-import { testData } from "../data/prismatest";
+import QuestionContainer from "../components/admininstrator/QuestionContainer";
+
 
 export default function AdminQuestionsPage() {
-    
 
-
-    return(
-    <>
-        <h1>Question</h1>
-    </>
+    return (
+        <>
+            <section className="flex flex-col m-auto">
+                Question Overview
+                <QuestionContainer />
+            </section>
+        </>
     );
 }

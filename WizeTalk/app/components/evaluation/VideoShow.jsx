@@ -2,6 +2,8 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { Configuration, OpenAIApi } from 'openai';
 import { audioContext } from "../../routes/evaluation.question";
 import { s3Upload } from "../aws/s3";
+import { getUserFromSession } from "../../data/auth.server";
+import { Request } from "@remix-run/node";
 
 export default function WebCamRecorder() {
   const [isRecording, setIsRecording] = useState(false);
@@ -24,6 +26,7 @@ export default function WebCamRecorder() {
   const [seconds, setSeconds] = useState(0);
   const [videoBlob, setBlob] = useState(null); 
   const val = useContext(audioContext); 
+  const [questionId, setQuestionId] = useState(null);
 
   function startRecording() {
     if (isRecording) {
@@ -40,8 +43,10 @@ export default function WebCamRecorder() {
         setIsDataAvailable(true);
       }
     };
+    setQuestionId(val.question.id);
     setIsRecording(true);
     console.log(val.question.max_time);
+    console.log('Recording...'); 
     val.setIsRecording(true); 
   }
 
@@ -146,7 +151,7 @@ export default function WebCamRecorder() {
               const audioBlob = new Blob(audioChunks, { type: "audio/mp3" });
               resolve(audioBlob);
             };
-      
+            
             mediaRecorder.start();
       
             setTimeout(() => {
@@ -191,7 +196,6 @@ export default function WebCamRecorder() {
         }
       }
   
-  
         /*const res = await fetch(`https://api.openai.com/v1/audio/transcriptions`, {
           method: 'POST',
           headers: {
@@ -217,7 +221,10 @@ export default function WebCamRecorder() {
       setBlob(blob);
       setAudioBlob(audioBlob); 
 
-      s3Upload(blob, "XXXX1234" + val.question.id); 
+      const videoName = val.userId + '_' + questionId + '.mp4'; 
+      console.log(questionId, val.question.audio_path);
+
+      s3Upload(blob, videoName); 
       //getTranscript(audioBlob);
       //Agregar función de WHISPER
       convertToSupportedFormat(blob)
@@ -260,6 +267,7 @@ export default function WebCamRecorder() {
     setIsRecording(false);
     val.setIsRecording(false); 
     console.log('Stop Recording'); 
+    console.log(videoBlob);
     console.log('Stopped audioContext ', audioContext.audio)
     setIsDataAvailable(false);
     //s3Upload(videoBlob); 
