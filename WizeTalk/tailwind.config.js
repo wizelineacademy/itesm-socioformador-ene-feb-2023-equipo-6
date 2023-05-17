@@ -11,7 +11,10 @@ module.exports = {
         },
         wizegray: {
           100: "#202529",
-        }
+        },
+        wizewhite:{
+          100: "#F2FAFD",
+        },
       }
     },
   },
