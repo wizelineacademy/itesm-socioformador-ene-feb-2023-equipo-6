@@ -1,14 +1,13 @@
 import { Link, useLoaderData } from "@remix-run/react"
 import { requireUserSession } from "../data/auth.server";
-import { getUserInfo } from "../data/evaluation.server";
+import { getUserInfo, testStatus} from "../data/evaluation.server";
+
 
 export default function VerifyIdPage() {
 
     const user = useLoaderData();
 
-    function setTestStatus() {
-        return null;
-    }
+
 
     return (
         < >
@@ -41,11 +40,13 @@ export default function VerifyIdPage() {
                                 </span>
                             </Link>
                             <div className="w-20"></div>
-                            <Link to="/evaluation/instructions">
-                                <button onClick={setTestStatus} className="block w-32 bg-green-500 font-bold border-solid border-2 border-black text-center rounded-md text-white">
+                            {/* <Link to="/evaluation/instructions"> */}
+                            <form method="post">
+                                <button type = "submit" className="block w-32 bg-green-500 font-bold border-solid border-2 border-black text-center rounded-md text-white">
                                     Validate
                                 </button>
-                            </Link>
+                            </form>
+                            {/* </Link> */}
                         </div>
                     </div>
                 </section>
@@ -56,10 +57,16 @@ export default function VerifyIdPage() {
 
 export async function loader({ request }) {
     const userId = await requireUserSession(request);    
-    
-    console.log(userId);
-
     const userInfo = await getUserInfo(userId);
     
     return userInfo;
 }
+export async function action({ request }) {
+    return await testStatus(request);
+
+    //     const updateStatus = await prisma.user.update({
+    //         where: {id: userId}
+    //     });
+    //     return null;
+}
+
