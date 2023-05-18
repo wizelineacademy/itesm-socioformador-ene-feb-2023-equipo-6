@@ -346,10 +346,8 @@ export default function WebCamRecorder() {
       <div>
         <video className="h-72" ref={videoRef} autoPlay muted playsInline></video>
       </div>
-      <a>{seconds}</a>
-      <a href={downloadLink} download="video.mp4">Descargar</a>
+      <div>{seconds}</div>
       <div>{error && <p>{error.message}</p>}</div>
-      <button onClick={stopRecording}>Stop</button>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
     </div>
   );

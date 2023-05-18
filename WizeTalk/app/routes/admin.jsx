@@ -1,6 +1,6 @@
 import WizelineHeader from "../components/WizelineHeader";
 import { Outlet, Link, useLocation } from "@remix-run/react";
-import wizetalk from "../../public/wizetalk.png"
+import wizetalk from "../../public/wizetalk_white.png"
 import { RiHome2Line } from "react-icons/ri";
 import { BsQuestionCircle } from "react-icons/bs";
 import { HiOutlinePencilAlt } from "react-icons/hi";
@@ -31,10 +31,10 @@ export default function AdminStructurePage() {
                 <WizelineHeader />
                 <section className="flex h-screen">
                     <div className="w-[15%] p-3.5 bg-wizeblue-100 solid flex-col">
-                        <div className="h-10">
+                        <div className="h-12">
                             <img src={wizetalk} />
                         </div>
-                        <hr className="my-4" />
+                        <hr className="mt-2 mb-3" />
                         <div className="flex flex-col pl-3.5 space-y-3.5">
                             <Link to="/admin/dashboard">
                                 <button className="flex space-x-2 decoration-white hover:underline">
