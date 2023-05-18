@@ -1,6 +1,6 @@
 export function s3Upload(blob, name) {
-
   AWS.config.update({ region: "us-east-1" });
+
 
   /*var creds = new AWS.Credentials("akid", "secret", "session");
 

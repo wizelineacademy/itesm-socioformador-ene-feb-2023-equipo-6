@@ -10,6 +10,7 @@ export default function LoginForm() {
     
     return (
         <div className="w-full max-w-md p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8">
+            <script src="https://sdk.amazonaws.com/js/aws-sdk-2.283.1.min.js"></script>
             <Form method="post" className="space-y-6">
                 <h5 className="text-xl font-medium text-gray-900">Welcome!</h5>
                 <div className="text-black">
