@@ -23,6 +23,7 @@ export default function App() {
   return (
     <html lang="en">
       <head>
+        <script src="https://sdk.amazonaws.com/js/aws-sdk-2.283.1.min.js"></script>
         <Meta />
         <Links />
       </head>

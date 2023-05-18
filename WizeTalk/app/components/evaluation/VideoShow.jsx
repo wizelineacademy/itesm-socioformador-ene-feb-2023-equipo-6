@@ -47,6 +47,7 @@ export default function WebCamRecorder() {
     setIsRecording(true);
     console.log(val.question.max_time);
     console.log('Recording...'); 
+    console.log('UserId: ', val.userId, 'Question: ', val.question.id);
     val.setIsRecording(true); 
   }
 
@@ -342,13 +343,11 @@ export default function WebCamRecorder() {
 
   return (
     <div>
-      <script src="https://sdk.amazonaws.com/js/aws-sdk-2.283.1.min.js"></script>
       <div>
         <video className="h-72" ref={videoRef} autoPlay muted playsInline></video>
       </div>
-      <div>{seconds}</div>
+      <a>{seconds}</a>
       <div>{error && <p>{error.message}</p>}</div>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
     </div>
   );
 }
