@@ -1,5 +1,5 @@
 import { Link } from "@remix-run/react"
-
+import { requireUserSession } from "../data/auth.server";
 
 export default function () {
     return (
@@ -15,7 +15,7 @@ export default function () {
                     <section>
                         <p className="pb-8">Instructions:</p>
                         <ol className="list-decimal list-inside space-y-1">
-                            <li te>You will have 30 minutes to complete a set of 10 questions.</li>
+                            <li>You will have 30 minutes to complete a set of 10 questions.</li>
                             <li>All answers will be recorded on video for their evaluation, make sure your camera and microphone are working correctly and the room you are in is as silent as possible.</li>
                             <li>For each question, there will be an audio explaining it. You will have 15 seconds after the audio finishes to start developing your answer.</li>
                             <li>Be aware that not all questions are the same length, a message will be visible telling you the recommended length for the answer. </li>
@@ -38,4 +38,10 @@ export default function () {
             </container>
         </ >
     );
+}
+
+
+export async function loader({ request }) {
+    await requireUserSession(request);
+    return null;
 }

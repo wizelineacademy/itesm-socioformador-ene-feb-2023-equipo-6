@@ -1,9 +1,14 @@
+import { useLoaderData } from "@remix-run/react";
+import QuestionContainer from "../components/admininstrator/QuestionContainer";
 
 
 export default function AdminQuestionsPage() {
-    return(
-    <>
-    <h1>Here go the Questions</h1>
-    </>
+
+    return (
+        <>
+            <section className="flex flex-col m-auto">
+                <QuestionContainer />
+            </section>
+        </>
     );
 }

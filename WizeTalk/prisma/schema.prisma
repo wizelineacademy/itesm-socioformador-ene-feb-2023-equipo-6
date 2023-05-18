@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -8,4 +5,49 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+model User {
+  id              Int     @id @default(autoincrement())
+  name            String
+  lastname        String
+  status          Int     @default(0)
+  overall         Int?
+  evaluation_type Int
+  code            String? @db.VarChar(9)
+}
+
+model Evaluation {
+  id   Int    @id @default(autoincrement())
+  name String
+}
+
+model QuestionPool {
+  id          Int    @id @default(autoincrement())
+  instruction String
+  categoria   String
+  audio_path  String
+  min_time    Int
+  max_time    Int
+  value       Int
+}
+
+model Questions {
+  id          Int    @id @default(autoincrement())
+  question_id Int
+  user_id     Int
+  score       Int
+  transcript  String
+  video_path  String
+}
+
+model SoftSkills {
+  id   Int    @id @default(autoincrement())
+  name String
+}
+
+model UserSkills {
+  id       Int @id @default(autoincrement())
+  user_id  Int
+  skill_id Int
 }
