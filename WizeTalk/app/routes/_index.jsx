@@ -4,9 +4,9 @@ import LoginForm from "~/components/evaluation/LoginForm";
 import WizelineHeader from '~/components/WizelineHeader';
 
 import { login } from '../data/auth.server';
+import { useLoaderData } from 'react-router-dom';
 
 export default function Index() {
-
     return (
         <main>
             <WizelineHeader />
@@ -30,12 +30,11 @@ export async function action({ request }) {
     
     const formData = await request.formData();
     const credentials = Object.fromEntries(formData);
-
-    try {
-        return await login(credentials);
-    } catch (error) {
-        if(error.status === 422) {
-            return {credentials: error.message};
-        } 
-    }
+    return await login(credentials);
+    // try {
+    // } catch (error) {
+    //     if(error.status === 422) {
+    //         return {credentials: error.message};
+    //     } 
+    // }
 }

@@ -560,13 +560,10 @@ video {
   visibility: visible;
 }
 
-<<<<<<< HEAD
 .fixed {
   position: fixed;
 }
 
-=======
->>>>>>> 2551fe9e6fb9676f24a6cc63c17787b03189c4e2
 .mx-\[10\%\] {
   margin-left: 10%;
   margin-right: 10%;
@@ -692,13 +689,10 @@ video {
   height: 18rem;
 }
 
-<<<<<<< HEAD
-=======
 .h-screen {
   height: 100vh;
 }
 
->>>>>>> 2551fe9e6fb9676f24a6cc63c17787b03189c4e2
 .min-h-screen {
   min-height: 100vh;
 }
