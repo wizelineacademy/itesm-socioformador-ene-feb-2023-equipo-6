@@ -1,5 +1,5 @@
 import WizelineHeader from "../components/WizelineHeader";
-import { Outlet, Link } from "@remix-run/react";
+import { Outlet, Link, useLocation } from "@remix-run/react";
 import wizetalk from "../../public/wizetalk.png"
 import { RiHome2Line } from "react-icons/ri";
 import { BsQuestionCircle } from "react-icons/bs";
@@ -8,6 +8,22 @@ import { BiUserCircle } from "react-icons/bi";
 
 
 export default function AdminStructurePage() {
+
+    const location = useLocation();
+    
+    function getPathHeader(){
+        if(location.pathname === '/admin/dashboard'){
+            return 'Dashboard';
+        }
+        else if(location.pathname === '/admin/questions'){
+            return 'Question Overview';
+        }
+        else if(location.pathname === '/admin/evaluate'){
+            return 'Evaluate Users';
+        }
+    }
+
+    const pageHeader = getPathHeader();
 
     return (
         <>
@@ -19,17 +35,17 @@ export default function AdminStructurePage() {
                             <img src={wizetalk} />
                         </div>
                         <hr className="my-4" />
-                        <div className="pl-3.5 space-y-3.5">
+                        <div className="flex flex-col pl-3.5 space-y-3.5">
                             <Link to="/admin/dashboard">
                                 <button className="flex space-x-2 decoration-white hover:underline">
-                                    <RiHome2Line color="white" fontSize="1.5em" />
+                                    <RiHome2Line color="white" fontSize="1.3em" />
                                     <p className="text-white">Dashboard</p>
                                 </button>
                             </Link>
                             <Link to="/admin/questions">
                                 <div className="flex space-x-2 decoration-white hover:underline ">
-                                    <BsQuestionCircle color="white" fontSize="1.5em" />
-                                    <p className="text-white">Questions</p>
+                                    <BsQuestionCircle color="white" fontSize="1.3em" />
+                                    <p className="text-white">Question</p>
                                 </div>
                             </Link>
                             <Link to="/admin/evaluate">
@@ -44,7 +60,7 @@ export default function AdminStructurePage() {
                         <div className="h-[4.5rem] flex bg-wizewhite-100 items-center">
                             <div className="flex flex-row w-full mx-[2rem] content justify-between">
                                 <div className="font-bold text-xl">
-                                    Questions
+                                    {pageHeader}
                                 </div>
                                 <div className="flex flex-row items-center text-xl gap-x-5">
                                     <BiUserCircle color="black" fontSize="1.5em" />
@@ -52,7 +68,7 @@ export default function AdminStructurePage() {
                                 </div>
                             </div>
                         </div>
-                        <div className="flex bg-green-100">
+                        <div className="flex">
                             <Outlet />
                         </div>
                     </div>

@@ -7,7 +7,6 @@ export default function AdminQuestionsPage() {
     return (
         <>
             <section className="flex flex-col m-auto">
-                Question Overview
                 <QuestionContainer />
             </section>
         </>
