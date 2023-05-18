@@ -107,7 +107,7 @@ export default function QuestionPage() {
                     </div>
                 </div>
                 
-                <audioContext.Provider value={{isAudioDone: isAudioDone, isRecording: isRecording, setIsRecording: setIsRecording, isNextAvailable: isNextAvailable, setIsNextAvailable: setIsNextAvailable, question:questions[currentQuestionIndex], nextQuestion:handleNextQuestionClick, userId:userId}}>
+                <audioContext.Provider value={{isAudioDone: isAudioDone, isRecording: isRecording, setIsRecording: setIsRecording, isNextAvailable: isNextAvailable, setIsNextAvailable: setIsNextAvailable, question:questions[currentQuestionIndex], nextQuestion:handleNextQuestionClick}}>
                     <div className="flex justify-center my-[3%] rounded-md">
                         <VideoShow/>
                     </div>       
@@ -132,7 +132,7 @@ export default function QuestionPage() {
     )
 }
 
-export async function loader(request) {
+export async function loader({request}) {
     const userId = await requireUserSession(request); 
     var questions = await getQuestionsDB();
 
