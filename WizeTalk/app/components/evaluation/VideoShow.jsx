@@ -1,5 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { Configuration, OpenAIApi } from 'openai';
+import { audioContext } from "../../routes/evaluation.question";
+import { s3Upload } from "../aws/s3";
+import { getUserFromSession } from "../../data/auth.server";
+import { Request } from "@remix-run/node";
 
 export default function WebCamRecorder() {
   const [isRecording, setIsRecording] = useState(false);
@@ -18,6 +22,11 @@ export default function WebCamRecorder() {
   const [error, setError] = useState(null);
   const [audioBlobFile, setAudioBlob] = useState(null);
   const [transcript, setTranscript] = useState("");
+  const [startRecordingState, setStartRecordingState] = useState(false); 
+  const [seconds, setSeconds] = useState(0);
+  const [videoBlob, setBlob] = useState(null); 
+  const val = useContext(audioContext); 
+  const [questionId, setQuestionId] = useState(null);
 
   function startRecording() {
     if (isRecording) {
@@ -34,24 +43,159 @@ export default function WebCamRecorder() {
         setIsDataAvailable(true);
       }
     };
+    setQuestionId(val.question.id);
     setIsRecording(true);
+    console.log(val.question.max_time);
+    console.log('Recording...'); 
+    val.setIsRecording(true); 
   }
+
+  function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  useEffect(
+    function() {
+      async function stopTimer(){
+        await sleep(1000); 
+
+        if(isRecording && seconds >= 0 && seconds < val.question.min_time){
+          setSeconds(seconds + 1);
+          console.log("Stop 1");
+        }
+        
+        else if(seconds >= val.question.min_time && val.isNextAvailable == false && val.isRecording){
+          console.log('Can Stop'); 
+          val.setIsNextAvailable(true); 
+          setSeconds(seconds + 1); 
+          console.log("Stop 2");
+        }
+
+        else if(seconds >= val.question.min_time && val.isRecording && seconds < val.question.max_time){
+          setSeconds(seconds + 1); 
+          console.log("Stop 3");
+        }
+
+        else if(seconds >= val.question.min_time && seconds < val.question.max_time && !val.isRecording){
+          stopRecording(); 
+          console.log("Stop 4");
+        }
+
+        else if(seconds == val.question.max_time){
+          console.log("Max time reached");
+          stopRecording(); 
+        }
+      }
+      
+      stopTimer();
+    }, [isRecording, seconds]
+  )
+
+  useEffect(
+    function (){
+      async function stopTimer(){
+        await sleep(val.question.max_time*1000); 
+        if(isRecording && val.question.max_time <= seconds){
+          stopRecording(); 
+          val.setIsNextAvailable(true); 
+        }
+      }
+
+      //console.log(val); 
+
+      if(val.isAudioDone == true && val.isRecording == false && val.isNextAvailable == false){
+        startRecording(); 
+        //console.log('Question ', val.question);
+        stopTimer(); 
+        console.log('Recording'); 
+      }
+    }, [val]
+  )
+
+
+
 
   useEffect(
 
     function () {
       const configuration = new Configuration({
-        apiKey: "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",
+        apiKey: "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",
     });
     //console.log(audioBlub);
       const openai = new OpenAIApi(configuration);
+
+      const API_TOKEN = "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";
+      const API_ENDPOINT = "https://api.openai.com/v1/audio/transcriptions";
       
-      //Async function to transcribe 
-      async function trans(blob){
-        const res = await openai.createTranscription(
-          blob.stream(),
-          "whisper-1"
-        );
+      async function convertToSupportedFormat(blob) {
+        return new Promise((resolve) => {
+          const video = document.createElement("video");
+          const url = URL.createObjectURL(blob);
+          video.src = url;
+          video.onloadedmetadata = async () => {
+            const duration = 60; // Set a fixed duration in seconds
+            video.currentTime = Math.min(duration, video.duration);
+            await sleep(1000); // Wait for a short time to ensure the currentTime is updated
+            const audioContext = new AudioContext();
+            const mediaSource = audioContext.createMediaElementSource(video);
+            const destinationNode = audioContext.createMediaStreamDestination();
+            mediaSource.connect(destinationNode);
+            const mediaRecorder = new MediaRecorder(destinationNode.stream);
+            const audioChunks = [];
+      
+            mediaRecorder.ondataavailable = (event) => {
+              audioChunks.push(event.data);
+            };
+      
+            mediaRecorder.onstop = () => {
+              const audioBlob = new Blob(audioChunks, { type: "audio/mp3" });
+              resolve(audioBlob);
+            };
+            
+            mediaRecorder.start();
+      
+            setTimeout(() => {
+              mediaRecorder.stop();
+            }, duration * 1000);
+          };
+        });
+      }
+            
+  
+      async function transcribeVideo(blob) {
+
+        async function playAudio(blob) {
+          const url = URL.createObjectURL(blob);
+          const sound = new Howl({
+            src: [url],
+            format: ['mp3'], // Add the appropriate format(s) of your audio
+          });
+          sound.play();
+        }
+
+        const formData = new FormData();
+        formData.append("file", blob, "audio.mp3");
+        formData.append("model", "whisper-1");
+        formData.append("language", "en");
+  
+        try {
+          playAudio(blob);
+          const res = await fetch(API_ENDPOINT, {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${API_TOKEN}`,
+            },
+            body: formData,
+          });
+  
+          const data = await res.json();
+          console.log(data);
+          // Process the response as needed
+        } catch (error) {
+          console.error("Error:", error);
+        }
+      }
+  
         /*const res = await fetch(`https://api.openai.com/v1/audio/transcriptions`, {
           method: 'POST',
           headers: {
@@ -59,8 +203,6 @@ export default function WebCamRecorder() {
           },
           body: blob
   });*/
-      console.log(res);
-      }
 
       if (isRecording) {
         return;
@@ -76,9 +218,25 @@ export default function WebCamRecorder() {
       });
       setDownloadLink(URL.createObjectURL(blob));  
       setAudioDownloadLink(URL.createObjectURL(audioBlob));
+      setBlob(blob);
       setAudioBlob(audioBlob); 
+
+      const videoName = val.userId + '_' + questionId + '.mp4'; 
+      console.log(questionId, val.question.audio_path);
+
+      s3Upload(blob, videoName); 
       //getTranscript(audioBlob);
       //Agregar función de WHISPER
+      convertToSupportedFormat(blob)
+      .then((convertedBlob) => {
+        if (convertedBlob) {
+          // Send the converted blob to the Whisper API
+          transcribeVideo(convertedBlob);
+        }
+      })
+      .catch((error) => {
+        console.error("Error converting video format:", error);
+      });
       
       chunks.current = [];
       setIsDataAvailable(false);
@@ -89,12 +247,12 @@ export default function WebCamRecorder() {
         type: audioBlob.type,
     });
 
-    var mp4Url = URL.createObjectURL(myFile); 
+    /*var mp4Url = URL.createObjectURL(myFile); 
     const form = new FormData(); 
     form.append('file', audioBlob); 
     form.append('model', 'whisper-1'); 
     console.log(myFile);
-    trans(audioBlob); 
+    trans(audioBlob); */
     
     },
     [isDataAvailable]
@@ -105,7 +263,14 @@ export default function WebCamRecorder() {
       return;
     }
     streamRecorderRef.current.stop();
+    setSeconds(0); 
     setIsRecording(false);
+    val.setIsRecording(false); 
+    console.log('Stop Recording'); 
+    console.log(videoBlob);
+    console.log('Stopped audioContext ', audioContext.audio)
+    setIsDataAvailable(false);
+    //s3Upload(videoBlob); 
   }
 
   useEffect(
@@ -177,10 +342,15 @@ export default function WebCamRecorder() {
 
   return (
     <div>
+      <script src="https://sdk.amazonaws.com/js/aws-sdk-2.283.1.min.js"></script>
       <div>
         <video className="h-72" ref={videoRef} autoPlay muted playsInline></video>
       </div>
+      <a>{seconds}</a>
+      <a href={downloadLink} download="video.mp4">Descargar</a>
       <div>{error && <p>{error.message}</p>}</div>
+      <button onClick={stopRecording}>Stop</button>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
     </div>
   );
 }

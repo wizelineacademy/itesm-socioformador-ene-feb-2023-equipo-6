@@ -33,6 +33,8 @@ export async function action({ request }) {
     const formData = await request.formData();
     const credentials = Object.fromEntries(formData);
 
+    //return await login(credentials);
+
     try {
         return await login(credentials);
     } catch (error) {
