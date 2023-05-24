@@ -27,15 +27,12 @@ jobs:
         uses: bahmutov/npm-install@v1
 
       - name: 🔬 Lint
-        working-directory: ./Wizetalk
+        working-directory: ./WizeTalk
         run: npm run lint
 
   cypress:
     name: ⚫️ Cypress
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./Wizetalk
     env:
       DATABASE_URL: postgresql://lab_user:lab_pass@localhost/lab_test
       SESSION_SECRET: asdf_secret
