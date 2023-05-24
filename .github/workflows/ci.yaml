@@ -10,9 +10,6 @@ jobs:
   lint:
     name: ⬣ ESLint
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./Wizetalk
     steps:
       - name: 🛑 Cancel Previous Runs
         if: ${{ env.GITHUB_ACTOR != 'nektos/act' }}
@@ -30,6 +27,7 @@ jobs:
         uses: bahmutov/npm-install@v1
 
       - name: 🔬 Lint
+        working-directory: ./Wizetalk
         run: npm run lint
 
   cypress:
