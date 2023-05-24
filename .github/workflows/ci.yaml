@@ -10,6 +10,9 @@ jobs:
   lint:
     name: ⬣ ESLint
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./Wizetalk/app
     steps:
       - name: 🛑 Cancel Previous Runs
         if: ${{ env.GITHUB_ACTOR != 'nektos/act' }}
@@ -32,6 +35,9 @@ jobs:
   cypress:
     name: ⚫️ Cypress
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./Wizetalk/app
     env:
       DATABASE_URL: postgresql://lab_user:lab_pass@localhost/lab_test
       SESSION_SECRET: asdf_secret
