@@ -67,6 +67,7 @@ jobs:
         uses: bahmutov/npm-install@v1
 
       - name: 🛠 Setup Database
+        working-directory: "./WizeTalk"
         run: npx prisma migrate reset --force
 
       - name: ⚙️ Build
