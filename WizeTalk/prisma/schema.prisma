@@ -23,13 +23,14 @@ model Evaluation {
 }
 
 model QuestionPool {
-  id          Int    @id @default(autoincrement())
+  id          Int     @id @default(autoincrement())
   instruction String
   categoria   String
-  audio_path  String
+  audio_path  String?
   min_time    Int
   max_time    Int
   value       Int
+  description String  @db.VarChar(45)
 }
 
 model Questions {

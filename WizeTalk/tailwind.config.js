@@ -5,6 +5,7 @@ module.exports = {
     extend: {
       colors: {
         wizeblue: {
+          50: "#E1F7FF",
           100: "#43C2FF",
           200: "#00ACFF",
           300: "#F2FAFD",

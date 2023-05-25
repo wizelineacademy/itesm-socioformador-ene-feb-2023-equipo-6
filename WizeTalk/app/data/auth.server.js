@@ -1,7 +1,6 @@
 import { prisma } from "./database.server";
 import { createCookieSessionStorage, redirect } from "@remix-run/node";
 
-
 const SESSION_SECRET = process.env.SESSION_SECRET;
 
 const sessionStorage = createCookieSessionStorage({
