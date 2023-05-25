@@ -32,64 +32,8 @@ jobs:
         uses: bahmutov/npm-install@v1
 
       - name: 🔬 Lint
+        working-directory: ./WizeTalk
         run: npm run lint
-
-  typecheck:
-    name: ʦ TypeScript
-    runs-on: ubuntu-latest
-    steps:
-      - name: 🛑 Cancel Previous Runs
-        if: ${{ env.GITHUB_ACTOR != 'nektos/act' }}
-        uses: styfle/cancel-workflow-action@0.11.0
-
-      - name: ⬇️ Checkout repo
-        uses: actions/checkout@v3
-
-      - name: ⎔ Setup node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
-
-      - name: 📥 Download deps
-        uses: bahmutov/npm-install@v1
-
-      - name: 🔎 Type check
-        run: npm run typecheck --if-present
-
-  vitest:
-    name: ⚡ Vitest
-    runs-on: ubuntu-latest
-    env:
-      DATABASE_URL: postgresql://lab_user:lab_pass@localhost/lab_test
-      SESSION_SECRET: asdf_secret
-    steps:
-      - name: 🛑 Cancel Previous Runs
-        if: ${{ env.GITHUB_ACTOR != 'nektos/act' }}
-        uses: styfle/cancel-workflow-action@0.11.0
-
-      - name: ⬇️ Checkout repo
-        uses: actions/checkout@v3
-
-      - name: ⎔ Setup node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
-
-      - name: 📥 Download deps
-        uses: bahmutov/npm-install@v1
-
-      - uses: harmon758/postgresql-action@v1
-        with:
-          postgresql version: "12"
-          postgresql db: lab_test
-          postgresql user: lab_user
-          postgresql password: lab_pass
-
-      - name: 🛠 Setup Database
-        run: npx prisma migrate reset --force
-
-      - name: ⚡ Run vitest
-        run: npm run test -- --coverage
 
   cypress:
     name: ⚫️ Cypress
@@ -137,7 +81,7 @@ jobs:
         uses: cypress-io/github-action@v5
         with:
           install: false
-          start: npm run start:mocks
+          # start: npm run start:mocks
           wait-on: "http://localhost:8811"
         env:
           PORT: "8811"

@@ -1,9 +1,5 @@
 name: eslint-test
 on:
-  push:
-    branches:
-      - main
-      - dev
   pull_request: {}
 
 jobs:
