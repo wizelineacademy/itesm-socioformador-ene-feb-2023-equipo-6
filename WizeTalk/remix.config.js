@@ -7,7 +7,7 @@ module.exports = {
     unstable_tailwind: true,
   },
   ignoredRouteFiles: ["**/.*"],
-  // appDirectory: "app",
+  // appDirectory: "./WizeTalk",
   // assetsBuildDirectory: "public/build",
   // serverBuildPath: "build/index.js",
   // publicPath: "/build/",
