@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 describe('Session Testing', () => {
   it('Access without Login'), () => {
     cy.visit('http://localhost:3000/evaluation')
