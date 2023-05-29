@@ -1,13 +1,17 @@
 import UserListItem from "./UserListItem";
 import { BiSearchAlt2 } from "react-icons/bi";
+import { useLoaderData } from "@remix-run/react";
+import { getEvaluationUsers } from "../../data/admin.server";
 
 export default function UserList() {
 
-    const users = [
+    /* const users = [
         { id: 1, name: "Jorge Espinoza Lozano", score: 76, type: "Evaluación", state: "Done" },
         { id: 2, name: "Hugo Rafael Reynoso", score: 100, type: "Evaluación", state: "Done" },
         { id: 3, name: "Sabrina Seinz López", score: 88, type: "Evaluación", state: "Pending" },
-    ]
+    ] */
+
+    const users = useLoaderData();
 
     return (
         <>
@@ -64,5 +68,3 @@ export default function UserList() {
         </>
     )
 }
-
-export async function loader(){}

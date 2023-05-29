@@ -66,3 +66,17 @@ export async function deleteQuestion(questionId) {
         throw new Error('Failed to delete question.');
     }
 }
+
+export async function getEvaluationUsers(){
+
+    try {
+        await prisma.user.findMany({
+            orderBy : {
+                lastname : 'desc',
+            }
+        });
+    } catch (error) {
+        //add error handling
+        
+    }
+}

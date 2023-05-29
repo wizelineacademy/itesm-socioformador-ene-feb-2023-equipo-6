@@ -6,7 +6,7 @@ import useSound from "use-sound";
 import { getQuestionsDB, getQuestionsJSON } from "../data/questions.server";
 import { requireUserSession } from "../data/auth.server";
 import { getUserInfo } from "../data/evaluation.server";
-
+import { getEvaluationQuestions } from "../data/evaluation.server";
 
 //export const audioContext = createContext({value: false, question: null, isNext:false}); 
 export const audioContext = createContext({isAudioDone: false})
@@ -134,20 +134,9 @@ export default function QuestionPage() {
 
 export async function loader({request}) {
     const userId = await requireUserSession(request); 
-    var questions = await getQuestionsDB();
+    var questions = await getEvaluationQuestions(userId);
 
     questions = shuffleQuestions(questions);
     // console.log(questions)
     return questions;
-}
-
-function shuffleQuestions(array) {
-    let currentIndex = array.length, randomIndex;
-    while (currentIndex != 0) {
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex--;
-        [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
-    }
-    return array;
-  }
-  
+}0

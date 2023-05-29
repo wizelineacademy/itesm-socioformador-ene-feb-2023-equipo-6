@@ -11,3 +11,9 @@ export default function EvaluationAdminPage() {
     </>
   );
 }
+
+export async function loader(){
+  const users = await getEvaluationUsers();
+
+  return users;
+}

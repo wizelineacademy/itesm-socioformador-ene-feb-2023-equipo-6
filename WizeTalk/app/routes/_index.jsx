@@ -2,9 +2,7 @@
 import wizetalk from '../../public/wizetalk.png';
 import LoginForm from "~/components/evaluation/LoginForm";
 import WizelineHeader from '~/components/WizelineHeader';
-
 import { login } from '../data/auth.server';
-import { useLoaderData } from 'react-router-dom';
 
 export default function Index() {
     return (

@@ -22,7 +22,6 @@ export default function QuestionForm() {
         maxTime: questionData.max_time,
         instruction: questionData.instruction,
         category: questionData.categoria,
-        value: questionData.value,
     } : {
         description: '',
         value: '',
@@ -30,7 +29,6 @@ export default function QuestionForm() {
         maxTime: '',
         instruction: '',
         category: '',
-        value: '',
     };
 
     const isSubmitting = navigation.state !== 'idle';
@@ -52,7 +50,7 @@ export default function QuestionForm() {
                         <div className="relative p-6 flex-auto">
                             <div className='flex gap-x-20'>
                                 <div className='flex flex-col gap-y-5'>
-                                <div className='flex flex-col'>
+                                    <div className='flex flex-col'>
                                         <label htmlFor="category" className="block mb-2 text-sm font-medium text-gray-90">Category</label>
                                         <select required id="category" name="category" maxLength={60} className='block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300'>
                                             <option value=''>Select a category</option>
