@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
 describe('Session Testing', () => {
   it('Access without Login'), () => {
     cy.visit('http://localhost:3000/evaluation')
@@ -10,5 +9,4 @@ describe('Session Testing', () => {
     cy.visit('http://localhost:3000/evaluation/results')
     cy.url().should('eq', 'http://localhost:3000/')
   }
-
 })
