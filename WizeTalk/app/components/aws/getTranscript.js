@@ -1,15 +1,15 @@
-export function s3GetTranscript(name) {
+export function s3GetTranscript(name, keys) {
   return new Promise((resolve, reject) => {
-    AWS.config.region = process.env.AWS_REGION;
+    AWS.config.region = keys.AWS_REGION;
     AWS.config.update({
       credentials: {
-        accessKeyId: process.env.AWS_KEY,
-        secretAccessKey: process.env.AWS_SECRET,
+        accessKeyId: keys.AWS_KEY,
+        secretAccessKey: keys.AWS_SECRET,
       },
     });
     var s3 = new AWS.S3({
       params: {
-        Bucket: process.env.BUCKET_TXT,
+        Bucket: keys.BUCKET_TXT,
         Key: name.replace(/\.mp4$/, "") + "_transcription.txt",
       },
     });

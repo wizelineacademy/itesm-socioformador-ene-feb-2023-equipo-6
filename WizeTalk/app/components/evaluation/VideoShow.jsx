@@ -224,7 +224,7 @@ export default function WebCamRecorder() {
       const videoName = val.userId + '_' + questionId + '.mp4'; 
       console.log(questionId, val.question.audio_path);
 
-      s3Upload(blob, videoName); 
+      s3Upload(blob, videoName, val.env_val); 
       //getTranscript(audioBlob);
       //Agregar función de WHISPER
       convertToSupportedFormat(blob)

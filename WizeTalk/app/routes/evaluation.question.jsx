@@ -3,7 +3,7 @@ import { useLoaderData, useNavigate } from "@remix-run/react";
 import VideoShow from '../components/evaluation/VideoShow';
 import { createContext, useEffect, useState } from "react";
 import useSound from "use-sound";
-import { getQuestions } from "../data/questions.server";
+import { getQuestionsDB, getQuestionsJSON } from "../data/questions.server";
 import { requireUserSession } from "../data/auth.server";
 import { getUserInfo } from "../data/evaluation.server";
 
@@ -13,9 +13,10 @@ export const audioContext = createContext({isAudioDone: false})
 
 export default function QuestionPage() {
 
-    const [questions, userId] = useLoaderData();
+    const [questions, userId, env_val] = useLoaderData();
 
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+    // const [currentQuestionNumber, setCurrentQuestionNumber] = useState(0);
     const [isPlaying, setIsPlaying] = useState(false);
     const [isDone, setIsDone] = useState(false); 
     const [seconds, setSeconds] = useState();
@@ -28,7 +29,7 @@ export default function QuestionPage() {
     const [isNextAvailable, setIsNextAvailable] = useState(false); 
 
 
-    const [play, { pause, duration, sound }] = useSound(audio, {onend: () => {
+    const [play, { pause, duration, sound }] = useSound('../Q_04.mp3', {onend: () => {
         console.log('Audio finished'); 
         setIsAudioDone(true); 
     },});
@@ -37,9 +38,13 @@ export default function QuestionPage() {
 
     const handleNextQuestionClick = () => {
         const nextQuestionIndex = currentQuestionIndex + 1;
+        // randomQuestionPicker = randomNoRepeats(questions);
+        // randomPick = randomQuestionPicker();
+        // const nextQuestionIndex = randomQuestionPicker.index;
         setAudio(questions[nextQuestionIndex].audio_path);
         setIsPlaying(false);
         setCurrentQuestionIndex(nextQuestionIndex);
+        // setCurrentQuestionNumber(nextQuestionNumber);
         setSeconds(0);
         //setIsDone(false); 
         //setNext(false); 
@@ -87,7 +92,7 @@ export default function QuestionPage() {
                 <div className="my-[1%]">
                     <div className="flex justify-center mx-[20%] py-5">
                         <h1 className="text-center font-sans text-lg font-bold">
-                            Q{currentQuestionIndex + 1}. {questions[currentQuestionIndex].instructions}
+                            Q{currentQuestionIndex + 1}. {questions[currentQuestionIndex].instruction}
                         </h1>
                     </div>
                     <div className="flex justify-center drop-shadow-xl h-16 bg-white mx-[35%] items-center rounded-lg px-5">
@@ -102,12 +107,11 @@ export default function QuestionPage() {
                     </div>
                 </div>
                 
-                <audioContext.Provider value={{isAudioDone: isAudioDone, isRecording: isRecording, setIsRecording: setIsRecording, isNextAvailable: isNextAvailable, setIsNextAvailable: setIsNextAvailable, question:questions[currentQuestionIndex], nextQuestion:handleNextQuestionClick, userId:userId}}>
+                <audioContext.Provider value={{isAudioDone: isAudioDone, isRecording: isRecording, setIsRecording: setIsRecording, isNextAvailable: isNextAvailable, setIsNextAvailable: setIsNextAvailable, question:questions[currentQuestionIndex], nextQuestion:handleNextQuestionClick, userId:userId, env_val: env_val}}>
                     <div className="flex justify-center my-[3%] rounded-md">
                         <VideoShow/>
                     </div>       
                 </audioContext.Provider>
-
 
                 <div className="flex justify-center">
                     <div className="inline-flex items-center px-4 py-2 mr-3 text-sm font-medium text-white bg-wizeblue-100 border border-gray-300 rounded-lg">
@@ -128,9 +132,22 @@ export default function QuestionPage() {
 }
 
 export async function loader({request}) {
-    const userId = await requireUserSession(request);  
-    console.log(userId);
-    const questions = await getQuestions();
-    console.log(questions[0]);
-    return [questions, userId];
+    const userId = await requireUserSession(request); 
+    var questions = await getQuestionsDB();
+
+    questions = shuffleQuestions(questions);
+    var env = process.env; 
+    console.log('This are the DB question: ', questions[0]);
+    return [questions, userId, env];
 }
+
+function shuffleQuestions(array) {
+    let currentIndex = array.length, randomIndex;
+    while (currentIndex != 0) {
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
+        [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+    }
+    return array;
+  }
+  

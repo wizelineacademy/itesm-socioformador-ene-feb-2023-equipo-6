@@ -1,16 +1,16 @@
 import { s3GetTranscript } from "./getTranscript";
 
-export function s3Upload(blob, name) {
-  AWS.config.region = process.env.AWS_REGION;
+export function s3Upload(blob, name, keys) {
+  AWS.config.region = keys.AWS_REGION;
   AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-    IdentityPoolId: process.env.COGNITO_POOLID,
+    IdentityPoolId: keys.COGNITO_POOLID,
   });
   AWS.config.apiVersions = {
     s3: "2006-03-01",
   };
   var s3 = new AWS.S3({
     params: {
-      Bucket: process.env.BUCKET_MP4,
+      Bucket: keys.BUCKET_MP4,
     },
   });
   s3.putObject(
@@ -29,7 +29,7 @@ export function s3Upload(blob, name) {
         const segundos = 10000;
         console.log("Espera " + segundos / 1000 + " segundos.");
         setTimeout(() => {
-          s3GetTranscript(name);
+          s3GetTranscript(name, keys);
         }, segundos);
       }
     }
