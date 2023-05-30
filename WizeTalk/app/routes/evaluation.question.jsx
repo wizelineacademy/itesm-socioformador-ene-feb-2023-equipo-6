@@ -134,9 +134,9 @@ export default function QuestionPage() {
 
 export async function loader({request}) {
     const userId = await requireUserSession(request); 
-    var questions = await getEvaluationQuestions(userId);
+    var questions = await getQuestionsDB(userId);
 
-    questions = shuffleQuestions(questions);
+    // questions = shuffleQuestions(questions);
     // console.log(questions)
     return questions;
-}0
+}

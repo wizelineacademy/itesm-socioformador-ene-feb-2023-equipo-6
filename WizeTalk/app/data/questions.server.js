@@ -1,5 +1,7 @@
 import fs from 'fs/promises'
 import { prisma } from "./database.server";
+import { requireUserSession } from "../data/auth.server";
+
 // const { PrismaClient } = require('@prisma/client')
 
 // const prisma = new PrismaClient()
@@ -11,8 +13,34 @@ export async function getQuestionsJSON() {
     return questions;
 }
 
-export async function getQuestionsDB(){
-    const questions = await prisma.questionPool.findMany();
-    // console.log(questions);
+export async function getQuestionsDB(userId){
+    const user = await prisma.user.findFirst({ where: { id: userId } })
+    const evaluationType = await prisma.evaluation.findFirst({ where: { id: user.evaluation_type }})
+    // console.log(evaluationType)
+    const englishQuestions = await prisma.questionPool.findMany( {where: { categoria: 'english' }});
+    console.log(englishQuestions)
+    const specificQuestions = await prisma.questionPool.findMany( {where: { categoria: evaluationType.name }});
+    console.log(specificQuestions)
+
+    var questions = [];
+    const array = getRand(4, 6);
+    for (let i = 0; i < array.length; i++){
+        questions.push(englishQuestions[array[i] - 1]);
+    }
+    questions.push(...specificQuestions);
+    console.log(questions);
+
     return questions;
+}
+
+function getRand(nums, maxValue){
+    const numbers = [];
+    while (numbers.length < nums) {
+        const randomNumber = Math.floor(Math.random() * maxValue + 1);
+        if (!numbers.includes(randomNumber)) {
+            numbers.push(randomNumber);
+        }
+    }
+    console.log(numbers);
+    return numbers
 }

@@ -50,6 +50,7 @@ export async function testStatus(request) {
         return redirect('/evaluation/results');
     }
 }
+
 export async function getSoftSkills() {
     var randomNum, randomNumArray = [];
     for (let i = 0; i < 3; i++) {
