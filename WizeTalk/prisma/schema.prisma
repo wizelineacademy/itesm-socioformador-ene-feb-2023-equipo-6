@@ -8,46 +8,57 @@ datasource db {
 }
 
 model User {
-  id              Int     @id @default(autoincrement())
+  id              Int          @id @default(autoincrement())
   name            String
   lastname        String
-  status          Int     @default(0)
+  status          Int          @default(0)
   overall         Int?
   evaluation_type Int
-  code            String? @db.VarChar(9)
+  code            String?      @db.VarChar(9)
+  Questions       Questions[]
+  Evaluation      Evaluation   @relation(fields: [evaluation_type], references: [id])
+  UserSkills      UserSkills[]
 }
 
 model Evaluation {
   id   Int    @id @default(autoincrement())
   name String
+  User User[]
 }
 
 model QuestionPool {
-  id          Int    @id @default(autoincrement())
+  id          Int         @id @default(autoincrement())
   instruction String
   categoria   String
-  audio_path  String
+  audio_path  String?
   min_time    Int
   max_time    Int
   value       Int
+  description String?
+  Questions   Questions[]
 }
 
 model Questions {
-  id          Int    @id @default(autoincrement())
-  question_id Int
-  user_id     Int
-  score       Int
-  transcript  String
-  video_path  String
+  id           Int          @id @default(autoincrement())
+  question_id  Int
+  user_id      Int
+  score        Int
+  transcript   String
+  video_path   String
+  QuestionPool QuestionPool @relation(fields: [question_id], references: [id])
+  User         User         @relation(fields: [user_id], references: [id])
 }
 
 model SoftSkills {
-  id   Int    @id @default(autoincrement())
-  name String
+  id         Int          @id @default(autoincrement())
+  name       String
+  UserSkills UserSkills[]
 }
 
 model UserSkills {
-  id       Int @id @default(autoincrement())
-  user_id  Int
-  skill_id Int
+  id         Int        @id @default(autoincrement())
+  skill_id   Int
+  user_id    Int
+  SoftSkills SoftSkills @relation(fields: [skill_id], references: [id])
+  User       User       @relation(fields: [user_id], references: [id])
 }

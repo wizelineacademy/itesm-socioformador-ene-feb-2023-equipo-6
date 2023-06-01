@@ -1,6 +1,6 @@
 import { s3GetTranscript } from "./getTranscript";
 
-export function s3Upload(blob, name, keys) {
+export function s3Upload(blob, name, keys, user_id, question_id) {
   AWS.config.region = keys.AWS_REGION;
   AWS.config.credentials = new AWS.CognitoIdentityCredentials({
     IdentityPoolId: keys.COGNITO_POOLID,
@@ -29,7 +29,7 @@ export function s3Upload(blob, name, keys) {
         const segundos = 10000;
         console.log("Espera " + segundos / 1000 + " segundos.");
         setTimeout(() => {
-          s3GetTranscript(name, keys);
+          s3GetTranscript(name, keys, user_id, question_id);
         }, segundos);
       }
     }

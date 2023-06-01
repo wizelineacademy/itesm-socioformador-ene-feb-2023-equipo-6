@@ -4,6 +4,8 @@ import { audioContext } from "../../routes/evaluation.question";
 import { s3Upload } from "../aws/s3";
 import { getUserFromSession } from "../../data/auth.server";
 import { Request } from "@remix-run/node";
+import { getOutputAudio } from "../aws/getOutputAudio";
+import { prismaTest } from "../aws/prismaTest";
 
 export default function WebCamRecorder() {
   const [isRecording, setIsRecording] = useState(false);
@@ -126,75 +128,6 @@ export default function WebCamRecorder() {
 
       const API_TOKEN = "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";
       const API_ENDPOINT = "https://api.openai.com/v1/audio/transcriptions";
-      
-      async function convertToSupportedFormat(blob) {
-        return new Promise((resolve) => {
-          const video = document.createElement("video");
-          const url = URL.createObjectURL(blob);
-          video.src = url;
-          video.onloadedmetadata = async () => {
-            const duration = 60; // Set a fixed duration in seconds
-            video.currentTime = Math.min(duration, video.duration);
-            await sleep(1000); // Wait for a short time to ensure the currentTime is updated
-            const audioContext = new AudioContext();
-            const mediaSource = audioContext.createMediaElementSource(video);
-            const destinationNode = audioContext.createMediaStreamDestination();
-            mediaSource.connect(destinationNode);
-            const mediaRecorder = new MediaRecorder(destinationNode.stream);
-            const audioChunks = [];
-      
-            mediaRecorder.ondataavailable = (event) => {
-              audioChunks.push(event.data);
-            };
-      
-            mediaRecorder.onstop = () => {
-              const audioBlob = new Blob(audioChunks, { type: "audio/mp3" });
-              resolve(audioBlob);
-            };
-            
-            mediaRecorder.start();
-      
-            setTimeout(() => {
-              mediaRecorder.stop();
-            }, duration * 1000);
-          };
-        });
-      }
-            
-  
-      async function transcribeVideo(blob) {
-
-        async function playAudio(blob) {
-          const url = URL.createObjectURL(blob);
-          const sound = new Howl({
-            src: [url],
-            format: ['mp3'], // Add the appropriate format(s) of your audio
-          });
-          sound.play();
-        }
-
-        const formData = new FormData();
-        formData.append("file", blob, "audio.mp3");
-        formData.append("model", "whisper-1");
-        formData.append("language", "en");
-  
-        try {
-          playAudio(blob);
-          const res = await fetch(API_ENDPOINT, {
-            method: "POST",
-            headers: {
-              Authorization: `Bearer ${API_TOKEN}`,
-            },
-            body: formData,
-          });
-  
-          const data = await res.json();
-          console.log(data);
-          // Process the response as needed
-        } catch (error) {
-          console.error("Error:", error);
-        }
-      }
   
         /*const res = await fetch(`https://api.openai.com/v1/audio/transcriptions`, {
           method: 'POST',
@@ -222,21 +155,13 @@ export default function WebCamRecorder() {
       setAudioBlob(audioBlob); 
 
       const videoName = val.userId + '_' + questionId + '.mp4'; 
+      const audioName = val.userId + '_' + questionId + '.mp3';
       console.log(questionId, val.question.audio_path);
 
-      s3Upload(blob, videoName, val.env_val); 
+      s3Upload(blob, videoName, val.env_val, val.userId, questionId); 
+      
       //getTranscript(audioBlob);
       //Agregar función de WHISPER
-      convertToSupportedFormat(blob)
-      .then((convertedBlob) => {
-        if (convertedBlob) {
-          // Send the converted blob to the Whisper API
-          transcribeVideo(convertedBlob);
-        }
-      })
-      .catch((error) => {
-        console.error("Error converting video format:", error);
-      });
       
       chunks.current = [];
       setIsDataAvailable(false);
@@ -245,15 +170,7 @@ export default function WebCamRecorder() {
       blob.lastModified = new Date(); 
       const myFile = new File([audioBlob], 'question.mpeg', {
         type: audioBlob.type,
-    });
-
-    /*var mp4Url = URL.createObjectURL(myFile); 
-    const form = new FormData(); 
-    form.append('file', audioBlob); 
-    form.append('model', 'whisper-1'); 
-    console.log(myFile);
-    trans(audioBlob); */
-    
+    });    
     },
     [isDataAvailable]
   );
