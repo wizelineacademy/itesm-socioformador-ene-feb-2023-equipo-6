@@ -1,4 +1,4 @@
-import { Form, useLoaderData } from '@remix-run/react';
+import { useLoaderData } from '@remix-run/react';
 import QuestionItem from './QuestionItem';
 import { Link } from '@remix-run/react';
 
@@ -26,7 +26,7 @@ export default function QuestionContainer() {
                     </Link>
                 </div>
                 <div>
-                    <div className="relative overflow-x-auto shadow-md sm:rounded-sm">
+                    <div className="relative flex-none h-[20.5em] overflow-y-auto shadow-md sm:rounded-sm">
                         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                             <thead className="text-xs text-black uppercase bg-gray-200">
                                 <tr>

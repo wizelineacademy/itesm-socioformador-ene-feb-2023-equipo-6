@@ -136,7 +136,6 @@ export async function loader({request}) {
     const userId = await requireUserSession(request); 
     var questions = await getEvaluationQuestions(userId);
 
-    questions = shuffleQuestions(questions);
-    // console.log(questions)
+    console.log(questions);
     return questions;
 }0

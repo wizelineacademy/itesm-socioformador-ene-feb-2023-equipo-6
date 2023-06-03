@@ -28,6 +28,7 @@ export default function App() {
       <head>
         <Meta />
         <Links />
+        <script src="https://sdk.amazonaws.com/js/aws-sdk-2.283.1.min.js"></script>
       </head>
       <body>
         <Outlet />
@@ -40,7 +41,6 @@ export default function App() {
 }
 
 export function ErrorBoundary({ error }) {
-  console.log(error);
   return (
     <html>
       <head>

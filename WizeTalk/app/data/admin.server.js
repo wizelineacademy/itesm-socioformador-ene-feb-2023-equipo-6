@@ -67,16 +67,58 @@ export async function deleteQuestion(questionId) {
     }
 }
 
-export async function getEvaluationUsers(){
+export async function getEvaluationUsers() {
 
     try {
-        await prisma.user.findMany({
-            orderBy : {
-                lastname : 'desc',
+        return await prisma.user.findMany({
+            orderBy: {
+                lastname: 'desc',
             }
         });
     } catch (error) {
         //add error handling
-        
+
     }
 }
+
+export async function getUserEvaluation(userId) {
+
+    //Necesito nombre de usuario, resultados de evaluación
+    //softskills registradas y preguntas asociadas con el id,
+    //posiblemente realizarlo por medio de un join. Falta información
+    //en base de datos.
+
+    let questionsId = [];
+
+    try {
+        data = await prisma.user.findFirst({
+            where: { id: +userId },
+            include: { questions: true,}
+        })
+
+        for (i in data.questions) {
+            questionsId.push(data.questions[i].question_id);
+        }
+
+        questionData = await prisma.questionPool.findMany({
+            where: { id: { in: questionsId } },
+            select: {
+                id: true,
+                categoria: true,
+                value: true,
+                description: true,
+            }
+        });
+
+    } catch (error) {
+        //add error handling
+        console.log(error);
+        throw new Error('Failed to get user evaluation data.');
+    }
+
+    const fullData = [data, questionData];
+    
+    //In index 0 the user data is returned and in index 1 the questions data is returned.
+    //Both have the same index in the array.
+    return fullData;
+};

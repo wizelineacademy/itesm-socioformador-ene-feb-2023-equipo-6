@@ -5,21 +5,32 @@ import { RiHome2Line } from "react-icons/ri";
 import { BsQuestionCircle } from "react-icons/bs";
 import { HiOutlinePencilAlt } from "react-icons/hi";
 import { BiUserCircle } from "react-icons/bi";
+import { IoArrowBackCircle } from "react-icons/io5";
 
 
 export default function AdminStructurePage() {
 
     const location = useLocation();
-    
-    function getPathHeader(){
-        if(location.pathname === '/admin/dashboard'){
+
+    function getPathHeader() {
+        if (location.pathname === '/admin/dashboard') {
             return 'Dashboard';
         }
-        else if(location.pathname === '/admin/questions'){
+        else if (location.pathname === '/admin/questions') {
             return 'Question Overview';
         }
-        else if(location.pathname === '/admin/evaluate'){
+        else if (location.pathname === '/admin/evaluate') {
             return 'Evaluate Users';
+        }
+        //Needs to work for every path
+        else if (location.pathname.includes('/admin/evaluate/')) {
+            return (
+                <div>
+                    <Link to="/admin/evaluate">
+                        <IoArrowBackCircle fontSize="2em" color='#43C2FF' />
+                    </Link>
+                </div>
+            );
         }
     }
 
@@ -49,26 +60,25 @@ export default function AdminStructurePage() {
                                 </div>
                             </Link>
                             <Link to="/admin/evaluate">
-                            <div className="flex space-x-2 decoration-white hover:underline">
-                                <HiOutlinePencilAlt color="white" fontSize="1.5em" />
-                                <p className="text-white">Evaluate</p>
-                            </div>
+                                <div className="flex space-x-2 decoration-white hover:underline">
+                                    <HiOutlinePencilAlt color="white" fontSize="1.5em" />
+                                    <p className="text-white">Evaluate</p>
+                                </div>
                             </Link>
                         </div>
                     </div>
-                    <div className="w-full flex-1">
-                        <div className="h-[4.5rem] flex bg-wizewhite-100 items-center">
+                    <div className="flex flex-col w-full h-full flex-1">
+                        <div className="flex bg-wizewhite-100 items-center p-1">
                             <div className="flex flex-row w-full mx-[2rem] content justify-between">
-                                <div className="font-bold text-xl">
+                                <div className="font-bold text-lg">
                                     {pageHeader}
                                 </div>
                                 <div className="flex flex-row items-center text-xl gap-x-5">
                                     <BiUserCircle color="black" fontSize="1.5em" />
-                                    Admin
                                 </div>
                             </div>
                         </div>
-                        <div className="flex">
+                        <div className="flex flex-col flex-1 w-full">
                             <Outlet />
                         </div>
                     </div>

@@ -21,8 +21,17 @@ export async function getEvaluationQuestions(userId) {
         const questions = getRandomSubarray(englishQuestions, 7);
         return questions;
     }
+    else if (user.evaluation_type === 2) {
+        const englishQuestions = await prisma.questionPool.findMany({ where: { categoria: 'english' } });
+        const questions = getRandomSubarray(englishQuestions, 7);
+        return questions;
+    }
+    else if (user.evaluation_type === 3) {
+        const englishQuestions = await prisma.questionPool.findMany({ where: { categoria: 'english' } });
+        const questions = getRandomSubarray(englishQuestions, 7);
+        return questions;
+    }
 
-    console.log(user);
     const questions = await prisma.questionPool.findMany();
     // console.log(questions);
 }
