@@ -15,15 +15,15 @@ model User {
   overall         Int?
   evaluation_type Int
   code            String?      @db.VarChar(9)
-  Questions       Questions[]
-  Evaluation      Evaluation   @relation(fields: [evaluation_type], references: [id])
-  UserSkills      UserSkills[]
+  questions       Questions[]
+  evaluationType  Evaluation   @relation(fields: [evaluation_type], references: [id])
+  skills          UserSkills[]
 }
 
 model Evaluation {
-  id   Int    @id @default(autoincrement())
-  name String
-  User User[]
+  id    Int    @id @default(autoincrement())
+  name  String
+  users User[]
 }
 
 model QuestionPool {
@@ -35,30 +35,30 @@ model QuestionPool {
   max_time    Int
   value       Int
   description String?
-  Questions   Questions[]
+  questions   Questions[]
 }
 
 model Questions {
-  id           Int          @id @default(autoincrement())
-  question_id  Int
-  user_id      Int
-  score        Int
-  transcript   String
-  video_path   String
-  QuestionPool QuestionPool @relation(fields: [question_id], references: [id])
-  User         User         @relation(fields: [user_id], references: [id])
+  id          Int          @id @default(autoincrement())
+  question_id Int
+  user_id     Int
+  score       Int
+  transcript  String
+  video_path  String
+  questions   QuestionPool @relation(fields: [question_id], references: [id])
+  user        User         @relation(fields: [user_id], references: [id])
 }
 
 model SoftSkills {
-  id         Int          @id @default(autoincrement())
-  name       String
-  UserSkills UserSkills[]
+  id     Int          @id @default(autoincrement())
+  name   String
+  skills UserSkills[]
 }
 
 model UserSkills {
-  id         Int        @id @default(autoincrement())
-  skill_id   Int
-  user_id    Int
-  SoftSkills SoftSkills @relation(fields: [skill_id], references: [id])
-  User       User       @relation(fields: [user_id], references: [id])
+  id       Int        @id @default(autoincrement())
+  skill_id Int
+  user_id  Int
+  skill    SoftSkills @relation(fields: [skill_id], references: [id])
+  user     User       @relation(fields: [user_id], references: [id])
 }
