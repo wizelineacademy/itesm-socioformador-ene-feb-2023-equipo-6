@@ -122,3 +122,23 @@ export async function getUserEvaluation(userId) {
     //Both have the same index in the array.
     return fullData;
 };
+
+export async function getDashboardData(){
+    try{
+        evAI_sum = await prisma.user.aggregate({
+            _count: {
+                status: 1,
+            }
+        })
+        evManual_sum = await prisma.user.aggregate({
+            _count: {
+                status: 2,
+            }
+        })
+
+        return [evAI_sum, evManual_sum];
+    } catch (error) {
+        console.log(error);
+        return null;
+    }
+}

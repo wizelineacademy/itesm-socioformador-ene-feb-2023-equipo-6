@@ -1,12 +1,8 @@
 import WizelineHeader from "../components/WizelineHeader";
 import { Outlet, Link, useLocation } from "@remix-run/react";
 import wizetalk from "../../public/wizetalk_white.png"
-import { RiHome2Line } from "react-icons/ri";
-import { BsQuestionCircle } from "react-icons/bs";
-import { HiOutlinePencilAlt } from "react-icons/hi";
+import { RiHome2Line, RiEditLine, RiQuestionLine, RiArrowLeftCircleFill } from "react-icons/ri";
 import { BiUserCircle } from "react-icons/bi";
-import { IoArrowBackCircle } from "react-icons/io5";
-
 
 export default function AdminStructurePage() {
 
@@ -27,7 +23,7 @@ export default function AdminStructurePage() {
             return (
                 <div>
                     <Link to="/admin/evaluate">
-                        <IoArrowBackCircle fontSize="2em" color='#43C2FF' />
+                        <RiArrowLeftCircleFill fontSize="2em" color='#43C2FF' />
                     </Link>
                 </div>
             );
@@ -42,28 +38,28 @@ export default function AdminStructurePage() {
                 <WizelineHeader />
                 <section className="flex h-screen">
                     <div className="w-[15%] p-3.5 bg-wizeblue-100 solid flex-col">
-                        <div className="h-12">
+                        <div className="h-[5%]">
                             <img src={wizetalk} />
                         </div>
                         <hr className="mt-2 mb-3" />
-                        <div className="flex flex-col pl-3.5 space-y-3.5">
+                        <div className="flex flex-col space-y-3.5 pl-4">
                             <Link to="/admin/dashboard">
                                 <button className="flex space-x-2 decoration-white hover:underline">
-                                    <RiHome2Line color="white" fontSize="1.3em" />
-                                    <p className="text-white">Dashboard</p>
+                                    <RiHome2Line color="white" fontSize="1.5rem" />
+                                    <p className="text-white invisible md:visible">Dashboard</p>
                                 </button>
                             </Link>
                             <Link to="/admin/questions">
-                                <div className="flex space-x-2 decoration-white hover:underline ">
-                                    <BsQuestionCircle color="white" fontSize="1.3em" />
-                                    <p className="text-white">Question</p>
-                                </div>
+                                <button className="flex space-x-2 decoration-white hover:underline">
+                                    <RiQuestionLine color="white" fontSize="1.5rem" />
+                                    <p className="text-white invisible md:visible">Questions</p>
+                                </button>
                             </Link>
                             <Link to="/admin/evaluate">
-                                <div className="flex space-x-2 decoration-white hover:underline">
-                                    <HiOutlinePencilAlt color="white" fontSize="1.5em" />
-                                    <p className="text-white">Evaluate</p>
-                                </div>
+                                <button className="flex space-x-2 decoration-white hover:underline">
+                                    <RiEditLine color="white" fontSize="1.5rem" />
+                                    <p className="text-white invisible md:visible">Evaluations</p>
+                                </button>
                             </Link>
                         </div>
                     </div>
