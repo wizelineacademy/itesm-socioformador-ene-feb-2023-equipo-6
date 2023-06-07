@@ -15,6 +15,7 @@ model User {
   overall         Int?
   evaluation_type Int
   code            String?      @db.VarChar(9)
+  date_finished   DateTime?
   questions       Questions[]
   evaluationType  Evaluation   @relation(fields: [evaluation_type], references: [id])
   skills          UserSkills[]

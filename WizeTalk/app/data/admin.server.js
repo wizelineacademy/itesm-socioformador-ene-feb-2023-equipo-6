@@ -125,18 +125,40 @@ export async function getUserEvaluation(userId) {
 
 export async function getDashboardData(){
     try{
-        evAI_sum = await prisma.user.aggregate({
-            _count: {
+        
+        evAI_sum = await prisma.user.count({
+            where: {
                 status: 1,
-            }
+            },
         })
-        evManual_sum = await prisma.user.aggregate({
-            _count: {
+        evManual_sum = await prisma.user.count({
+            where: {
                 status: 2,
             }
         })
 
-        return [evAI_sum, evManual_sum];
+        recentEvaluations = await prisma.user.findMany({
+            where: {
+                status: 1,
+            },
+            select: {
+                id: true,
+                name: true,
+                lastname: true,
+                overall: true,
+            },
+            orderBy: {
+                date_finished: 'asc',
+            },
+            take: 5,
+        });
+        /* avgEnglish = await prisma.questionPool.findMany({
+            include: {questions: true},
+        })
+
+        console.log(evAI_sum); */
+
+        return [evAI_sum, evManual_sum, recentEvaluations];
     } catch (error) {
         console.log(error);
         return null;
