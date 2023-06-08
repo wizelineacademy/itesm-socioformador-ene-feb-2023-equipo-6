@@ -23,7 +23,6 @@ jobs:
         uses: bahmutov/npm-install@v1
 
       - name: 🔬 Lint
-        working-directory: ./WizeTalk
         run: npm run lint
 
   cypress:
@@ -45,7 +44,6 @@ jobs:
         uses: actions/checkout@v3
 
       - name: 🏄 Copy test env vars
-        working-directory: "./WizeTalk"
         run: cp .env.example .env
 
       - name: ⎔ Setup node
@@ -64,11 +62,9 @@ jobs:
         uses: bahmutov/npm-install@v1
 
       - name: 🛠 Setup Database
-        working-directory: "./WizeTalk"
         run: npx prisma migrate reset --force
 
       - name: ⚙️ Build
-        working-directory: "./WizeTalk"
         run: npm run build
 
       - name: 🌳 Cypress run
