@@ -1,10 +1,6 @@
 name: eslint-test
 on:
   pull_request: {}
-  push:
-    branches:
-      - main
-      - dev
 
 jobs:
   lint:
