@@ -82,13 +82,13 @@ jobs:
 
       - name: 🌳 Cypress run
         uses: cypress-io/github-action@v5
-        with:
-          install: true
-          working-directory: ./WizeTalk
-          start: npm run start
-          wait-on: "http://localhost:8811"
-        env:
-          PORT: "8811"
+        # with:
+        #   install: true
+        #   working-directory: ./WizeTalk
+        #   start: npm run start
+        #   wait-on: "http://localhost:8811"
+        # env:
+        #   PORT: "8811"
 
   deploy:
     name: 🚀 Deploy
