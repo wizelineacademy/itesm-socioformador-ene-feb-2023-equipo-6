@@ -118,4 +118,5 @@ jobs:
           username: ${{ secrets.LIGHTSAIL_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
+            rm -rf ~/newFolder/
             mkdir -p ~/projectlab/tmp
