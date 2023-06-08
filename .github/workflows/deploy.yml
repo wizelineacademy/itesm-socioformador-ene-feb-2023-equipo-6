@@ -83,8 +83,8 @@ jobs:
       - name: 🌳 Cypress run
         uses: cypress-io/github-action@v5
         with:
-          install: false
-          working-directory: ./WizeTalk
+          install: true
+          # working-directory: ./WizeTalk
           start: npm run start
           wait-on: "http://localhost:8811"
         env:
