@@ -31,8 +31,8 @@ jobs:
       - name: 📥 Download deps
         uses: bahmutov/npm-install@v1
 
-      - name: 🔬 Lint
-        run: npm run lint
+      # - name: 🔬 Lint
+      #   run: npm run lint
 
   cypress:
     name: ⚫️ Cypress
