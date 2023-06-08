@@ -85,7 +85,7 @@ jobs:
         with:
           install: false
           working-directory: ./WizeTalk
-          start: npm run start:mocks
+          start: npm run start
           wait-on: "http://localhost:8811"
         env:
           PORT: "8811"
