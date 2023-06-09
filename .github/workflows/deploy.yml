@@ -157,3 +157,7 @@ jobs:
             echo "*** Step: *** Create .env file"
             echo DATABASE_URL="$DATABASE_URL" >> .env
             echo SESSION_SECRET="$SESSION_SECRET" >> .env
+
+            echo "*** Step: *** Generate DB"
+            npm install
+            npx prisma generate
