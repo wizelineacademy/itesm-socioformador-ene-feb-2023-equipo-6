@@ -93,11 +93,13 @@ export async function getUserEvaluation(userId) {
     try {
         data = await prisma.user.findFirst({
             where: { id: +userId },
-            include: { questions: true,}
+            include: {
+                Questions: true,
+            }
         })
 
-        for (i in data.questions) {
-            questionsId.push(data.questions[i].question_id);
+        for (i in data.Questions) {
+            questionsId.push(data.Questions[i].questionid);
         }
 
         questionData = await prisma.questionPool.findMany({
@@ -117,15 +119,15 @@ export async function getUserEvaluation(userId) {
     }
 
     const fullData = [data, questionData];
-    
+
     //In index 0 the user data is returned and in index 1 the questions data is returned.
     //Both have the same index in the array.
     return fullData;
 };
 
-export async function getDashboardData(){
-    try{
-        
+export async function getDashboardData() {
+    try {
+
         evAI_sum = await prisma.user.count({
             where: {
                 status: 1,
@@ -152,15 +154,31 @@ export async function getDashboardData(){
             },
             take: 5,
         });
+
+        userScores = await prisma.user.findMany({
+            where: {
+                NOT: {
+                    overall: null,
+                }
+            },
+            select: {
+                overall: true,
+                date_finished: true,
+            }
+        });
         /* avgEnglish = await prisma.questionPool.findMany({
             include: {questions: true},
         })
 
         console.log(evAI_sum); */
 
-        return [evAI_sum, evManual_sum, recentEvaluations];
+        return [evAI_sum, evManual_sum, recentEvaluations, userScores];
     } catch (error) {
         console.log(error);
         return null;
     }
+}
+
+export async function setScore(scoreData) {
+ne
 }

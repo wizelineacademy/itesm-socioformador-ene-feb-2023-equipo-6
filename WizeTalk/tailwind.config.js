@@ -3,6 +3,12 @@ module.exports = {
   content: ["./app/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
+      widths:{
+        '10%' : '10%',
+        '20%' : '20%',
+        '30%' : '30%',
+        '40%' : '40%',
+      },
       colors: {
         wizeblue: {
           50: "#E1F7FF",

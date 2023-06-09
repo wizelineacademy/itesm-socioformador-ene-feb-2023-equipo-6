@@ -1,4 +1,4 @@
-import { useLoaderData } from '@remix-run/react'
+import { useLoaderData, Form } from '@remix-run/react'
 import { useEffect, useState } from 'react';
 import { ImNotification } from 'react-icons/im';
 import { s3Get } from '../aws/s3GetObject';
@@ -9,20 +9,23 @@ export default function EvaluationIndividual() {
 
     const [questionIndex, setQuestionIndex] = useState(0);
     const [questionVideoURL, setQuestionVideoURL] = useState('');
-
-    useEffect(() => {
-
-    });
+    const [showTranscript, setShowTranscript] = useState(false);
 
     async function questionSelector() {
         try {
-            const blob = await s3Get(data[0].questions[questionIndex].video_path);
+            const blob = await s3Get(data[0].Questions[questionIndex].video_path);
             setQuestionVideoURL(URL.createObjectURL(blob));
         } catch (error) {
             console.error(error);
         }
 
     }
+
+    const handleScore = (e) => {
+        e.preventDefault();
+
+    }
+
 
     useEffect(() => {
         questionSelector(questionIndex);
@@ -34,11 +37,11 @@ export default function EvaluationIndividual() {
 
     return (
         <>
-            <div className='w-full px-10 py-2'>
-                <div className='my-2'>
+            <div className='h-full w-full px-10 py-2'>
+                <div className='h-[5%] my-2'>
                     <h2 className='font-bold text-lg'>{data[0].name + " " + data[0].lastname}</h2>
                 </div>
-                <div className='flex flex-col'>
+                <div className='flex flex-col flex-1'>
                     <div className='flex shadow border-l-4 border-wizeblue-100 rounded-sm p-3 justify-around mb-4'>
                         <div className='flex flex-col items-center'>
                             <div className='font-bold'>
@@ -85,7 +88,7 @@ export default function EvaluationIndividual() {
                                 <button onClick={() => setQuestionIndex(5)} className='border w-full hover:bg-wizeblue-100 hover:text-white active:bg-wizeblue-100 p-1 hover'>Question 6</button>
                                 <button onClick={() => setQuestionIndex(6)} className='border w-full hover:bg-wizeblue-100 hover:text-white active:bg-wizeblue-100 p-1 hover'>Question 7</button>
                                 <div className='p-3' />
-                                <button className='border bg-green-800 text-white w-full hover:bg-green-600 hover:text-white p-1 hover'>Finish Grade</button>
+                                <button className='border bg-green-800 text-white w-full hover:bg-green-600 hover:text-white p-1 hover'>Finish Grading</button>
                             </div>
                         </div>
                         <div className='basis-4/5 shadow border-l-4 border-wizeblue-100 rounded-sm'>
@@ -98,21 +101,53 @@ export default function EvaluationIndividual() {
                                         </div>
                                         <div className='w-full py-3 px-5'>
                                             <p className='my-2'> <span className='font-bold'>Question Description:  </span>{data[1][questionIndex].description}</p>
-                                            <div className='flex '>
+                                            <div className='flex h-full'>
                                                 <div className='flex basis-3/4 border mr-5 justify-center h-80'>
                                                     {questionVideoURL && <iframe className='rounded-lg w-full h-full' src={questionVideoURL} controls />}
                                                 </div>
-                                                <div className='basis-1/4 px-4'>
-                                                    <div className='mb-3'>
-                                                        <p className='text-lg'>Score</p>
-                                                        <p className='font-bold text-3xl text-center'>{data[0].questions[questionIndex].score}/{data[1][questionIndex].value}</p>
+                                                <div className='basis-1/4 h-full w-full'>
+                                                    <div className='mb-4 w-full'>
+                                                        <button className='w-full h-10 text-white bg-gray-700 hover:bg-gray-300 font-medium px-5 rounded-sm' onClick={() => setShowTranscript(1)}>Show Transcript</button>
+                                                        {showTranscript ?
+                                                            (
+                                                                <div className="h-full w-full overflow-y-auto fixed inset-0 bg-black bg-opacity-30 flex justify-center items-center" onClick={() => setShowTranscript(0)}>
+                                                                    <div
+                                                                        className="shadow-lg rounded-md"
+                                                                        onClick={(event) => event.stopPropagation()}
+                                                                    >
+                                                                        <div className="flex flex-col bg-white">
+                                                                            <div className='bg-black text-white h-12 w-[45rem] flex items-center'>
+                                                                                <p className='font-bold mx-5'>Transcript</p>
+                                                                            </div>
+                                                                            <div className='p-5 h-80'>
+                                                                                <div>{data[0].Questions[questionIndex].transcript}</div>
+                                                                                <br></br>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            )
+                                                            : null}
                                                     </div>
-                                                    <div>
-                                                        <p className='text-lg mb-2'>Skills Detected </p>
-                                                        <ul className='font-bold text-sm'>
-                                                            <li>Flexibility</li>
-                                                            <li>Interpersonal Skills</li>
-                                                        </ul>
+                                                    <div className='mb-4'>
+                                                        <p className='text-3xl font-semibold mb-2'>Score</p>
+                                                        <div className='flex ml-5'>
+                                                            <Form method='patch' className='flex' >
+                                                                <input type='hidden' name='id' value={data[0].Questions[questionIndex].id} />
+                                                                <input name='score' className='w-16 text-2xl border px-2 font-medium rounded-sm' type='number' defaultValue={data[0].Questions[questionIndex].score} />
+                                                                <p className='font-bold text-3xl text-center ml-5'>/{data[1][questionIndex].value}</p>
+                                                                <button type='submit' className='w-3 h-10 text-white bg-green-800 hover:text-white font-medium px-5 rounded-md ml-5'>Save</button>
+                                                            </Form>
+                                                        </div>
+                                                    </div>
+                                                    <div className='flex flex-col justify-between'>
+                                                        <div>
+                                                            <p className='text-lg mb-2 font-semibold'>Skills Detected </p>
+                                                            <ul className='text-sm'>
+                                                                <li>Flexibility</li>
+                                                                <li>Interpersonal Skills</li>
+                                                            </ul>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
