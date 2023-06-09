@@ -118,5 +118,42 @@ jobs:
           username: ${{ secrets.LIGHTSAIL_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            rm -rf ~/newFolder/
-            mkdir -p ~/projectlab/tmp
+            rm -rf ~/itesm-socioformador-ene-feb-2023-equipo-6/tmp/
+            mkdir -p ~/itesm-socioformador-ene-feb-2023-equipo-6/tmp
+
+      - name: Copy Files To Lightsail Instance
+        uses: wlixcc/SFTP-Deploy-Action@v1.0
+        with:
+          username: ${{ secrets.LIGHTSAIL_USER }}
+          server: ${{ secrets.LIGHTSAIL_IP }}
+          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
+          local_path: "./*"
+          remote_path: "/home/admin/itesm-socioformador-ene-feb-2023-equipo-6/tmp"
+          args: "-o ConnectTimeout=60"
+
+      - name: Configure Server
+        uses: appleboy/ssh-action@master
+        env:
+          DATABASE_URL: postgresql://${{ secrets.DB_USERNAME }}:${{ secrets.DB_PWD }}@${{ secrets.DB_ACCESSPOINT }}/postgres
+          SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
+        with:
+          timeout: 60s
+          command_timeout: 30m
+          envs: DATABASE_URL,SESSION_SECRET
+          host: ${{ secrets.LIGHTSAIL_IP }}
+          username: ${{ secrets.LIGHTSAIL_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script_stop: true
+          script: |
+            # ignore failure on pm2 stop (first time?)
+            pm2 stop all || true
+
+            echo "* Step: * Replace app folders"
+            rm -rf ~/itesm-socioformador-ene-feb-2023-equipo-6/app
+            mkdir -p ~/itesm-socioformador-ene-feb-2023-equipo-6/app
+            cp -R ~/itesm-socioformador-ene-feb-2023-equipo-6/tmp/. ~/itesm-socioformador-ene-feb-2023-equipo-6/app/
+            cd ~/itesm-socioformador-ene-feb-2023-equipo-6/app
+
+            echo "*** Step: *** Create .env file"
+            echo DATABASE_URL="$DATABASE_URL" >> .env
+            echo SESSION_SECRET="$SESSION_SECRET" >> .env
