@@ -10,7 +10,6 @@ export default function ResultPage() {
     const user = useLoaderData()[0];
     const softSkills = useLoaderData()[1];
 
-
     function endTest() {
         destroyUserSession({ request })
         navigate('/evaluation/results');

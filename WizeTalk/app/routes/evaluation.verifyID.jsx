@@ -1,6 +1,7 @@
 import { Link, useLoaderData } from "@remix-run/react"
 import { requireUserSession } from "../data/auth.server";
 import { getUserInfo, testStatus} from "../data/evaluation.server";
+import { redirect } from "react-router-dom";
 
 
 export default function VerifyIdPage() {
@@ -62,11 +63,7 @@ export async function loader({ request }) {
     return userInfo;
 }
 export async function action({ request }) {
-    return await testStatus(request);
-
-    //     const updateStatus = await prisma.user.update({
-    //         where: {id: userId}
-    //     });
-    //     return null;
+    //return await testStatus(request);
+    return redirect('/evaluation/instructions');
 }
 
