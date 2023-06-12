@@ -36,18 +36,23 @@ model QuestionPool {
   max_time    Int
   value       Int
   description String?
-  questions   Questions[]
+  Questions   Questions[]
 }
 
 model Questions {
-  id          Int          @id @default(autoincrement())
-  question_id Int
-  user_id     Int
-  score       Int
-  transcript  String
-  video_path  String
-  questions   QuestionPool @relation(fields: [question_id], references: [id])
-  user        User         @relation(fields: [user_id], references: [id])
+  id           Int          @id @default(autoincrement())
+  questionid   Int
+  userid       Int
+  score        Int
+  transcript   String
+  video_path   String
+  grammar      Int?
+  vocabulary   Int?
+  coherence    Int?
+  completed    Int?
+  softskills   String?
+  QuestionPool QuestionPool @relation(fields: [questionid], references: [id], map: "Questions_question_id_fkey")
+  User         User         @relation(fields: [userid], references: [id], map: "Questions_user_id_fkey")
 }
 
 model SoftSkills {

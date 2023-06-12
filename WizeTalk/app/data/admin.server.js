@@ -9,11 +9,13 @@ export async function getCategoryQuestions(category) {
     );
     return category_questions;
 }
+// Function to get all the registered questions
 
 export async function getAllQuestions() {
     const questions = await prisma.questionPool.findMany();
     return questions;
 }
+
 
 //Function that adds a new question to the QuestionPool table
 
@@ -97,11 +99,15 @@ export async function getUserEvaluation(userId) {
     try {
         data = await prisma.user.findFirst({
             where: { id: +userId },
-            include: { questions: true,}
+            include: {
+                Questions: {
+                    orderBy: { id: 'asc' },
+                },
+            }
         })
 
-        for (let i in data.questions) {
-            questionsId.push(data.questions[i].question_id);
+        for (let i in data.Questions) {
+            questionsId.push(data.Questions[i].questionid);
         }
 
         questionData = await prisma.questionPool.findMany({
@@ -121,29 +127,100 @@ export async function getUserEvaluation(userId) {
     }
 
     const fullData = [data, questionData];
-    
+
     //In index 0 the user data is returned and in index 1 the questions data is returned.
     //Both have the same index in the array.
     return fullData;
 };
 
-export async function getDashboardData(){
-    let evAI_sum, evManual_sum;
-    try{
-        evAI_sum = await prisma.user.aggregate({
-            _count: {
+export async function getDashboardData() {
+    try {
+
+        const evAI_sum = await prisma.user.count({
+            where: {
                 status: 1,
-            }
+            },
         })
-        evManual_sum = await prisma.user.aggregate({
-            _count: {
-                status: 2,
+        const evManual_sum = await prisma.user.count({
+            where: {
+                status: 3,
             }
         })
 
-        return [evAI_sum, evManual_sum];
+        const recentEvaluations = await prisma.user.findMany({
+            where: {
+                status: 1,
+            },
+            select: {
+                id: true,
+                name: true,
+                lastname: true,
+                overall: true,
+            },
+            orderBy: {
+                date_finished: 'asc',
+            },
+            take: 5,
+        });
+
+        const userScores = await prisma.user.findMany({
+            where: {
+                NOT: {
+                    overall: null,
+                }
+            },
+            select: {
+                overall: true,
+                date_finished: true,
+            }
+        });
+        /* avgEnglish = await prisma.questionPool.findMany({
+            include: {questions: true},
+        })
+
+        console.log(evAI_sum); */
+
+        return [evAI_sum, evManual_sum, recentEvaluations, userScores];
     } catch (error) {
         console.log(error);
         return null;
     }
+}
+
+export async function setScore(scoreData) {
+    
+    console.log(scoreData);
+
+    try {
+        return await prisma.questions.update({
+            where: { id: +scoreData.id },
+            data: {
+                score: {
+                    set: +scoreData.score,
+                }
+            },
+        })
+    } catch (error) {
+        console.log(error);
+        return null;
+    }
+}
+
+export async function setEvaluationState(userId){
+    console.log(userId);
+    try { 
+        return await prisma.user.update({
+            where: {id: +userId.id},
+            data: {
+                status: {
+                    set: 3, 
+                }
+            }
+
+        })
+    } catch (error) {
+        console.log(error);
+        return error;
+    }
+
 }

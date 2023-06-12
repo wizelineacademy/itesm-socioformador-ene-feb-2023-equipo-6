@@ -1,12 +1,18 @@
-import React, {useState} from "react";
-import { Line } from "react-chartjs-2";
-import {Chart as ChartJS} from 'chart.js/auto'
+import React from "react";
+import { Bar } from "react-chartjs-2";
+import { Chart as ChartJS } from 'chart.js/auto'
 
 
-function LineChart({chartData}) {
-        
-    return (
-        <Line data={chartData} />
-    );
+export const options = {
+  responsive: true,
+  maintainAspectRatio: false,
+  
+};
+
+function LineChart({ chartData }) {
+
+  return (
+    <Bar data={chartData} options={options} />
+  );
 }
 export default LineChart;

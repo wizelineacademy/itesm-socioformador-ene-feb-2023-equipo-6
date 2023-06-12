@@ -27,7 +27,7 @@ export function s3Get(fileName) {
             ),
           ],
           {
-            type: "video/mp4",
+            type: "video/webm",
           }
         );
         resolve(blob);

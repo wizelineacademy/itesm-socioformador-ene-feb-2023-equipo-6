@@ -30,7 +30,20 @@ export default function AdminStructurePage() {
         }
     }
 
+    function getActiveTab() {
+        if (location.pathname === '/admin/dashboard') {
+            return 'Dashboard';
+        }
+        else if (location.pathname === '/admin/questions') {
+            return 'Question Overview';
+        }
+        else if (location.pathname === '/admin/evaluate' || location.pathname.includes('/admin/evaluate/')) {
+            return 'Evaluate Users';
+        }
+    }
+
     const pageHeader = getPathHeader();
+    const activeTab = getActiveTab();
 
     return (
         <>
@@ -42,25 +55,31 @@ export default function AdminStructurePage() {
                             <img src={wizetalk} />
                         </div>
                         <hr className="mt-2 mb-3" />
-                        <div className="flex flex-col space-y-3.5 pl-4">
-                            <Link to="/admin/dashboard">
-                                <button className="flex space-x-2 decoration-white hover:underline">
-                                    <RiHome2Line color="white" fontSize="1.5rem" />
-                                    <p className="text-white invisible md:visible">Dashboard</p>
-                                </button>
-                            </Link>
-                            <Link to="/admin/questions">
-                                <button className="flex space-x-2 decoration-white hover:underline">
-                                    <RiQuestionLine color="white" fontSize="1.5rem" />
-                                    <p className="text-white invisible md:visible">Questions</p>
-                                </button>
-                            </Link>
-                            <Link to="/admin/evaluate">
-                                <button className="flex space-x-2 decoration-white hover:underline">
-                                    <RiEditLine color="white" fontSize="1.5rem" />
-                                    <p className="text-white invisible md:visible">Evaluations</p>
-                                </button>
-                            </Link>
+                        <div className="flex flex-col ml-2">
+                            <div className="w-full p-3">
+                                <Link to="/admin/dashboard">
+                                    <button className="flex space-x-2 decoration-white hover:underline">
+                                        <RiHome2Line color="white" fontSize="1.8rem" />
+                                        <p className="text-white invisible md:visible text-xl">Dashboard</p>
+                                    </button>
+                                </Link>
+                            </div>
+                            <div className="p-3">
+                                <Link to="/admin/questions">
+                                    <button className="flex space-x-2 decoration-white hover:underline">
+                                        <RiQuestionLine color="white" fontSize="1.8rem" />
+                                        <p className="text-white invisible md:visible text-xl">Questions</p>
+                                    </button>
+                                </Link>
+                            </div>
+                            <div className="p-3">
+                                <Link to="/admin/evaluate">
+                                    <button className="flex space-x-2 decoration-white hover:underline">
+                                        <RiEditLine color="white" fontSize="1.8rem" />
+                                        <p className="text-white invisible md:visible text-xl">Evaluations</p>
+                                    </button>
+                                </Link>
+                            </div>
                         </div>
                     </div>
                     <div className="flex flex-col w-full h-full flex-1">
