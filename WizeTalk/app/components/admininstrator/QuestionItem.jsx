@@ -20,11 +20,11 @@ export default function QuestionItem({ index, description, value, minTime, maxTi
     }
 
     return (
-        <tr className="bg-white border-b">
+        <tr className="bg-white border-b w-full">
             <th scope="row" className="px-6 py-2 font-medium text-black whitespace-nowrap">
                 {index}
             </th>
-            <td className="px-6 py-2">
+            <td className="px-6 py-2 w-full">
                 {description}
             </td>
             <td className="px-6 py-2">

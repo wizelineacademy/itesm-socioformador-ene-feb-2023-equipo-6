@@ -32,7 +32,7 @@ export default function AdminQuestionsPage() {
 }
 
 export async function loader() {
-    // const category_questions = await getCategoryQuestions('english');
-    // return category_questions;
+     /* const category_questions = await getCategoryQuestions('english');
+     return category_questions; */
     return await getAllQuestions();
 }
