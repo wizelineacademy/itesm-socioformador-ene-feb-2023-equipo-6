@@ -137,7 +137,7 @@ export async function getDashboardData() {
         })
         evManual_sum = await prisma.user.count({
             where: {
-                status: 2,
+                status: 3,
             }
         })
 
@@ -207,7 +207,7 @@ export async function setEvaluationState(userId){
             where: {id: +userId.id},
             data: {
                 status: {
-                    set: 2, 
+                    set: 3, 
                 }
             }
 

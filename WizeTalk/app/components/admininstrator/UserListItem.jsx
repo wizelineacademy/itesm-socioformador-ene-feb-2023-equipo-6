@@ -17,17 +17,17 @@ export default function UserListItem({ index, name, lastname, score, type, state
     }
 
     function statusComponent() {
-        if (state === 0) {
-            return <div className="w-full h-2 bg-yellow-400 rounded-lg" />;
-        }
-        else if (state === 1) {
-            return <div className="w-full h-2 bg-lime-400 rounded-lg" />;
+        if (state === 0 || state === 1) {
+            return <div className="w-20 h-2 bg-yellow-400 rounded-lg" />;
         }
         else if (state === 2) {
-            return <div className="w-full h-2 bg-green-800 rounded-lg" />;
+            return <div className="w-20 h-2 bg-lime-400 rounded-lg" />;
         }
         else if (state === 3) {
-            return <div className="w-full h-2 bg-red-800 rounded-lg" />;
+            return <div className="w-20 h-2 bg-green-800 rounded-lg" />;
+        }
+        else if (state === 4) {
+            return <div className="w-20 h-2 bg-red-800 rounded-lg" />;
         }
     }
 
