@@ -9,7 +9,7 @@ export default function QuestionContainer() {
 
     return (
         <>
-            <div className="flex flex-col border-2 rounded-md border-black m-3.5 p-8 gap-5 bg-white">
+            <div className="flex flex-col border-2 rounded-md border-black p-8 gap-5 bg-white">
                 <div>
                     <label htmlFor="underline_select" className="sr-only">Underline select</label>
                     <select id="underline_select" className="block py-2.5 px-0 w-full text-sm text-black-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none focus:outline-none focus:ring-0 focus:border-gray-200 peer">

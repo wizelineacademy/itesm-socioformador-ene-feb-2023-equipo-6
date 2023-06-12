@@ -8,7 +8,7 @@ export default function UserList() {
 
     return (
         <>
-            <div className='px-20 py-10 mx-10'>
+            <div className='py-10 px-16'>
                 <form className="flex w-full">
                     <div className="">
                         <input type="text" id="simple-search" className="bg-gray-50 text-gray-900 text-sm rounded-lg block w-full p-2" placeholder="Search user" />

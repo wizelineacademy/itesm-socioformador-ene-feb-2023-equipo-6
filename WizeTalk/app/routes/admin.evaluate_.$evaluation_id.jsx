@@ -1,5 +1,6 @@
 import EvaluationIndividual from '../components/admininstrator/EvaluationIndividual';
-import { getUserEvaluation } from '../data/admin.server';
+import { getUserEvaluation, setScore, setEvaluationState } from '../data/admin.server';
+import { redirect } from "@remix-run/node";
 
 export default function AdminEvaluationIndividualModal() {
     return (
@@ -16,19 +17,30 @@ export async function action({ request }) {
 
     if (request.method === 'PATCH') {
 
-
         const formData = await request.formData();
         const saveScore = Object.fromEntries(formData);
 
-        console.log(saveScore);
+        try {
+            setScore(saveScore);
+        } catch (error) {
+            console.log(error);
+        }
+        return null;
+    }
+
+    if (request.method === 'POST'){
+
+        const formData = await request.formData();
+        const evaluationID = Object.fromEntries(formData);
 
         try {
-            //validation
+            setEvaluationState(evaluationID);
         } catch (error) {
+            console.log(error);
             return error;
         }
 
-        return null;
+        return redirect('/admin/evaluate');
     }
 
 }

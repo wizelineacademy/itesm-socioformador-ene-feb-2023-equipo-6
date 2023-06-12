@@ -94,7 +94,9 @@ export async function getUserEvaluation(userId) {
         data = await prisma.user.findFirst({
             where: { id: +userId },
             include: {
-                Questions: true,
+                Questions: {
+                    orderBy: { id: 'asc' },
+                },
             }
         })
 
@@ -180,5 +182,39 @@ export async function getDashboardData() {
 }
 
 export async function setScore(scoreData) {
-ne
+    
+    console.log(scoreData);
+
+    try {
+        return await prisma.questions.update({
+            where: { id: +scoreData.id },
+            data: {
+                score: {
+                    set: +scoreData.score,
+                }
+            },
+        })
+    } catch (error) {
+        console.log(error);
+        return null;
+    }
+}
+
+export async function setEvaluationState(userId){
+    console.log(userId);
+    try { 
+        return await prisma.user.update({
+            where: {id: +userId.id},
+            data: {
+                status: {
+                    set: 2, 
+                }
+            }
+
+        })
+    } catch (error) {
+        console.log(error);
+        return error;
+    }
+
 }

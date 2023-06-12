@@ -16,6 +16,23 @@ export default function UserListItem({ index, name, lastname, score, type, state
         }
     }
 
+    function statusComponent() {
+        if (state === 0) {
+            return <div className="w-full h-2 bg-yellow-400 rounded-lg" />;
+        }
+        else if (state === 1) {
+            return <div className="w-full h-2 bg-lime-400 rounded-lg" />;
+        }
+        else if (state === 2) {
+            return <div className="w-full h-2 bg-green-800 rounded-lg" />;
+        }
+        else if (state === 3) {
+            return <div className="w-full h-2 bg-red-800 rounded-lg" />;
+        }
+    }
+
+    const statusComp = statusComponent();
+
     const isType = getType();
 
     return (
@@ -35,7 +52,7 @@ export default function UserListItem({ index, name, lastname, score, type, state
                 }
             </td>
             <td className="whitespace-nowrap px-6 py-2">
-                {state ? <div className="w-full h-2 bg-green-800 rounded-lg" /> : <div className="w-full h-2 bg-yellow-400 rounded-lg" />}
+                {statusComp}
             </td>
             <td className="whitespace-nowrap px-6 py-2">
                 <Link to={`/admin/evaluate/${id}`}>

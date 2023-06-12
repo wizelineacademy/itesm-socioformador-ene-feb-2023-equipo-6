@@ -1,4 +1,4 @@
-import { useLoaderData, Form } from '@remix-run/react'
+import { useLoaderData, Form, useParams } from '@remix-run/react'
 import { useEffect, useState } from 'react';
 import { ImNotification } from 'react-icons/im';
 import { s3Get } from '../aws/s3GetObject';
@@ -6,6 +6,7 @@ import { s3Get } from '../aws/s3GetObject';
 export default function EvaluationIndividual() {
 
     const data = useLoaderData();
+    const params = useParams();
 
     const [questionIndex, setQuestionIndex] = useState(0);
     const [questionVideoURL, setQuestionVideoURL] = useState('');
@@ -18,14 +19,7 @@ export default function EvaluationIndividual() {
         } catch (error) {
             console.error(error);
         }
-
     }
-
-    const handleScore = (e) => {
-        e.preventDefault();
-
-    }
-
 
     useEffect(() => {
         questionSelector(questionIndex);
@@ -88,7 +82,10 @@ export default function EvaluationIndividual() {
                                 <button onClick={() => setQuestionIndex(5)} className='border w-full hover:bg-wizeblue-100 hover:text-white active:bg-wizeblue-100 p-1 hover'>Question 6</button>
                                 <button onClick={() => setQuestionIndex(6)} className='border w-full hover:bg-wizeblue-100 hover:text-white active:bg-wizeblue-100 p-1 hover'>Question 7</button>
                                 <div className='p-3' />
-                                <button className='border bg-green-800 text-white w-full hover:bg-green-600 hover:text-white p-1 hover'>Finish Grading</button>
+                                <Form method='POST'>
+                                    <input type='hidden' name='id' value={params.evaluation_id} />
+                                    <button type='submit' value={1} className='border bg-green-800 text-white w-full hover:bg-green-600 hover:text-white p-1 hover'>Finish Grading</button>
+                                </Form>
                             </div>
                         </div>
                         <div className='basis-4/5 shadow border-l-4 border-wizeblue-100 rounded-sm'>
@@ -130,13 +127,13 @@ export default function EvaluationIndividual() {
                                                             : null}
                                                     </div>
                                                     <div className='mb-4'>
-                                                        <p className='text-3xl font-semibold mb-2'>Score</p>
+                                                        <p className='text-2xl font-semibold mb-2'>Score</p>
                                                         <div className='flex ml-5'>
                                                             <Form method='patch' className='flex' >
                                                                 <input type='hidden' name='id' value={data[0].Questions[questionIndex].id} />
-                                                                <input name='score' className='w-16 text-2xl border px-2 font-medium rounded-sm' type='number' defaultValue={data[0].Questions[questionIndex].score} />
-                                                                <p className='font-bold text-3xl text-center ml-5'>/{data[1][questionIndex].value}</p>
-                                                                <button type='submit' className='w-3 h-10 text-white bg-green-800 hover:text-white font-medium px-5 rounded-md ml-5'>Save</button>
+                                                                <input name='score' className='w-14 text-2xl border px-2 font-medium rounded-sm' type='number' key={data[0].Questions[questionIndex].score} defaultValue={data[0].Questions[questionIndex].score} />
+                                                                <p className='font-bold text-2xl text-center ml-5'>/{data[1][questionIndex].value}</p>
+                                                                <button type='submit' className='h-7 text-white bg-green-800 hover:text-white font-medium px-5 rounded-md ml-5'>Save</button>
                                                             </Form>
                                                         </div>
                                                     </div>
