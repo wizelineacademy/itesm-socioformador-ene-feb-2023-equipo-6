@@ -11,8 +11,6 @@ export const options = {
       beginAtZero: true
     }
   }
-
-  
 };
 
 function LineChart({ chartData }) {
