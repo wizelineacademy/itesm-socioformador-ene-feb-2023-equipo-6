@@ -6,6 +6,12 @@ import { Chart as ChartJS } from 'chart.js/auto'
 export const options = {
   responsive: true,
   maintainAspectRatio: false,
+  scales: {
+    y: {
+      beginAtZero: true
+    }
+  }
+
   
 };
 
