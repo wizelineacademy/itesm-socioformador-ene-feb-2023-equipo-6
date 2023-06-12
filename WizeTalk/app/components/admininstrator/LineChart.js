@@ -8,9 +8,10 @@ export const options = {
   maintainAspectRatio: false,
   scales: {
     y: {
-      beginAtZero: true
+        suggestedMin: 0,
+        suggestedMax: 10
     }
-  }
+}
 };
 
 function LineChart({ chartData }) {

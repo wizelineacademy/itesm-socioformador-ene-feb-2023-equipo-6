@@ -179,8 +179,46 @@ export async function getDashboardData() {
         })
 
         console.log(evAI_sum); */
+        const users = await prisma.user.findMany();
+        let userScoresArray = [];
+        for (let i = 0; i < users.length; i++){
+            userScoresArray.push(users[i].overall)
+        }
+        const scoreRanges = new Array(10).fill(0);
+        for (let i = 0; i < userScoresArray.length; i++){
+            if (userScoresArray[i] > 1 && userScoresArray <= 10){
+                scoreRanges[0]++;
+            }
+            else if(userScoresArray[i] >= 11 && userScoresArray[i] <= 20){
+                scoreRanges[1]++;
+            }
+            else if(userScoresArray[i] >= 21 && userScoresArray[i] <= 30){
+                scoreRanges[2]++;
+            }
+            else if(userScoresArray[i] >= 31 && userScoresArray[i] <= 40){
+                scoreRanges[3]++;
+            }
+            else if(userScoresArray[i] >= 41 && userScoresArray[i] <= 50){
+                scoreRanges[4]++;
+            }
+            else if(userScoresArray[i] >= 51 && userScoresArray[i] <= 60){
+                scoreRanges[5]++;
+            }
+            else if(userScoresArray[i] >= 61 && userScoresArray[i] <= 70){
+                scoreRanges[6]++;
+            }
+            else if(userScoresArray[i] >= 71 && userScoresArray[i] <= 80){
+                scoreRanges[7]++;
+            }
+            else if(userScoresArray[i] >= 81 && userScoresArray[i] <= 90){
+                scoreRanges[8]++;
+            }
+            else if(userScoresArray[i] >= 91 && userScoresArray[i] <= 100){
+                scoreRanges[9]++;
+            }
+        }
 
-        return [evAI_sum, evManual_sum, recentEvaluations, userScores];
+        return [evAI_sum, evManual_sum, recentEvaluations, userScores, scoreRanges];
     } catch (error) {
         console.log(error);
         return null;
@@ -223,4 +261,51 @@ export async function setEvaluationState(userId){
         return error;
     }
 
+}
+
+export async function getGraphData(){
+    try {
+        const users = await prisma.user.findMany();
+        let userScores = [];
+        for (let i = 0; i < users.length; i++){
+            userScores.push(users[i].overall)
+        }
+        const scoreRanges = new Array(10).fill(0);
+        for (let i = 0; i < userScores.length; i++){
+            if (userScores[i] > 0 && userScores <= 9){
+                scoreRanges[0]++;
+            }
+            else if(userScores[i] >= 10 && userScores <= 19){
+                scoreRanges[1]++;
+            }
+            else if(userScores[i] >= 20 && userScores <= 29){
+                scoreRanges[2]++;
+            }
+            else if(userScores[i] >= 30 && userScores <= 39){
+                scoreRanges[3]++;
+            }
+            else if(userScores[i] >= 40 && userScores <= 49){
+                scoreRanges[4]++;
+            }
+            else if(userScores[i] >= 50 && userScores <= 59){
+                scoreRanges[5]++;
+            }
+            else if(userScores[i] >= 60 && userScores <= 69){
+                scoreRanges[6]++;
+            }
+            else if(userScores[i] >= 70 && userScores <= 79){
+                scoreRanges[7]++;
+            }
+            else if(userScores[i] >= 80 && userScores <= 89){
+                scoreRanges[8]++;
+            }
+            else if(userScores[i] >= 90 && userScores <= 100){
+                scoreRanges[9]++;
+            }
+        }
+        return scoreRanges;
+    } catch (error) {
+        console.log(error);
+        return error;
+    }
 }
