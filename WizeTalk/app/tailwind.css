@@ -738,10 +738,6 @@ video {
   margin-right: 2.5rem;
 }
 
-.mr-3 {
-  margin-right: 0.75rem;
-}
-
 .mr-4 {
   margin-right: 1rem;
 }
@@ -902,10 +898,6 @@ video {
   width: 100%;
 }
 
-.w-screen {
-  width: 100vw;
-}
-
 .min-w-full {
   min-width: 100%;
 }
@@ -928,14 +920,6 @@ video {
 
 .flex-none {
   flex: none;
-}
-
-.shrink {
-  flex-shrink: 1;
-}
-
-.shrink-0 {
-  flex-shrink: 0;
 }
 
 .basis-1\/4 {
