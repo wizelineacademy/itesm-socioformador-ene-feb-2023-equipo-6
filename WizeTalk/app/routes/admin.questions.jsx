@@ -1,7 +1,23 @@
 import { Outlet } from "@remix-run/react";
 import QuestionContainer from "../components/admininstrator/QuestionContainer";
-import { getCategoryQuestions } from "../data/admin.server";
+import { getCategoryQuestions, getAllQuestions } from "../data/admin.server";
 
+export const questionFilter = async (category) => {
+    const data = {
+        option: category,
+    }
+    console.log(data);
+    const a = await fetch("/questionfilter", {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
+    return await a.json();
+    // console.log(res);
+    // const questions = getQuestions();
+}
 
 export default function AdminQuestionsPage() {
 
@@ -16,6 +32,7 @@ export default function AdminQuestionsPage() {
 }
 
 export async function loader() {
-    const category_questions = await getCategoryQuestions("english");
-    return category_questions;
+    // const category_questions = await getCategoryQuestions('english');
+    // return category_questions;
+    return await getAllQuestions();
 }

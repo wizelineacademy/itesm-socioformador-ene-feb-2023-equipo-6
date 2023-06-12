@@ -3,11 +3,16 @@ import { prisma } from "./database.server";
 //Function that returns questions in QuestionPool table
 //given a category.
 
-export async function getCategoryQuestions({ category }) {
+export async function getCategoryQuestions(category) {
     const category_questions = await prisma.questionPool.findMany(
         { where: { categoria: category } }
     );
     return category_questions;
+}
+
+export async function getAllQuestions() {
+    const questions = await prisma.questionPool.findMany();
+    return questions;
 }
 
 //Function that adds a new question to the QuestionPool table
@@ -87,8 +92,7 @@ export async function getUserEvaluation(userId) {
     //softskills registradas y preguntas asociadas con el id,
     //posiblemente realizarlo por medio de un join. Falta información
     //en base de datos.
-
-    let questionsId = [];
+    let questionsId = [], data, questionData;
 
     try {
         data = await prisma.user.findFirst({
@@ -96,7 +100,7 @@ export async function getUserEvaluation(userId) {
             include: { questions: true,}
         })
 
-        for (i in data.questions) {
+        for (let i in data.questions) {
             questionsId.push(data.questions[i].question_id);
         }
 
@@ -124,6 +128,7 @@ export async function getUserEvaluation(userId) {
 };
 
 export async function getDashboardData(){
+    let evAI_sum, evManual_sum;
     try{
         evAI_sum = await prisma.user.aggregate({
             _count: {
