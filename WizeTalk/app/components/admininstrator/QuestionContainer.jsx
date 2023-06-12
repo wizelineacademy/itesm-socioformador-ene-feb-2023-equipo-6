@@ -9,7 +9,7 @@ export default function QuestionContainer() {
     const q = useLoaderData();
     const [questions, setQuestions] = useState(q);
 
-    async function getFilteredQuestions(){
+    async function getFilteredQuestions() {
         const category = document.getElementById("underline_select").value;
         const filter = await questionFilter(category);
         setQuestions(filter);
@@ -41,10 +41,10 @@ export default function QuestionContainer() {
     // setHasQuestions(hq);
     return (
         <>
-            <div className="flex flex-col border-2 rounded-md border-black m-3.5 p-8 gap-5 bg-white">
+            <div className="flex flex-col border-2 rounded-md border-black p-8 gap-5 bg-white">
                 <div>
                     <label htmlFor="underline_select" className="sr-only">Underline select</label>
-                    <select onChange = {getFilteredQuestions} id="underline_select" className="block py-2.5 px-0 w-full text-sm text-black-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none focus:outline-none focus:ring-0 focus:border-gray-200 peer">
+                    <select onChange={getFilteredQuestions} id="underline_select" className="block py-2.5 px-0 w-full text-sm text-black-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none focus:outline-none focus:ring-0 focus:border-gray-200 peer">
                         <option defaultValue>Choose a category</option>
                         <option value="english">English</option>
                         <option value="frontend">Front-End</option>
@@ -53,19 +53,20 @@ export default function QuestionContainer() {
                     </select>
                 </div>
                 <div>
-                    <Link to="add">
-                        <div className="bg-gray-200 rounded-sm w-20 text-center">Add</div>
-                    </Link>
+                    <button className="bg-gray-200 rounded-sm w-20 text-center">Add
+                        <Link to="add">
+                        </Link>
+                    </button>
                 </div>
-                <div>
-                    <div className="relative flex-none h-[20.5em] overflow-y-auto shadow-md sm:rounded-sm">
-                        <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                            <thead className="text-xs text-black uppercase bg-gray-200">
+                <div className=''>
+                    <div className="w-full relative flex-none h-[20.5em] overflow-y-auto shadow-md sm:rounded-sm">
+                        <table className="w-full text-sm text-left text-gray-500 ">
+                            <thead className="text-xs text-black uppercase bg-gray-200 w-full">
                                 <tr>
                                     <th scope="col" className="px-6 py-2">
                                         Id
                                     </th>
-                                    <th scope="col" className="px-6 py-2">
+                                    <th scope="col" className="px-6 py-2 w-full">
                                         Description
                                     </th>
                                     <th scope="col" className="px-6 py-2">
@@ -78,10 +79,8 @@ export default function QuestionContainer() {
                                         Max Time
                                     </th>
                                     <th scope="col" className="px-6 py-2">
-
                                     </th>
                                     <th scope="col" className="px-6 py-2">
-
                                     </th>
                                 </tr>
                             </thead>
