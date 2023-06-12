@@ -1,13 +1,14 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { Configuration, OpenAIApi } from 'openai';
-import { audioContext } from "../../routes/evaluation.question";
+import { audiosContext } from "../../routes/evaluation.questions";
 import { s3Upload } from "../aws/s3";
 import { getUserFromSession } from "../../data/auth.server";
 import { Request } from "@remix-run/node";
 import { getOutputAudio } from "../aws/getOutputAudio";
 import { prismaTest } from "../aws/prismaTest";
+import { useSubmit } from "@remix-run/react";
 
-export default function WebCamRecorder() {
+export default function WebCamRecord() {
   const [isRecording, setIsRecording] = useState(false);
   const [isDataAvailable, setIsDataAvailable] = useState(false);
   const videoRef = useRef(null);
@@ -27,9 +28,12 @@ export default function WebCamRecorder() {
   const [startRecordingState, setStartRecordingState] = useState(false); 
   const [seconds, setSeconds] = useState(0);
   const [videoBlob, setBlob] = useState(null); 
-  const val = useContext(audioContext); 
+  const val = useContext(audiosContext); 
   const [questionId, setQuestionId] = useState(null);
+  const [question, setQuestion] = useState(null); 
+  const submit = useSubmit();
 
+  //Start recording 
   function startRecording() {
     if (isRecording) {
       return;
@@ -47,7 +51,7 @@ export default function WebCamRecorder() {
     };
     setQuestionId(val.question.id);
     setIsRecording(true);
-    console.log(val.question.max_time);
+    setQuestion(val.question); 
     console.log('Recording...'); 
     val.setIsRecording(true); 
   }
@@ -56,7 +60,8 @@ export default function WebCamRecorder() {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
-  useEffect(
+  //Function to make Next available including stopRecording 
+    useEffect(
     function() {
       async function stopTimer(){
         await sleep(1000); 
@@ -87,12 +92,13 @@ export default function WebCamRecorder() {
           console.log("Max time reached");
           stopRecording(); 
         }
-      }
+      }  
       
       stopTimer();
     }, [isRecording, seconds]
   )
 
+  //Start recording after the audio is done and start the functionality to stop when the max time is reached
   useEffect(
     function (){
       async function stopTimer(){
@@ -102,8 +108,6 @@ export default function WebCamRecorder() {
           val.setIsNextAvailable(true); 
         }
       }
-
-      console.log(val); 
 
       if(val.isAudioDone == true && val.isRecording == false && val.isNextAvailable == false){
         startRecording(); 
@@ -116,26 +120,41 @@ export default function WebCamRecorder() {
 
 
 
-
+  //Create the final video and upload to S3
   useEffect(
 
     function () {
-      const configuration = new Configuration({
-        apiKey: "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",
-    });
-    //console.log(audioBlub);
-      const openai = new OpenAIApi(configuration);
 
-      const API_TOKEN = "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";
-      const API_ENDPOINT = "https://api.openai.com/v1/audio/transcriptions";
-  
-        /*const res = await fetch(`https://api.openai.com/v1/audio/transcriptions`, {
-          method: 'POST',
-          headers: {
-          "Authorization": `Bearer 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`,
-          },
-          body: blob
-  });*/
+      async function trial(){
+        s3Upload(blob, videoName, val.env_val, val.userId, question); 
+        var formData = new FormData();
+        formData.append("questionJSON", question); 
+        formData.append("blob", blob); 
+        formData.append("videoName", videoName); 
+        formData.append("keys", val.env_val), 
+        formData.append("user", val.userId), 
+        formData.append("question", question.description);
+        formData.append("questionId", question.id);  
+        formData.append("transcript", 'Transcript in here'); 
+        formData.append("scores", {"score": 5, "grammar": 4}); 
+        formData.append("user", val.userId); 
+        formData.append("questionId", question.id); 
+        formData.append("questionCategory", question.categoria); 
+        formData.append("questionValue", question.value); 
+        formData.append("currentQuestion", val.currentQuestion); 
+        submit(formData, {method: "POST"}); 
+        /* if(smth == "COMPLETE"){
+          const transcript = await s3GetTranscript(name, keys, question, user_id);
+          console.log("El transcript de functionality: ", transcript); 
+          const scores = await getEnglishScore(transcript, question, keys, _user_id); 
+          console.log("Scores in functionality: ", scores); 
+          console.log("Returned from s3Upload: ", smth); 
+        }
+
+        else{
+          console.log("No pasó s3Upload"); 
+        } */
+      }
 
       if (isRecording) {
         return;
@@ -155,26 +174,18 @@ export default function WebCamRecorder() {
       setAudioBlob(audioBlob); 
 
       const videoName = val.userId + '_' + questionId + '.mp4'; 
-      const audioName = val.userId + '_' + questionId + '.mp3';
-      console.log(questionId, val.question.audio_path);
 
-      s3Upload(blob, videoName, val.env_val, val.userId, questionId); 
-      
-      //getTranscript(audioBlob);
-      //Agregar función de WHISPER
+      console.log("Question in Functionality: ", question); 
       
       chunks.current = [];
       setIsDataAvailable(false);
       setIsAudioAvailable(true); 
-      //var trans = getTranscript(audioBlob); 
-      blob.lastModified = new Date(); 
-      const myFile = new File([audioBlob], 'question.mpeg', {
-        type: audioBlob.type,
-    });    
+      trial(); 
     },
     [isDataAvailable]
   );
 
+  //Stop recording function 
   async function stopRecording() {
     if (!streamRecorderRef.current) {
       return;
@@ -184,12 +195,10 @@ export default function WebCamRecorder() {
     setIsRecording(false);
     val.setIsRecording(false); 
     console.log('Stop Recording'); 
-    console.log(videoBlob);
-    console.log('Stopped audioContext ', audioContext.audio)
     setIsDataAvailable(false);
-    //s3Upload(videoBlob); 
   }
 
+  //Function to get webcam and microphone
   useEffect(
     function () {
       async function prepareStream() {

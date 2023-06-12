@@ -15,6 +15,11 @@ model User {
   overall         Int?
   evaluation_type Int
   code            String?      @db.VarChar(9)
+  date_finished   DateTime?
+  grammar         Int?
+  vocabulary      Int?
+  coherence       Int?
+  softskills      String?
   Questions       Questions[]
   Evaluation      Evaluation   @relation(fields: [evaluation_type], references: [id])
   UserSkills      UserSkills[]
@@ -27,26 +32,32 @@ model Evaluation {
 }
 
 model QuestionPool {
-  id          Int         @id @default(autoincrement())
-  instruction String
-  categoria   String
-  audio_path  String?
-  min_time    Int
-  max_time    Int
-  value       Int
-  description String?
-  Questions   Questions[]
+  id           Int         @id @default(autoincrement())
+  instruction  String
+  categoria    String
+  audio_path   String?
+  min_time     Int
+  max_time     Int
+  value        Int
+  description  String?
+  subcategoria String?
+  Questions    Questions[]
 }
 
 model Questions {
   id           Int          @id @default(autoincrement())
-  question_id  Int
-  user_id      Int
+  questionid   Int
+  userid       Int
   score        Int
   transcript   String
   video_path   String
-  QuestionPool QuestionPool @relation(fields: [question_id], references: [id])
-  User         User         @relation(fields: [user_id], references: [id])
+  grammar      Int?
+  vocabulary   Int?
+  coherence    Int?
+  completed    Int?
+  softskills   String?
+  QuestionPool QuestionPool @relation(fields: [questionid], references: [id], map: "Questions_question_id_fkey")
+  User         User         @relation(fields: [userid], references: [id], map: "Questions_user_id_fkey")
 }
 
 model SoftSkills {

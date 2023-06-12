@@ -91,6 +91,7 @@ export default function ResultPage() {
 }
 
 export async function loader({ request }) { 
+    
     await requireUserSession(request);
 
     return null;

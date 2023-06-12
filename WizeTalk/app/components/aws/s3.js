@@ -1,6 +1,6 @@
 import { s3GetTranscript } from "./getTranscript";
 
-export function s3Upload(blob, name, keys, user_id, question_id) {
+export async function s3Upload(blob, name, keys, user_id, question) {
   AWS.config.region = keys.AWS_REGION;
   AWS.config.credentials = new AWS.CognitoIdentityCredentials({
     IdentityPoolId: keys.COGNITO_POOLID,
@@ -13,6 +13,13 @@ export function s3Upload(blob, name, keys, user_id, question_id) {
       Bucket: keys.BUCKET_MP4,
     },
   });
+
+  async function triggerTranscript(name, keys, question, user_id){
+    const result = await s3GetTranscript(name, keys, question, user_id); 
+    console.log("Result in s3: ", result); 
+    return result; 
+  }
+
   s3.putObject(
     {
       Key: name,
@@ -28,9 +35,9 @@ export function s3Upload(blob, name, keys, user_id, question_id) {
         console.log("S3 Success");
         const segundos = 10000;
         console.log("Espera " + segundos / 1000 + " segundos.");
-        setTimeout(() => {
-          s3GetTranscript(name, keys, user_id, question_id);
-        }, segundos);
+        setTimeout(async () => {
+          return "COMPLETE";  
+        }, segundos); 
       }
     }
   );

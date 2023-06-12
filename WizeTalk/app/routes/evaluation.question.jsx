@@ -5,7 +5,7 @@ import { createContext, useEffect, useState } from "react";
 import useSound from "use-sound";
 import { getQuestions, getQuestionsDB, getQuestionsJSON } from "../data/questions.server";
 import { requireUserSession } from "../data/auth.server";
-import { getInfo, getUserInfo } from "../data/evaluation.server";
+import { getUserInfo } from "../data/evaluation.server";
 import { prisma } from "../data/database.server";
 
 
@@ -30,19 +30,20 @@ export default function QuestionPage() {
     const [isNextAvailable, setIsNextAvailable] = useState(false); 
 
 
-    const [play, { pause, duration, sound }] = useSound('../Q_04.mp3', {onend: () => {
+    const [play, { pause, duration, sound }] = useSound(audio, {onend: () => {
         console.log('Audio finished'); 
         setIsAudioDone(true); 
     },});
 
     const navigate = useNavigate();
 
-    const handleNextQuestionClick = () => {
+    const handleNextQuestionClick = async() => {
         const nextQuestionIndex = currentQuestionIndex + 1;
         // randomQuestionPicker = randomNoRepeats(questions);
         // randomPick = randomQuestionPicker();
         // const nextQuestionIndex = randomQuestionPicker.index;
         setAudio(questions[nextQuestionIndex].audio_path);
+        await smth(); 
         setIsPlaying(false);
         setCurrentQuestionIndex(nextQuestionIndex);
         // setCurrentQuestionNumber(nextQuestionNumber);
@@ -55,7 +56,6 @@ export default function QuestionPage() {
             setIsRecording(false); 
         }
         setIsNextAvailable(false); 
-        getUserInfo(2);  
     }
 
     async function playBtn() {
@@ -87,7 +87,7 @@ export default function QuestionPage() {
         }, 500);
         return () => clearInterval(interval);
     }, [sound]);
-
+    
     return (
         <>
             <section className="flex flex-col justify-between">
@@ -115,18 +115,20 @@ export default function QuestionPage() {
                     </div>       
                 </audioContext.Provider>
                 
+                <Form method="put" id="next-bt">
                     <div className="flex justify-center">
                         <div className="inline-flex items-center px-4 py-2 mr-3 text-sm font-medium text-white bg-wizeblue-100 border border-gray-300 rounded-lg">
                             {currentQuestionIndex + 1} / {questions.length}
                         </div>
                         {(questions[currentQuestionIndex + 1] !== undefined)?
-                            <button type="submit" disabled={!isNextAvailable} onClick={() => handleNextQuestionClick()} className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700">
+                            <button disabled={!isNextAvailable} onClick={() => handleNextQuestionClick()} className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700">
                                 Next {audioContext.time}
                                 <svg aria-hidden="true" className="w-5 h-5 ml-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>
                             </button> : 
-                            <button type="submit" disabled={!isNextAvailable} onClick={() => endTest()} className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700">End Test</button>
+                            <button disabled={!isNextAvailable} onClick={() => endTest()} className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700">End Test</button>
                         }
                     </div>                    
+                </Form>
 
                 <a>{isNextAvailable}</a>
             </section >
@@ -152,5 +154,15 @@ function shuffleQuestions(array) {
         [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
     }
     return array;
-  }
+  } 
+
+  async function smth(){
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+      }
+    
+      await sleep(10000); 
+      console.log("Hello from questions prev"); 
+    return null; 
+}
 
