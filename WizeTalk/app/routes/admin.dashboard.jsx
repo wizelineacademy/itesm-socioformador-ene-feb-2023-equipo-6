@@ -10,15 +10,11 @@ export default function AdminDashboard() {
   const data = useLoaderData();
 
   const [userData, setUserData] = useState({
-    labels: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
+    labels: ['1-10', '11-20', '21-30', '31-40', '41-50', '51-60', '61-70', '71-80', '81-90', '91-100'],
     datasets: [
       {
-        data: [
-          [90, 10],
-          [80, 5],
-          [70, 10],
-          [60, 5],
-        ],
+        label: 'Total of scores',
+        data: [data[4][0], data[4][1], data[4][2], data[4][3], data[4][4], data[4][5], data[4][6], data[4][7], data[4][8], data[4][9]],
       }
     ],
   });
