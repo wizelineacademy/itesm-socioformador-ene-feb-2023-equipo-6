@@ -3,7 +3,7 @@ import { prisma } from "./database.server";
 //Function that returns questions in QuestionPool table
 //given a category.
 
-export async function getCategoryQuestions({ category }) {
+export async function getCategoryQuestions(category) {
     const category_questions = await prisma.questionPool.findMany(
         { where: { categoria: category } }
     );
@@ -15,6 +15,7 @@ export async function getAllQuestions() {
     const questions = await prisma.questionPool.findMany();
     return questions;
 }
+
 
 //Function that adds a new question to the QuestionPool table
 
@@ -93,8 +94,7 @@ export async function getUserEvaluation(userId) {
     //softskills registradas y preguntas asociadas con el id,
     //posiblemente realizarlo por medio de un join. Falta información
     //en base de datos.
-
-    let questionsId = [];
+    let questionsId = [], data, questionData;
 
     try {
         data = await prisma.user.findFirst({
@@ -106,7 +106,7 @@ export async function getUserEvaluation(userId) {
             }
         })
 
-        for (i in data.Questions) {
+        for (let i in data.Questions) {
             questionsId.push(data.Questions[i].questionid);
         }
 
@@ -136,18 +136,18 @@ export async function getUserEvaluation(userId) {
 export async function getDashboardData() {
     try {
 
-        evAI_sum = await prisma.user.count({
+        const evAI_sum = await prisma.user.count({
             where: {
                 status: 1,
             },
         })
-        evManual_sum = await prisma.user.count({
+        const evManual_sum = await prisma.user.count({
             where: {
                 status: 3,
             }
         })
 
-        recentEvaluations = await prisma.user.findMany({
+        const recentEvaluations = await prisma.user.findMany({
             where: {
                 status: 1,
             },
@@ -163,7 +163,7 @@ export async function getDashboardData() {
             take: 5,
         });
 
-        userScores = await prisma.user.findMany({
+        const userScores = await prisma.user.findMany({
             where: {
                 NOT: {
                     overall: null,
