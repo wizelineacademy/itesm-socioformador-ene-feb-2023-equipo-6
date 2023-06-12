@@ -9,6 +9,12 @@ export async function getCategoryQuestions({ category }) {
     );
     return category_questions;
 }
+// Function to get all the registered questions
+
+export async function getAllQuestions() {
+    const questions = await prisma.questionPool.findMany();
+    return questions;
+}
 
 //Function that adds a new question to the QuestionPool table
 
