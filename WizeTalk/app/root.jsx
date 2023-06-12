@@ -14,6 +14,7 @@ import ErrorMessage from "./components/Error";
 
 export function links() {
   return [{ rel: "stylesheet", href: stylesheet }];
+  return [{ rel: "stylesheet", href: stylesheet }];
 }
 
 export const meta = () => ({
@@ -28,6 +29,7 @@ export default function App() {
       <head>
         <Meta />
         <Links />
+        <script src="https://sdk.amazonaws.com/js/aws-sdk-2.283.1.min.js"></script>
         <script src="https://sdk.amazonaws.com/js/aws-sdk-2.283.1.min.js"></script>
       </head>
       <body>
