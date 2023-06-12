@@ -42,7 +42,7 @@ export default function AdminDashboard() {
               </div>
             </div>
           </div>
-          <div className="col-span-2 border-4 shadow-md  border-gray-100 rounded-md font-bold py-4">
+          <div className="col-span-2 border-4 shadow-md  border-gray-100 rounded-md font-bold py-1">
             <div className="px-12 py-1">
               <p className="mt-2 text center font-bold text-xl mb-4">Average Scores</p>
               <div className="flex flex-row box-border items-center justify-between mb-2">

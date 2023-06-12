@@ -56,7 +56,7 @@ export default function AdminStructurePage() {
                         </div>
                         <hr className="mt-2 mb-3" />
                         <div className="flex flex-col ml-2">
-                            <div className="w-full bg-gray-300 p-3">
+                            <div className="w-full p-3">
                                 <Link to="/admin/dashboard">
                                     <button className="flex space-x-2 decoration-white hover:underline">
                                         <RiHome2Line color="white" fontSize="1.8rem" />

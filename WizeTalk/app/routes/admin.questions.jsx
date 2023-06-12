@@ -23,7 +23,7 @@ export default function AdminQuestionsPage() {
 
     return (
         <>
-            <section className="flex flex-col m-auto">
+            <section className="flex flex-col m-auto py-10 px-16">
                 <QuestionContainer />
                 <Outlet />
             </section>
