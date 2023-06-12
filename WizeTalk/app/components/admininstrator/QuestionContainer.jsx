@@ -1,35 +1,23 @@
 import { useLoaderData } from '@remix-run/react';
 import QuestionItem from './QuestionItem';
 import { Link } from '@remix-run/react';
-import { questionFilter } from '../../routes/admin.questions';
-import { useState } from 'react';
 
 export default function QuestionContainer() {
-    let hasQuestions;
-    const q = useLoaderData();
-    const [questions, setQuestions] = useState(q);
 
-    async function getFilteredQuestions(){
-        const category = document.getElementById("underline_select").value;
-        const filter = await questionFilter(category);
-        setQuestions(filter);
-    }
+    const questions = useLoaderData();
+    const hasQuestions = questions && questions.length > 0;
 
-    var categoryQuestions;
-    const hq = questions && questions.length > 0
-    hasQuestions = hq;
-    // setHasQuestions(hq);
     return (
         <>
-            <div className="flex flex-col border-2 rounded-md border-black m-3.5 p-8 gap-5 bg-white">
+            <div className="flex flex-col border-2 rounded-md border-black p-8 gap-5 bg-white">
                 <div>
                     <label htmlFor="underline_select" className="sr-only">Underline select</label>
-                    <select onChange = {getFilteredQuestions} id="underline_select" className="block py-2.5 px-0 w-full text-sm text-black-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none focus:outline-none focus:ring-0 focus:border-gray-200 peer">
+                    <select id="underline_select" className="block py-2.5 px-0 w-full text-sm text-black-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none focus:outline-none focus:ring-0 focus:border-gray-200 peer">
                         <option defaultValue>Choose a category</option>
-                        <option value="english">English</option>
-                        <option value="frontend">Front-End</option>
-                        <option value="backend">Back-End</option>
-                        <option value="fullstack">Full-Stack</option>
+                        <option value="English">English</option>
+                        <option value="Front-End">Front-End</option>
+                        <option value="Back-End">Back-End</option>
+                        <option value="QA">Quality Assurance</option>
                     </select>
                 </div>
                 <div>
