@@ -15,7 +15,27 @@ export default function QuestionContainer() {
         setQuestions(filter);
     }
 
+    // const getQuestions = async () => {
+    //     const data = {
+    //         option: 'english',
+    //     }
+    //     console.log(data);
+    //     await fetch("/questionfilter", {
+    //         method: "POST",
+    //         body: JSON.stringify(data),
+    //         headers: {
+    //             "Content-Type": "application/json",
+    //         },
+    //     });
+    // }
+    // const questions = getQuestions();
+    // console.log(questions);
     var categoryQuestions;
+    // questions.forEach(element => {
+    //     if (element.categoria == document.getElementById("underline_select").value){
+    //         categoryQuestions.push(element);
+    //     }
+    // });
     const hq = questions && questions.length > 0
     hasQuestions = hq;
     // setHasQuestions(hq);
