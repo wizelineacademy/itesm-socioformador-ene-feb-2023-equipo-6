@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import LineChart from "../components/admininstrator/LineChart";
-import { getDashboardData } from "../data/admin.server";
+import { getAvgScores, getDashboardData } from "../data/admin.server";
 import { useLoaderData, Link, useNavigate } from "react-router-dom";
 import { RiArrowRightSFill } from "react-icons/ri";
 import CircularProgress from '@mui/joy/CircularProgress';
@@ -43,23 +43,23 @@ export default function AdminDashboard() {
               <p className="mt-2 text center font-bold text-xl mb-4">Average Scores</p>
               <div className="flex flex-row box-border items-center justify-between mb-2">
                 <div className="text-center text-md">
-                  <CircularProgress determinate value={87} />
-                  <p>87/100</p>
+                  <CircularProgress determinate value={data[5][0]} />
+                  <p>{data[5][0]}/100</p>
                   <p>English</p>
                 </div>
                 <div className="text-center text-md">
-                  <CircularProgress determinate value={87} />
-                  <p>87/100</p>
+                  <CircularProgress determinate value={data[5][1]} />
+                  <p>{data[5][1]}/100</p>
                   <p>Front-End</p>
                 </div>
                 <div className="text-center text-md">
-                  <CircularProgress determinate value={56} />
-                  <p>56/100</p>
+                  <CircularProgress determinate value={data[5][2]} />
+                  <p>{data[5][2]}/100</p>
                   <p>Back-End</p>
                 </div>
                 <div className="text-center text-md">
-                  <CircularProgress determinate value={77} />
-                  <p>77/100</p>
+                  <CircularProgress determinate value={data[5][3]} />
+                  <p>{data[5][3]}/100</p>
                   <p>Full Stack</p>
                 </div>
               </div>
