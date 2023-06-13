@@ -7,7 +7,7 @@ export async function getCategoryQuestions(category) {
     const category_questions = await prisma.questionPool.findMany(
         { where: { categoria: category } }
     );
-    return category_questions;
+    return category_questions;get
 }
 // Function to get all the registered questions
 
@@ -126,7 +126,7 @@ export async function getUserEvaluation(userId) {
         throw new Error('Failed to get user evaluation data.');
     }
 
-    const fullData = [data, questionData];
+    const fullData = [data, questionData, data.softskills.split(',').slice(0, 2)];
 
     //In index 0 the user data is returned and in index 1 the questions data is returned.
     //Both have the same index in the array.
