@@ -65,9 +65,9 @@ export default function EvaluationIndividual() {
                             <div className='font-bold'>
                                 Main Soft Skills
                             </div>
-                            <div className='text-sm text-green-700 font-bold'>
-                                Problem Solving
-                            </div>
+                            {data[2].map((skill) => (
+                                <div>{skill}</div>
+                            ))}
                         </div>
                     </div>
                     <div className="flex flex-row">
@@ -103,7 +103,22 @@ export default function EvaluationIndividual() {
                                                     {questionVideoURL && <iframe className='rounded-lg w-full h-full' src={questionVideoURL} controls />}
                                                 </div>
                                                 <div className='basis-1/4 h-full w-full'>
-                                                    <div className='mb-4 w-full'>
+                                                    <div className='mb-4'>
+                                                        <p className='text-3xl font-bold mb-6'>Score</p>
+                                                        <div className='flex ml-5'>
+                                                            <Form method='patch' className='flex flex-col' >
+                                                                <div className='flex'>
+                                                                    <input type='hidden' name='id' value={data[0].Questions[questionIndex].id} />
+                                                                    <input name='score' className='w-14 text-2xl border px-2 font-medium rounded-sm' type='number' key={data[0].Questions[questionIndex].score} defaultValue={data[0].Questions[questionIndex].score} />
+                                                                    <p className='font-bold text-2xl text-center ml-5'>/{data[1][questionIndex].value}</p>
+                                                                </div>
+                                                                <div className='mt-5'>
+                                                                    <button type='submit' className='h-10 text-white bg-green-800 hover:text-white font-medium rounded-md w-full'>Save</button>
+                                                                </div>
+                                                            </Form>
+                                                        </div>
+                                                    </div>
+                                                    <div className='w-full mt-32'>
                                                         <button className='w-full h-10 text-white bg-gray-700 hover:bg-gray-300 font-medium px-5 rounded-sm' onClick={() => setShowTranscript(1)}>Show Transcript</button>
                                                         {showTranscript ?
                                                             (
@@ -112,9 +127,12 @@ export default function EvaluationIndividual() {
                                                                         className="shadow-lg rounded-md"
                                                                         onClick={(event) => event.stopPropagation()}
                                                                     >
-                                                                        <div className="flex flex-col bg-white">
-                                                                            <div className='bg-black text-white h-12 w-[45rem] flex items-center'>
-                                                                                <p className='font-bold mx-5'>Transcript</p>
+                                                                        <div className="flex flex-col bg-white mx-auto max-w-xl rounded-md">
+                                                                            <div className='bg-black text-white h-12 flex items-center w-full'>
+                                                                                <div className='mx-10 flex justify-between w-full'>
+                                                                                    <p className='font-bold overflow-x-auto'>Transcript</p>
+                                                                                    <button className='font-bold' onClick={() => setShowTranscript(0)}>x</button>
+                                                                                </div>
                                                                             </div>
                                                                             <div className='p-5 h-80'>
                                                                                 <div>{data[0].Questions[questionIndex].transcript}</div>
@@ -126,25 +144,14 @@ export default function EvaluationIndividual() {
                                                             )
                                                             : null}
                                                     </div>
-                                                    <div className='mb-4'>
-                                                        <p className='text-2xl font-semibold mb-2'>Score</p>
-                                                        <div className='flex ml-5'>
-                                                            <Form method='patch' className='flex' >
-                                                                <input type='hidden' name='id' value={data[0].Questions[questionIndex].id} />
-                                                                <input name='score' className='w-14 text-2xl border px-2 font-medium rounded-sm' type='number' key={data[0].Questions[questionIndex].score} defaultValue={data[0].Questions[questionIndex].score} />
-                                                                <p className='font-bold text-2xl text-center ml-5'>/{data[1][questionIndex].value}</p>
-                                                                <button type='submit' className='h-7 text-white bg-green-800 hover:text-white font-medium px-5 rounded-md ml-5'>Save</button>
-                                                            </Form>
-                                                        </div>
-                                                    </div>
                                                     <div className='flex flex-col justify-between'>
-                                                        <div>
+                                                        {/* <div>
                                                             <p className='text-lg mb-2 font-semibold'>Skills Detected </p>
                                                             <ul className='text-sm'>
                                                                 <li>Flexibility</li>
                                                                 <li>Interpersonal Skills</li>
                                                             </ul>
-                                                        </div>
+                                                        </div> */}
                                                     </div>
                                                 </div>
                                             </div>

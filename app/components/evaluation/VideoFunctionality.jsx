@@ -132,17 +132,7 @@ export default function WebCamRecord() {
         formData.append("questionValue", question.value);
         formData.append("currentQuestion", val.currentQuestion);
         submit(formData, { method: "POST" });
-        /* if(smth == "COMPLETE"){
-          const transcript = await s3GetTranscript(name, keys, question, user_id);
-          console.log("El transcript de functionality: ", transcript); 
-          const scores = await getEnglishScore(transcript, question, keys, _user_id); 
-          console.log("Scores in functionality: ", scores); 
-          console.log("Returned from s3Upload: ", smth); 
-        }
 
-        else{
-          console.log("No pasó s3Upload"); 
-        } */
       }
 
       if (isRecording) {

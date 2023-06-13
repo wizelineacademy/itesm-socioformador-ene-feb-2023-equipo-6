@@ -21,7 +21,7 @@ export default function UserList() {
                 </form>
                 <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
                     <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
-                        <div className="overflow-hidden">
+                        <div className="overflow-y-auto h-[30em]">
                             <table className="min-w-full text-left text-sm font-light">
                                 <thead className="font-medium bg-wizeblue-50">
                                     <tr>
