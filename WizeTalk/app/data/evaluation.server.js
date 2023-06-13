@@ -1,6 +1,6 @@
 import { redirect } from '@remix-run/node';
 import { prisma } from './database.server';
-import { saveLocalQuestions } from './questions.server';
+import { getEnglishQuestionScore, saveLocalQuestions } from './questions.server';
 import { getFinalSoftSkills } from './openai';
 
 export async function getUserInfo(userId) {
@@ -111,6 +111,10 @@ export async function saveSoftSkills(questionId, userId, scores, transcript, vid
         }
     }
 
+    const questionValue = await getEnglishQuestionScore(questionId); 
+    console.log("SoftSkill question value: ", questionValue); 
+    const finalScore = Math.round(overall / 100 * questionValue); 
+
     console.log("FindMany: ", f); 
     const done = await prisma.questions.update({
         where: {
@@ -121,7 +125,7 @@ export async function saveSoftSkills(questionId, userId, scores, transcript, vid
             vocabulary: scores.vocabulary, 
             coherence: scores.coherence, 
             completed: 1, 
-            score: overall, 
+            score: finalScore, 
             transcript: transcript,
             video_path: videoName, 
             softskills: scores.softskills

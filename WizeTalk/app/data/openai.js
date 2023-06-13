@@ -99,11 +99,10 @@ export async function getTechSkills(transcript, question, keys, user_id, value){
       })
     );
     console.log("Resultado en openai/aws: ", score); 
-    const englishScoresPre = score.data.choices[0].message.content; 
-    const eng = englishScoresPre.replace(/[\n\s]/g, ''); 
-    const englishScores = JSON.parse(eng); 
-    const result = englishScores; 
-
+    const techScore = score.data.choices[0].message.content; 
+    const noSpaceScore = techScore.replace(/[\n\s]/g, ''); 
+    const result = JSON.parse(noSpaceScore); 
+    
     return result; 
     
 }

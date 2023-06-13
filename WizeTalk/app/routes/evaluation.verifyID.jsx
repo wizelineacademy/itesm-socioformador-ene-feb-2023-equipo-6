@@ -1,8 +1,6 @@
 import { Form, Link, useLoaderData } from "@remix-run/react"
 import { requireUserSession } from "../data/auth.server";
 import { getUserInfo, testStatus} from "../data/evaluation.server";
-import { redirect } from "@remix-run/node";
-
 
 export default function VerifyIdPage() {
 
