@@ -48,6 +48,13 @@ export default function Questions(){
         play();
     }
 
+    useEffect(() => {
+        if (currentQuestionIndex < questions.length) {
+          setQuestion(questions[currentQuestionIndex]);
+          setAudio(questions[currentQuestionIndex].audio_path);
+        }
+      }, [questions, currentQuestionIndex]);
+
     function sleep(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }

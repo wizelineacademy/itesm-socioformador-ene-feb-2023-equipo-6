@@ -45,7 +45,7 @@ export async function getSoftSkills(transcript, question, keys, user_id){
     });
     const openai = new OpenAIApi(configuration);
 
-    const prompt = "Assume the role of a recruiter for a tech company. You have to give a score from 0 to 100 the vocabulary, grammar and coherence of the following answer that must be in english: '" + transcript + "' to the following question '" + question + '" . Also identify 5 softskills detected in the answer, do not bias by the words the person used to detect the softskills, separate them with a coma and the softskills composed by two or more words use space like the following "good communication". Just provide me as answer a json as the following: {"vocabulary": 100, "grammar":100, "coherence":100, "softskills": "leadership, commitment, communication, problem-solving, caring"}, do not justify.'; 
+    const prompt = "Assume the role of a recruiter for a tech company. You have to give a score from 0 to 100 the vocabulary, grammar and coherence of the following answer that must be in english: '" + transcript + "' to the following question '" + question + '" . Also identify 5 softskills detected in the answer, do not bias by the words the person used to detect the softskills, separate them with a coma and the softskills composed by two or more words use space like the following "Good Communication". Just provide me as answer a json as the following: {"vocabulary": 100, "grammar":100, "coherence":100, "softskills": "Leadership, Commitment, Attention To Detail, Problem-Solving, Caring"}, do not justify.'; 
     console.log(prompt); 
 
     const score = await openai.createChatCompletion(
@@ -98,7 +98,7 @@ export async function getFinalSoftSkills(keys, softskills){
 
 /*     console.log("Question in OPENAI: ", question);  */
 
-  const prompt = "Assume the role of a recruiter for a tech company. From the following softskills " + softskills + " select the 5 that are more repeated and consider the most important, your final answer must be the softskills separated by a comma the softskills composed by two or more words use space like the following 'good communication', just provide the list of softskills in the final answer"; 
+  const prompt = "Assume the role of a recruiter for a tech company. From the following softskills " + softskills + " select the 5 that are more repeated and consider the most important, your final answer must be the softskills separated by a comma the softskills composed by two or more words use space like the following 'Good Communication', just provide the list of softskills in the final answer"; 
   console.log(prompt); 
   const score = await openai.createChatCompletion(
     JSON.stringify({

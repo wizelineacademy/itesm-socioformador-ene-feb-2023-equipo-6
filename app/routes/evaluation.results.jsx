@@ -114,9 +114,23 @@ export async function loader({ request }) {
     const questions = await getUserQuestions(userId);
     const userInfo = await getUserInfo(userId);
 
-    const softSkills = userInfo.softskills.split(',');
+    // Split the input string by comma
+    const phrases = userInfo.softskills.split(',');
 
-    return [userInfo, questions, softSkills];
+    // Initialize an array to store the separated phrases
+    const separatedPhrases = [];
+
+    // Iterate over each phrase
+    for (let i = 0; i < phrases.length; i++) {
+    const phrase = phrases[i].trim(); // Remove leading/trailing whitespace
+    
+    // Use regular expression to split phrases composed of more than one word by capital letters
+    const separatedWords = phrase.split(/(?=[A-Z])/).join(' ');
+
+    separatedPhrases.push(separatedWords);
+    }
+
+    return [userInfo, questions, separatedPhrases];
     //Necesito la informacion del usuario, los soft skills de la tabla de questions y obtener las descripciones de las preguntas que le tocaron al usuario.
 }
 
