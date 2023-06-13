@@ -47,18 +47,18 @@ export default function EvaluationIndividual() {
                         </div>
                         <div className='flex flex-col items-center'>
                             <div className='font-bold'>
-                                English Section
+                                Grammar Grade
                             </div>
                             <h3 className='text-xl font-bold text-green-700'>
-                                31/40
+                                {data[0].grammar}/100
                             </h3>
                         </div>
                         <div className='flex flex-col items-center'>
                             <div className='font-bold'>
-                                Technical Section
+                                Coherence Grade
                             </div>
                             <h3 className='text-xl font-bold text-green-700'>
-                                53/60
+                                {data[0].coherence}/100
                             </h3>
                         </div>
                         <div className='flex flex-col items-center'>

@@ -8,7 +8,7 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 
-import WizelineHeader from "./components/WizelineHeader";;
+import WizelineHeader from "./components/WizelineHeader";
 import stylesheet from "~/tailwind.css";
 import ErrorMessage from "./components/Error";
 
