@@ -1,13 +1,12 @@
-import { Link, useLoaderData } from "@remix-run/react"
+import { Form, Link, useLoaderData } from "@remix-run/react"
 import { requireUserSession } from "../data/auth.server";
 import { getUserInfo, testStatus} from "../data/evaluation.server";
+import { redirect } from "@remix-run/node";
 
 
 export default function VerifyIdPage() {
 
     const user = useLoaderData();
-
-
 
     return (
         < >
@@ -34,18 +33,17 @@ export default function VerifyIdPage() {
                             </div>
                         </div>
                         <div className="mt-4 flex justify-around">
-                            <Link>
-                                <span className="block w-32 bg-red-500 font-bold border-solid border-2 border-black text-center rounded-md text-white">
-                                    Notify Error
-                                </span>
-                            </Link>
+                            <Form method='post' action="/logout" className="block w-32 bg-red-500 font-bold border-solid border-2 border-black text-center rounded-md text-white">
+                                <button classname="text-center">Notify Error</button>
+                            </Form>
                             <div className="w-20"></div>
                             {/* <Link to="/evaluation/instructions"> */}
-                            <form method="post">
-                                <button type = "submit" className="block w-32 bg-green-500 font-bold border-solid border-2 border-black text-center rounded-md text-white">
+                            <Link to="/evaluation/instructions">
+                                <button onClick={() => validate()} className="block w-32 bg-green-500 font-bold border-solid border-2 border-black text-center rounded-md text-white">
                                     Validate
                                 </button>
-                            </form>
+                            </Link>
+
                             {/* </Link> */}
                         </div>
                     </div>
