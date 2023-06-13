@@ -136,10 +136,18 @@ jobs:
         env:
           DATABASE_URL: postgresql://${{ secrets.DB_USERNAME }}:${{ secrets.DB_PWD }}@${{ secrets.DB_ACCESSPOINT }}/postgres
           SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+          AWS_KEY: ${{ secrets.AWS_KEY }}
+          AWS_SECRET: ${{ secrets.AWS_SECRET }}
+          COGNITO_POOLID: ${{ secrets.COGNITO_POOLID }}
+          BUCKET_MP4: ${{ secrets.BUCKET_MP4 }}
+          BUCKET_MP3: ${{ secrets.BUCKET_MP3 }}
+          BUCKET_TXT: ${{ secrets.BUCKET_TXT }}
+          OPEN_AI: ${{ secrets.OPEN_AI }}
         with:
           timeout: 60s
           command_timeout: 30m
-          envs: DATABASE_URL,SESSION_SECRET
+          envs: DATABASE_URL,SESSION_SECRET,AWS_REGION,AWS_KEY,AWS_SECRET,COGNITO_POOLID,BUCKET_MP4,BUCKET_MP3,BUCKET_TXT,OPEN_AI
           host: ${{ secrets.LIGHTSAIL_IP }}
           username: ${{ secrets.LIGHTSAIL_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
@@ -157,6 +165,14 @@ jobs:
             echo "*** Step: *** Create .env file"
             echo DATABASE_URL="$DATABASE_URL" >> .env
             echo SESSION_SECRET="$SESSION_SECRET" >> .env
+            echo AWS_REGION="$AWS_REGION" >> .env
+            echo AWS_KEY="$AWS_KEY" >> .env
+            echo AWS_SECRET="$AWS_SECRET" >> .env
+            echo COGNITO_POOLID="$COGNITO_POOLID" >> .env
+            echo BUCKET_MP4="$BUCKET_MP4" >> .env
+            echo BUCKET_MP3="$BUCKET_MP3" >> .env
+            echo BUCKET_TXT="$BUCKET_TXT" >> .env
+            echo OPEN_AI="$OPEN_AI" >> .env
 
             echo "*** Step: *** Generate DB"
             npm install
