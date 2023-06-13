@@ -75,7 +75,6 @@ export async function saveEnglishScores(questionId, userId, scores, transcript, 
         }
     }
 
-    console.log("FindMany: ", f); 
     const done = await prisma.questions.update({
         where: {
             id: id,
@@ -112,10 +111,8 @@ export async function saveSoftSkills(questionId, userId, scores, transcript, vid
     }
 
     const questionValue = await getEnglishQuestionScore(questionId); 
-    console.log("SoftSkill question value: ", questionValue); 
     const finalScore = Math.round(overall / 100 * questionValue); 
 
-    console.log("FindMany: ", f); 
     const done = await prisma.questions.update({
         where: {
             id: id,
