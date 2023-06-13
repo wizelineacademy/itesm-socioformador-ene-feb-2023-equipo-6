@@ -140,7 +140,7 @@ export async function getDashboardData() {
 
         const evAI_sum = await prisma.user.count({
             where: {
-                status: 1,
+                status: 2,
             },
         })
         const evManual_sum = await prisma.user.count({
@@ -151,7 +151,7 @@ export async function getDashboardData() {
 
         const recentEvaluations = await prisma.user.findMany({
             where: {
-                status: 1,
+                status: 2,
             },
             select: {
                 id: true,
