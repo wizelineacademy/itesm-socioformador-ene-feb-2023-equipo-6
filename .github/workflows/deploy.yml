@@ -177,3 +177,4 @@ jobs:
             echo "*** Step: *** Generate DB"
             npm install
             npx prisma generate
+            pm2 start "npm run dev"
