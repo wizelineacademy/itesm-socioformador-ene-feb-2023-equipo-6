@@ -16,27 +16,32 @@ model User {
   evaluation_type Int
   code            String?      @db.VarChar(9)
   date_finished   DateTime?
-  questions       Questions[]
-  evaluationType  Evaluation   @relation(fields: [evaluation_type], references: [id])
-  skills          UserSkills[]
+  grammar         Int?
+  vocabulary      Int?
+  coherence       Int?
+  softskills      String?
+  Questions       Questions[]
+  Evaluation      Evaluation   @relation(fields: [evaluation_type], references: [id])
+  UserSkills      UserSkills[]
 }
 
 model Evaluation {
-  id    Int    @id @default(autoincrement())
-  name  String
-  users User[]
+  id   Int    @id @default(autoincrement())
+  name String
+  User User[]
 }
 
 model QuestionPool {
-  id          Int         @id @default(autoincrement())
-  instruction String
-  categoria   String
-  audio_path  String?
-  min_time    Int
-  max_time    Int
-  value       Int
-  description String?
-  Questions   Questions[]
+  id           Int         @id @default(autoincrement())
+  instruction  String
+  categoria    String
+  audio_path   String?
+  min_time     Int
+  max_time     Int
+  value        Int
+  description  String?
+  subcategoria String?
+  Questions    Questions[]
 }
 
 model Questions {
@@ -56,15 +61,15 @@ model Questions {
 }
 
 model SoftSkills {
-  id     Int          @id @default(autoincrement())
-  name   String
-  skills UserSkills[]
+  id         Int          @id @default(autoincrement())
+  name       String
+  UserSkills UserSkills[]
 }
 
 model UserSkills {
-  id       Int        @id @default(autoincrement())
-  skill_id Int
-  user_id  Int
-  skill    SoftSkills @relation(fields: [skill_id], references: [id])
-  user     User       @relation(fields: [user_id], references: [id])
+  id         Int        @id @default(autoincrement())
+  skill_id   Int
+  user_id    Int
+  SoftSkills SoftSkills @relation(fields: [skill_id], references: [id])
+  User       User       @relation(fields: [user_id], references: [id])
 }

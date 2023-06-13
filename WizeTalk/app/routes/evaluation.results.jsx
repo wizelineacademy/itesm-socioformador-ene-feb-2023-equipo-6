@@ -102,9 +102,8 @@ export default function ResultPage() {
 }
 
 export async function loader({ request }) { 
-    const userId = await requireUserSession(request);
-    const userInfo = await getUserInfo(userId);
-    const softSkills = await getSoftSkills();
-    console.log(softSkills);
-    return [userInfo, softSkills];
+    
+    await requireUserSession(request);
+
+    return null;
 }

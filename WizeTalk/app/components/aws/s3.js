@@ -1,42 +1,30 @@
-export function s3Upload(blob, name) {
+import { s3GetTranscript } from "./getTranscript";
 
-  AWS.config.update({ region: "us-east-1" });
-
-  /*var creds = new AWS.Credentials("akid", "secret", "session");
-
-  AWS.config.update({
-    region: "us-west-2",
-    endpoint: "http://localhost:8000",
-    credentials: creds,
-  });
-  
-  AWS.config.update({
-    credentials: {
-      accessKeyId: "AKIAZNA3GHX5JR46XS6S",
-      secretAccessKey: "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",
-    },
-  });
-  */
-  
-  // Inicializar el proveedor de credenciales de Amazon Cognito
-  AWS.config.region = "us-east-1"; // Región
+export async function s3Upload(blob, name, keys, user_id, question) {
+  AWS.config.region = keys.AWS_REGION;
   AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-    IdentityPoolId: "us-east-1:f76af4b2-04c2-46e4-b76b-2b19cf73204b",
+    IdentityPoolId: keys.COGNITO_POOLID,
   });
   AWS.config.apiVersions = {
     s3: "2006-03-01",
   };
   var s3 = new AWS.S3({
     params: {
-      Bucket: "wizetalk",
+      Bucket: keys.BUCKET_MP4,
     },
   });
+
+  async function triggerTranscript(name, keys, question, user_id){
+    const result = await s3GetTranscript(name, keys, question, user_id); 
+    console.log("Result in s3: ", result); 
+    return result; 
+  }
+
   s3.putObject(
     {
       Key: name,
       Body: blob,
       ContentType: "video/mp4",
-      //ACL: "public-read",
     },
     (err) => {
       if (err) {
@@ -45,6 +33,11 @@ export function s3Upload(blob, name) {
       } else {
         // On Success
         console.log("S3 Success");
+        const segundos = 10000;
+        console.log("Espera " + segundos / 1000 + " segundos.");
+        setTimeout(async () => {
+          return "COMPLETE";  
+        }, segundos); 
       }
     }
   );
