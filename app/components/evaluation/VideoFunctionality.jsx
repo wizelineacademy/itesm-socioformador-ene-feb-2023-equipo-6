@@ -49,7 +49,6 @@ export default function WebCamRecord() {
     setQuestionId(val.question.id);
     setIsRecording(true);
     setQuestion(val.question);
-    console.log('Recording...');
     val.setIsRecording(true);
   }
 
@@ -65,28 +64,22 @@ export default function WebCamRecord() {
 
         if (isRecording && seconds >= 0 && seconds < val.question.min_time) {
           setSeconds(seconds + 1);
-          console.log("Stop 1");
         }
 
         else if (seconds >= val.question.min_time && val.isNextAvailable == false && val.isRecording) {
-          console.log('Can Stop');
           val.setIsNextAvailable(true);
           setSeconds(seconds + 1);
-          console.log("Stop 2");
         }
 
         else if (seconds >= val.question.min_time && val.isRecording && seconds < val.question.max_time) {
           setSeconds(seconds + 1);
-          console.log("Stop 3");
         }
 
         else if (seconds >= val.question.min_time && seconds < val.question.max_time && !val.isRecording) {
           stopRecording();
-          console.log("Stop 4");
         }
 
         else if (seconds == val.question.max_time) {
-          console.log("Max time reached");
           stopRecording();
         }
       }
@@ -110,7 +103,6 @@ export default function WebCamRecord() {
         startRecording();
         //console.log('Question ', val.question);
         stopTimer();
-        console.log('Recording');
       }
     }, [val]
   )
@@ -172,7 +164,6 @@ export default function WebCamRecord() {
 
       const videoName = val.userId + '_' + questionId + '.mp4';
 
-      console.log("Question in Functionality: ", question);
 
       chunks.current = [];
       setIsDataAvailable(false);
@@ -191,7 +182,6 @@ export default function WebCamRecord() {
     setSeconds(0);
     setIsRecording(false);
     val.setIsRecording(false);
-    console.log('Stop Recording');
     setIsDataAvailable(false);
   }
 
@@ -269,7 +259,7 @@ export default function WebCamRecord() {
         <video className="h-72" ref={videoRef} autoPlay muted playsInline></video>
       </div>
       <div className="mt-4">
-        <LinearProgress determinate variant="solid" size='lg' color={seconds > val.question.min_time ? 'success' : 'primary'} value={((seconds) / val.question.max_time) * 100} />
+        <LinearProgress determinate size='lg' color={seconds > val.question.min_time ? 'primary' : 'neutral'} value={((seconds) / val.question.max_time) * 100} />
       </div>
       <div>{error && <p>{error.message}</p>}</div>
     </div>
