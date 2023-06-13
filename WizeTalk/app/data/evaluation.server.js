@@ -158,7 +158,7 @@ export async function saveTechAnswers(questionId, userId, scores, transcript, vi
             vocabulary: scores.vocabulary, 
             coherence: scores.coherence, 
             completed: 1, 
-            score: scores.overall, 
+            score: Math.round(scores.overall), 
             transcript: transcript,
             video_path: videoName, 
         }

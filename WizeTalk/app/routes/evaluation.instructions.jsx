@@ -69,15 +69,15 @@ export async function action({request}){
             }
         }); 
 
-        if(userTest.evaluation_type == 1){
+        /* if(userTest.evaluation_type == 1){
             techQuestions = await prisma.questionPool.findMany({
                 where: {
                     categoria: "frontend"
                 }
             }); 
-        }
+        } */
 
-        else if(userTest.evaluation_type == 1){
+        if(userTest.evaluation_type == 1){
             frontend = ["HTML/CSS", "JavaScript", "Frontend Frameworks", "Web Accessibility", "User Interface (UI) Design"]; 
 
             for(subCategory in frontend){
@@ -149,7 +149,6 @@ export async function action({request}){
         redirect('evaluation/results'); 
     }   
 
-    console.log(userTest);
     return redirect('/evaluation/questions'); 
 }
 

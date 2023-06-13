@@ -7,8 +7,8 @@ import { getUserInfo, getSoftSkills } from "../data/evaluation.server";
 export default function ResultPage() {
     
     const navigate = useNavigate();
-    const user = useLoaderData()[0];
-    const softSkills = useLoaderData()[1];
+    /* const user = useLoaderData()[0];
+    const softSkills = useLoaderData()[1]; */
 
 
     function endTest() {
@@ -25,7 +25,7 @@ export default function ResultPage() {
         <>
             <section className="mx-[20%]">
                 <div className="my-[5%]">
-                    <h1 className="font-bold text-xl">Your Results, { user.name } { user.lastname }</h1>
+                    <h1 className="font-bold text-xl">Your Results, {/* { user.name } { user.lastname } */}</h1>
                 </div>
                 <div className="border-solid border-black border-2 rounded-md">
                     <div className="flex justify-between mx-[15%] my-5">
@@ -76,9 +76,9 @@ export default function ResultPage() {
                         <div className="mx-[10%]">
                             <div>
                                 <h2 className="font-bold">Soft Skills Detected</h2>
-                                <p>1 { softSkills[0] } </p>
-                                <p>2 { softSkills[1] } </p>
-                                <p>3 { softSkills[2] } </p>
+                                {/* <p>1 { softSkills[0] } </p> */}
+                                {/* <p>2 { softSkills[1] } </p> */}
+                                {/* <p>3 { softSkills[2] } </p> */}
                             </div>
                             <div className="mt-5">
                                 <h2 className="font-bold">Overall Score</ h2>
@@ -101,9 +101,3 @@ export default function ResultPage() {
     );
 }
 
-export async function loader({ request }) { 
-    
-    await requireUserSession(request);
-
-    return null;
-}
