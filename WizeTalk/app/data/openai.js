@@ -54,7 +54,7 @@ export async function getSoftSkills(transcript, question, keys, user_id){
 
 /*     console.log("Question in OPENAI: ", question);  */
 
-    const prompt = "Assume the role of a recruiter for a tech company. You have to give a score from 0 to 100 the vocabulary, grammar and coherence of the following answer: '" + transcript + "' to the following question '" + question + '" . Also identify 5 softskills detected in the answer, do not bias by the words the person used to detect the softskills. Just provide me as answer a json as the following: {"vocabulary": 100, "grammar":100, "coherence":100, "softskills": "leadership, commitment, communication, problem-solving, caring"}, do not justify.'; 
+    const prompt = "Assume the role of a recruiter for a tech company. You have to give a score from 0 to 100 the vocabulary, grammar and coherence of the following answer that must be in english: '" + transcript + "' to the following question '" + question + '" . Also identify 5 softskills detected in the answer, do not bias by the words the person used to detect the softskills. Just provide me as answer a json as the following: {"vocabulary": 100, "grammar":100, "coherence":100, "softskills": "leadership, commitment, communication, problem-solving, caring"}, do not justify.'; 
     console.log(prompt); 
 
     const score = await openai.createChatCompletion(

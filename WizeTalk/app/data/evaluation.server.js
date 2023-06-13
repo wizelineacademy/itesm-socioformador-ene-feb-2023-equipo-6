@@ -23,7 +23,7 @@ export async function getInfo(){
 
 //Guardar preguntas de la evaluación del usuario en la tabla Questions de la base de datos
 export async function saveEvaluationQuestions(questions, userId){
-    firstQuestion = questions[0].id; 
+    var firstQuestion = questions[0].id; 
     var questionList = []; 
 
     for(i in questions){
