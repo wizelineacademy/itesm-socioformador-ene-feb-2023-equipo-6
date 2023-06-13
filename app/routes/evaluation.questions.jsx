@@ -21,7 +21,6 @@ export const audiosContext = createContext({isAudioDone: false})
 export default function Questions(){
     const [_questions, userId, env_val, numberQuestion, count] = useLoaderData(); 
     //var question = questions[0];
-    //console.log("Audio path: ", question.audio_path); 
     const [questions, setQuestions] = useState(_questions); 
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [currentQuestion, setCurrentQuestion] = useState(numberQuestion); 
@@ -33,17 +32,11 @@ export default function Questions(){
     const [isAudioDone, setIsAudioDone] = useState(false); 
     const [isNextAvailable, setIsNextAvailable] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    console.log("IsNextAvailable: ", isNextAvailable); 
-    console.log("Current question Index: ", currentQuestionIndex); 
-    console.log("Current Question: ", question); 
-    console.log("All Questions: ", questions); 
-    console.log("currentQuestion: ", currentQuestion); 
     const submit = useSubmit(); 
     
 
     //Modificar el path del audio por el del servidor
     const [play, { pause, duration, sound }] = useSound(question.audio_path, {onend: () => {
-        console.log('Audio finished'); 
         setIsAudioDone(true); 
     },});
 
@@ -52,7 +45,6 @@ export default function Questions(){
     async function playBtn() {
         setIsPlaying(true);
         setAudio(question.audio_path); 
-        console.log("AUDIO PLAYING: ", audio); 
         play();
     }
 
@@ -76,8 +68,6 @@ export default function Questions(){
             setIsRecording(false); 
         }
         if(currentQuestionIndex + 1 <= count){
-            console.log("Current question: ", question); 
-            console.log("All questions: ", questions); 
             //question = questions[currentQuestionIndex + 1];
             setCurrentQuestionIndex(currentQuestionIndex + 1);  
             setCurrentQuestion(currentQuestion + 1); 
@@ -124,6 +114,9 @@ export default function Questions(){
                 </audiosContext.Provider>
 
                 <div className="flex justify-center">
+                    <div className="flex items-center justify-center bg-wizeblue-100 rounded-md h-10 w-20">
+                        <div className="font-bold text-white text-center">{currentQuestion} / 7</div>
+                    </div>
                     {(currentQuestion !== 7)?
                         <button disabled={!isNextAvailable} onClick={() => nextQuestion()} className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700">
                             Next {audiosContext.time}
@@ -151,8 +144,6 @@ export async function loader({request}){
         count = parseInt(question) + 1; 
     }
 
-    console.log("Loader"); 
-
     const numberQuestion = 7 - count + 1; 
 
     if(numberQuestion <= 7){
@@ -175,58 +166,36 @@ export async function action({request}){
     else if(request.method == "POST"){
         const formData = await request.formData(); //Get the newNote Forms information
         const noteData = Object.fromEntries(formData);
-        console.log("Question JSON in questions: ", JSON.stringify(noteData.questionJSON)); 
-        console.log("FormData: ", noteData); 
          const blob = noteData.blob; 
-        console.log("Blob: ", blob);
         const videoName = noteData.videoName; 
         const keys = process.env; 
-        console.log("Keys: ", noteData.keys);
         const user = noteData.user; 
         const question = noteData.question;  
         const questionId = noteData.questionId; 
-        console.log("-----------------------------------------")
-        console.log("Question Info ", question); 
-        console.log("User: ", user); 
-        console.log("questionId: ", questionId); 
         const questionCategory = noteData.questionCategory; 
         const questionValue = noteData.questionValue; 
         
         await smth(20000); 
 
         const transcript = await s3GetTranscript(videoName, keys, question, user);
-        console.log("transcript questions: ", transcript);
         if(questionCategory == "english"){
             const result = await getSoftSkills(transcript, question, keys, user); 
-            console.log("Softskills answer in questions: ", result); 
             await saveSoftSkills(questionId, user, result, transcript, videoName);
         }
 
         else{
             const result = await getTechSkills(transcript, question, keys, user, questionValue); 
-            console.log("Tech answer in questions: ", result); 
             await saveTechAnswers(questionId, user, result, transcript, videoName);
         }
         if(noteData.currentQuestion == 7){
             await finishTest(env, user); 
             redirect('/evaluation/results'); 
         }
-        /* const result = await getEnglishScore(transcript, question, keys, user); 
-        
-        console.log("Resultados de OPEN AI: ", result);  
-        
-        await saveEnglishScores(questionId, user, result, transcript, videoName);  */
-        //answeredQuestion(await getStoredQuestions()); 
-        //return redirect('/evaluation/questions');  
-        
-/*         const scores = noteData.scores;
-        console.log("Scores: ", scores);  */
-/*         const s3 = await s3Upload(blob, videoName, keys, user, question);
-        console.log(s3);  */  
+
     }
 
     else{
-        console.log("SMTH"); 
+
     }
     return null; 
 }
@@ -235,9 +204,7 @@ export async function action({request}){
 async function smth(n){
     function sleep(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
-      }
-    
+      }    
       await sleep(n); 
-      console.log("Hello from questions prev"); 
     return null; 
 }

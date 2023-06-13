@@ -1,12 +1,9 @@
 import { useContext, useEffect, useRef, useState } from "react";
-import { Configuration, OpenAIApi } from 'openai';
 import { audiosContext } from "../../routes/evaluation.questions";
 import { s3Upload } from "../aws/s3";
-import { getUserFromSession } from "../../data/auth.server";
-import { Request } from "@remix-run/node";
-import { getOutputAudio } from "../aws/getOutputAudio";
-import { prismaTest } from "../aws/prismaTest";
 import { useSubmit } from "@remix-run/react";
+import LinearProgress from '@mui/joy/LinearProgress';
+
 
 export default function WebCamRecord() {
   const [isRecording, setIsRecording] = useState(false);
@@ -25,12 +22,12 @@ export default function WebCamRecord() {
   const [error, setError] = useState(null);
   const [audioBlobFile, setAudioBlob] = useState(null);
   const [transcript, setTranscript] = useState("");
-  const [startRecordingState, setStartRecordingState] = useState(false); 
+  const [startRecordingState, setStartRecordingState] = useState(false);
   const [seconds, setSeconds] = useState(0);
-  const [videoBlob, setBlob] = useState(null); 
-  const val = useContext(audiosContext); 
+  const [videoBlob, setBlob] = useState(null);
+  const val = useContext(audiosContext);
   const [questionId, setQuestionId] = useState(null);
-  const [question, setQuestion] = useState(null); 
+  const [question, setQuestion] = useState(null);
   const submit = useSubmit();
 
   //Start recording 
@@ -51,9 +48,9 @@ export default function WebCamRecord() {
     };
     setQuestionId(val.question.id);
     setIsRecording(true);
-    setQuestion(val.question); 
-    console.log('Recording...'); 
-    val.setIsRecording(true); 
+    setQuestion(val.question);
+    console.log('Recording...');
+    val.setIsRecording(true);
   }
 
   function sleep(ms) {
@@ -61,59 +58,59 @@ export default function WebCamRecord() {
   }
 
   //Function to make Next available including stopRecording 
-    useEffect(
-    function() {
-      async function stopTimer(){
-        await sleep(1000); 
+  useEffect(
+    function () {
+      async function stopTimer() {
+        await sleep(1000);
 
-        if(isRecording && seconds >= 0 && seconds < val.question.min_time){
+        if (isRecording && seconds >= 0 && seconds < val.question.min_time) {
           setSeconds(seconds + 1);
           console.log("Stop 1");
         }
-        
-        else if(seconds >= val.question.min_time && val.isNextAvailable == false && val.isRecording){
-          console.log('Can Stop'); 
-          val.setIsNextAvailable(true); 
-          setSeconds(seconds + 1); 
+
+        else if (seconds >= val.question.min_time && val.isNextAvailable == false && val.isRecording) {
+          console.log('Can Stop');
+          val.setIsNextAvailable(true);
+          setSeconds(seconds + 1);
           console.log("Stop 2");
         }
 
-        else if(seconds >= val.question.min_time && val.isRecording && seconds < val.question.max_time){
-          setSeconds(seconds + 1); 
+        else if (seconds >= val.question.min_time && val.isRecording && seconds < val.question.max_time) {
+          setSeconds(seconds + 1);
           console.log("Stop 3");
         }
 
-        else if(seconds >= val.question.min_time && seconds < val.question.max_time && !val.isRecording){
-          stopRecording(); 
+        else if (seconds >= val.question.min_time && seconds < val.question.max_time && !val.isRecording) {
+          stopRecording();
           console.log("Stop 4");
         }
 
-        else if(seconds == val.question.max_time){
+        else if (seconds == val.question.max_time) {
           console.log("Max time reached");
-          stopRecording(); 
+          stopRecording();
         }
-      }  
-      
+      }
+
       stopTimer();
     }, [isRecording, seconds]
   )
 
   //Start recording after the audio is done and start the functionality to stop when the max time is reached
   useEffect(
-    function (){
-      async function stopTimer(){
-        await sleep(val.question.max_time*1000); 
-        if(isRecording && val.question.max_time <= seconds){
-          stopRecording(); 
-          val.setIsNextAvailable(true); 
+    function () {
+      async function stopTimer() {
+        await sleep(val.question.max_time * 1000);
+        if (isRecording && val.question.max_time <= seconds) {
+          stopRecording();
+          val.setIsNextAvailable(true);
         }
       }
 
-      if(val.isAudioDone == true && val.isRecording == false && val.isNextAvailable == false){
-        startRecording(); 
+      if (val.isAudioDone == true && val.isRecording == false && val.isNextAvailable == false) {
+        startRecording();
         //console.log('Question ', val.question);
-        stopTimer(); 
-        console.log('Recording'); 
+        stopTimer();
+        console.log('Recording');
       }
     }, [val]
   )
@@ -125,24 +122,24 @@ export default function WebCamRecord() {
 
     function () {
 
-      async function trial(){
-        s3Upload(blob, videoName, val.env_val, val.userId, question); 
+      async function trial() {
+        s3Upload(blob, videoName, val.env_val, val.userId, question);
         var formData = new FormData();
-        formData.append("questionJSON", question); 
-        formData.append("blob", blob); 
-        formData.append("videoName", videoName); 
-        formData.append("keys", val.env_val), 
-        formData.append("user", val.userId), 
-        formData.append("question", question.description);
-        formData.append("questionId", question.id);  
-        formData.append("transcript", 'Transcript in here'); 
-        formData.append("scores", {"score": 5, "grammar": 4}); 
-        formData.append("user", val.userId); 
-        formData.append("questionId", question.id); 
-        formData.append("questionCategory", question.categoria); 
-        formData.append("questionValue", question.value); 
-        formData.append("currentQuestion", val.currentQuestion); 
-        submit(formData, {method: "POST"}); 
+        formData.append("questionJSON", question);
+        formData.append("blob", blob);
+        formData.append("videoName", videoName);
+        formData.append("keys", val.env_val),
+          formData.append("user", val.userId),
+          formData.append("question", question.description);
+        formData.append("questionId", question.id);
+        formData.append("transcript", 'Transcript in here');
+        formData.append("scores", { "score": 5, "grammar": 4 });
+        formData.append("user", val.userId);
+        formData.append("questionId", question.id);
+        formData.append("questionCategory", question.categoria);
+        formData.append("questionValue", question.value);
+        formData.append("currentQuestion", val.currentQuestion);
+        submit(formData, { method: "POST" });
         /* if(smth == "COMPLETE"){
           const transcript = await s3GetTranscript(name, keys, question, user_id);
           console.log("El transcript de functionality: ", transcript); 
@@ -168,19 +165,19 @@ export default function WebCamRecord() {
       const audioBlob = new Blob(chunks.current, {
         type: "audio/mpeg"
       });
-      setDownloadLink(URL.createObjectURL(blob));  
+      setDownloadLink(URL.createObjectURL(blob));
       setAudioDownloadLink(URL.createObjectURL(audioBlob));
       setBlob(blob);
-      setAudioBlob(audioBlob); 
+      setAudioBlob(audioBlob);
 
-      const videoName = val.userId + '_' + questionId + '.mp4'; 
+      const videoName = val.userId + '_' + questionId + '.mp4';
 
-      console.log("Question in Functionality: ", question); 
-      
+      console.log("Question in Functionality: ", question);
+
       chunks.current = [];
       setIsDataAvailable(false);
-      setIsAudioAvailable(true); 
-      trial(); 
+      setIsAudioAvailable(true);
+      trial();
     },
     [isDataAvailable]
   );
@@ -191,10 +188,10 @@ export default function WebCamRecord() {
       return;
     }
     streamRecorderRef.current.stop();
-    setSeconds(0); 
+    setSeconds(0);
     setIsRecording(false);
-    val.setIsRecording(false); 
-    console.log('Stop Recording'); 
+    val.setIsRecording(false);
+    console.log('Stop Recording');
     setIsDataAvailable(false);
   }
 
@@ -271,8 +268,10 @@ export default function WebCamRecord() {
       <div>
         <video className="h-72" ref={videoRef} autoPlay muted playsInline></video>
       </div>
-      <a>{seconds}</a>
+      <div className="mt-4">
+        <LinearProgress determinate variant="solid" size='lg' color={seconds > val.question.min_time ? 'success' : 'primary'} value={((seconds) / val.question.max_time) * 100} />
+      </div>
       <div>{error && <p>{error.message}</p>}</div>
-    </div>
-  );
+    </div>
+  );
 }
