@@ -114,15 +114,15 @@ export default function Questions(){
                 </audiosContext.Provider>
 
                 <div className="flex justify-center">
-                    <div className="flex items-center justify-center bg-wizeblue-100 rounded-md h-10 w-20">
+                    <div className="flex items-center justify-center bg-wizeblue-100 rounded-md h-10 w-20 mr-40">
                         <div className="font-bold text-white text-center">{currentQuestion} / 7</div>
                     </div>
                     {(currentQuestion !== 7)?
-                        <button disabled={!isNextAvailable} onClick={() => nextQuestion()} className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700">
+                        <button disabled={!isNextAvailable} onClick={() => nextQuestion()} className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-wizeblue-100 hover:border-gray-300 border rounded-lg disabled:opacity-50">
                             Next {audiosContext.time}
                             <svg aria-hidden="true" className="w-5 h-5 ml-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>
                         </button> : 
-                        <button disabled={!isNextAvailable} onClick={() => endTest()} className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700">End Test</button>
+                        <button disabled={!isNextAvailable} onClick={() => endTest()} className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:border-gray-300 hover:text-gray-700">End Test</button>
                     }
                 </div> 
                                 
