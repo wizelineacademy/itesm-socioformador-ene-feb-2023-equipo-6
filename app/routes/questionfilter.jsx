@@ -1,8 +1,8 @@
-import { getCategoryQuestions } from "../data/admin.server";
+import { getAllQuestions, getCategoryQuestions } from "../data/admin.server";
 
 export const action = async ({request}) => {
     const data = await request.json()
-    console.log(data.option)
+    if (data.option == 'default'){ return await getAllQuestions(); }
     return await getCategoryQuestions(data.option);
 }
 
