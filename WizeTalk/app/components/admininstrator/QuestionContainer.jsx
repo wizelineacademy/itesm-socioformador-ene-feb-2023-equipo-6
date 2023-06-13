@@ -10,32 +10,12 @@ export default function QuestionContainer() {
     const [questions, setQuestions] = useState(q);
 
     async function getFilteredQuestions() {
+
         const category = document.getElementById("underline_select").value;
         const filter = await questionFilter(category);
         setQuestions(filter);
     }
 
-    // const getQuestions = async () => {
-    //     const data = {
-    //         option: 'english',
-    //     }
-    //     console.log(data);
-    //     await fetch("/questionfilter", {
-    //         method: "POST",
-    //         body: JSON.stringify(data),
-    //         headers: {
-    //             "Content-Type": "application/json",
-    //         },
-    //     });
-    // }
-    // const questions = getQuestions();
-    // console.log(questions);
-    var categoryQuestions;
-    // questions.forEach(element => {
-    //     if (element.categoria == document.getElementById("underline_select").value){
-    //         categoryQuestions.push(element);
-    //     }
-    // });
     const hq = questions && questions.length > 0
     hasQuestions = hq;
     // setHasQuestions(hq);
@@ -45,7 +25,7 @@ export default function QuestionContainer() {
                 <div>
                     <label htmlFor="underline_select" className="sr-only">Underline select</label>
                     <select onChange={getFilteredQuestions} id="underline_select" className="block py-2.5 px-0 w-full text-sm text-black-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none focus:outline-none focus:ring-0 focus:border-gray-200 peer">
-                        <option defaultValue>Choose a category</option>
+                        <option defaultValue value="default">Choose a category</option>
                         <option value="english">English</option>
                         <option value="frontend">Front-End</option>
                         <option value="backend">Back-End</option>
