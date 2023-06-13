@@ -1,4 +1,5 @@
 import { prisma } from "./database.server";
+import { redirect } from '@remix-run/node'
 
 //Function that returns questions in QuestionPool table
 //given a category.
@@ -21,7 +22,7 @@ export async function getAllQuestions() {
 
 export async function addQuestion(questionData) {
     try {
-        return await prisma.questionPool.create({
+        await prisma.questionPool.create({
             data: {
                 instruction: questionData.instruction,
                 categoria: questionData.category,
@@ -31,6 +32,7 @@ export async function addQuestion(questionData) {
                 value: +questionData.value,
             }
         });
+        return redirect('/admin/questions');
     } catch (error) {
         console.log(error);
         throw new Error('Failed to add question.');

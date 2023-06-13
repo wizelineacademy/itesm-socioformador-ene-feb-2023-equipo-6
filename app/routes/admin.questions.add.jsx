@@ -23,5 +23,6 @@ export async function action({ request }) {
     }
 
     await addQuestion(questionData);
+    
     return redirect('/admin/questions');
 }
