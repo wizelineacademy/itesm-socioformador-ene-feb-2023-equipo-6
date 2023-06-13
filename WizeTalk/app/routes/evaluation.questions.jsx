@@ -12,6 +12,7 @@ import { redirect } from "@remix-run/node";
 import { s3Upload } from "../components/aws/s3";
 import { s3GetTranscript } from "../components/aws/getTranscript";
 import { getEnglishScore, getSoftSkills, getTechSkills } from "../data/openai";
+import GeneratingResults from "../components/GeneratingResults";
 
 
 
@@ -133,7 +134,7 @@ export default function Questions(){
                 </div> 
                                 
 
-            </section>) : (<h1>Loading Answer...</h1>)}
+            </section>) : (<GeneratingResults />)}
         </>
     )
 }
