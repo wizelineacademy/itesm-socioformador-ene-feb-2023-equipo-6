@@ -174,11 +174,7 @@ export async function getDashboardData() {
                 date_finished: true,
             }
         });
-        /* avgEnglish = await prisma.questionPool.findMany({
-            include: {questions: true},
-        })
 
-        console.log(evAI_sum); */
         const users = await prisma.user.findMany();
         let userScoresArray = [];
         for (let i = 0; i < users.length; i++){
@@ -218,7 +214,41 @@ export async function getDashboardData() {
             }
         }
 
-        return [evAI_sum, evManual_sum, recentEvaluations, userScores, scoreRanges];
+        const questionDataScores = await prisma.questions.findMany({ 
+            include: {
+                QuestionPool: {},
+            }
+        });
+        let englishCount = 0, frontendCount = 0, backendCount = 0, fullstackCount = 0;
+        let scoreTotal = new Array(4).fill(0);
+        let scoreAvgs = new Array(4).fill(0);
+        for (let  i = 0; i < questionDataScores.length; i++){
+            if (questionDataScores[i].score != 0){
+                if (questionDataScores[i].QuestionPool.categoria == 'english'){
+                    scoreTotal[0] += questionDataScores[i].score;
+                    englishCount++;
+                }
+                else if (questionDataScores[i].QuestionPool.categoria == 'frontend'){
+                    scoreTotal[1] += questionDataScores[i].score;
+                    frontendCount++;
+                }
+                else if (questionDataScores[i].QuestionPool.categoria == 'backend'){
+                    scoreTotal[2] += questionDataScores[i].score;
+                    backendCount++;
+                }
+                else if (questionDataScores[i].QuestionPool.categoria == 'fullstack'){
+                    scoreTotal[3] += questionDataScores[i].score;
+                    fullstackCount++;
+                }
+            }
+        }
+        scoreAvgs[0] = Math.round(scoreTotal[0]/englishCount * 10);
+        scoreAvgs[1] = Math.round(scoreTotal[1]/frontendCount * 10);
+        scoreAvgs[2] = Math.round(scoreTotal[2]/backendCount * 10);
+        scoreAvgs[3] = Math.round(scoreTotal[3]/fullstackCount * 10);
+        console.log(scoreAvgs);
+
+        return [evAI_sum, evManual_sum, recentEvaluations, userScores, scoreRanges, scoreAvgs];
     } catch (error) {
         console.log(error);
         return null;
