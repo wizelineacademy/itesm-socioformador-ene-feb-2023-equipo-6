@@ -107,6 +107,16 @@ function getRand(nums, maxValue) {
     return numbers
 }
 
+export async function getEnglishQuestionScore(questionId){
+    const question = await prisma.questionPool.findUnique({
+        where: {
+            id: parseInt(questionId)
+        }
+    }); 
+
+    return question.value; 
+}
+
 export async function getUserQuestions(userId) {
 
     let questionIDs = [];
