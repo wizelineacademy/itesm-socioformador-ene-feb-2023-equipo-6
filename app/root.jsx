@@ -1,5 +1,6 @@
 import {
   Links,
+  Link,
   LiveReload,
   Meta,
   Outlet,
@@ -7,11 +8,12 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 
-import stylesheet from "./tailwind.css";
-// import stylesheet from "./app/tailwind.css";
+import WizelineHeader from "./components/WizelineHeader";;
+import stylesheet from "~/tailwind.css";
+import ErrorMessage from "./components/Error";
 
 export function links() {
-  return [{ rel: "stylesheet", href: stylesheet}];
+  return [{ rel: "stylesheet", href: stylesheet }];
 }
 
 export const meta = () => ({
@@ -26,6 +28,7 @@ export default function App() {
       <head>
         <Meta />
         <Links />
+        <script src="https://sdk.amazonaws.com/js/aws-sdk-2.283.1.min.js"></script>
       </head>
       <body>
         <Outlet />
@@ -37,3 +40,25 @@ export default function App() {
   );
 }
 
+export function ErrorBoundary({ error }) {
+  return (
+    <html>
+      <head>
+        <title>Error</title>
+        <Meta />
+        <Links />
+      </head>
+      <body>
+        <WizelineHeader />
+        <ErrorMessage title='An error ocurred.'>
+          {<p>
+            {error ||
+              'Something went wrong. Please try again later.'}
+          </p>}
+          <p>Back to <Link to="/" className="font-bold underline">safety</Link>.</p>
+        </ErrorMessage>
+        <Scripts />
+      </body>
+    </html>
+  );
+}

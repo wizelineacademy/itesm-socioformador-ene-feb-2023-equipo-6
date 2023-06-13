@@ -1,5 +1,9 @@
-import { Link } from "@remix-run/react"
-import { requireUserSession } from "../data/auth.server";
+import { Form, Link } from "@remix-run/react"
+import { getUserFromSession, requireUserSession } from "../data/auth.server";
+import { prisma } from "../data/database.server";
+import { redirect } from "@remix-run/node";
+import { saveEvaluationQuestions } from "../data/evaluation.server";
+import { saveLocalQuestions, unansweredQuestions } from "../data/questions.server";
 
 export default function () {
     return (
@@ -28,11 +32,11 @@ export default function () {
                                 Test Video
                             </span>
                         </Link>
-                        <Link to="/evaluation/question">
-                            <span className="block w-32 bg-wizeblue-100 text-white font-bold border-solid border-4 border-wizeblue-100 rounded-md text-center">
+                        <Form method="post" id="start-test">
+                            <button type="submit" className="block w-32 bg-wizeblue-100 text-white font-bold border-solid border-4 border-wizeblue-100 rounded-md text-center">
                                 Start Test
-                            </span>
-                        </Link>
+                            </button>
+                        </Form>
                     </div>
                 </div>
             </container>
@@ -44,4 +48,120 @@ export default function () {
 export async function loader({ request }) {
     await requireUserSession(request);
     return null;
+}
+
+export async function action({request}){
+    const userSession = await requireUserSession(request); 
+    
+    const userTest = await prisma.user.findUnique({
+        where: {
+            id: userSession,
+        }
+    }); 
+
+    //Extraer preguntas por primera vez
+    if(userTest.status == 0){
+        
+        var techQuestions = [];
+        const englishQuestions = await prisma.questionPool.findMany({
+            where: {
+                categoria: "english"
+            }
+        }); 
+
+        /* if(userTest.evaluation_type == 1){
+            techQuestions = await prisma.questionPool.findMany({
+                where: {
+                    categoria: "frontend"
+                }
+            }); 
+        } */
+
+        if(userTest.evaluation_type == 1){
+            frontend = ["HTML/CSS", "JavaScript", "Frontend Frameworks", "Web Accessibility", "User Interface (UI) Design"]; 
+
+            for(subCategory in frontend){
+                const questionsSubcategory = await prisma.questionPool.findMany({
+                    where: {
+                        subcategoria: frontend[subCategory]
+                    }
+                }); 
+                techQuestions.push(...shuffleQ(questionsSubcategory, 1)); 
+            }
+
+            console.log("Updated techQuestions: ", techQuestions); 
+            
+        }
+
+        else if(userTest.evaluation_type == 2){
+            backend = ["Testing and Debugging", "System Architecture and Scalability", "API Development", "Programming Languages and Frameworks", "Database Management"]; 
+
+            for(subCategory in backend){
+                const questionsSubcategory = await prisma.questionPool.findMany({
+                    where: {
+                        subcategoria: backend[subCategory]
+                    }
+                }); 
+                techQuestions.push(...shuffleQ(questionsSubcategory, 1)); 
+            }
+
+            console.log("Updated techQuestions: ", techQuestions); 
+            
+        }
+
+        else if(userTest.evaluation_type == 3){
+            fullstack = ["Frontend Development", "Backend Development", "Database Management", "API Development", "System Architecture and Deployment"]; 
+
+            for(subCategory in fullstack){
+                const questionsSubcategory = await prisma.questionPool.findMany({
+                    where: {
+                        subcategoria: fullstack[subCategory]
+                    }
+                }); 
+                techQuestions.push(...shuffleQ(questionsSubcategory, 1)); 
+            }
+
+            console.log("Updated techQuestions: ", techQuestions); 
+            
+        }
+
+        else{
+            techQuestions = await prisma.questionPool.findMany({
+                where: {
+                    categoria: "fullstack"
+                }
+            }); 
+        }
+
+        questions = [...shuffleQ(englishQuestions, 2), ...shuffleQ(techQuestions,5)]; 
+        console.log("Questions shuffled: ", questions); 
+        await saveLocalQuestions(questions); 
+        const link = await saveEvaluationQuestions(questions, userSession); 
+        return redirect(link); 
+    }
+
+    else if(userTest.status == 1){
+        await unansweredQuestions(userSession);
+        return redirect('/evaluation/questions');
+    }
+
+    else{
+        redirect('evaluation/results'); 
+    }   
+
+    return redirect('/evaluation/questions'); 
+}
+
+function shuffleQ(array, n){
+    const shuffledArray = array.slice();
+
+  // Perform Fisher-Yates shuffle
+  for (let i = shuffledArray.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
+  }
+
+  const result = shuffledArray.slice(0, n);
+
+  return result;
 }

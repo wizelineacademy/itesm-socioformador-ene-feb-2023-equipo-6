@@ -1,14 +1,10 @@
-import { Link, useLoaderData } from "@remix-run/react"
+import { Form, Link, useLoaderData } from "@remix-run/react"
 import { requireUserSession } from "../data/auth.server";
-import { getUserInfo } from "../data/evaluation.server";
+import { getUserInfo, testStatus} from "../data/evaluation.server";
 
 export default function VerifyIdPage() {
 
     const user = useLoaderData();
-
-    function setTestStatus() {
-        return null;
-    }
 
     return (
         < >
@@ -35,17 +31,18 @@ export default function VerifyIdPage() {
                             </div>
                         </div>
                         <div className="mt-4 flex justify-around">
-                            <Link>
-                                <span className="block w-32 bg-red-500 font-bold border-solid border-2 border-black text-center rounded-md text-white">
-                                    Notify Error
-                                </span>
-                            </Link>
+                            <Form method='post' action="/logout" className="block w-32 bg-red-500 font-bold border-solid border-2 border-black text-center rounded-md text-white">
+                                <button classname="text-center">Notify Error</button>
+                            </Form>
                             <div className="w-20"></div>
+                            {/* <Link to="/evaluation/instructions"> */}
                             <Link to="/evaluation/instructions">
-                                <button onClick={setTestStatus} className="block w-32 bg-green-500 font-bold border-solid border-2 border-black text-center rounded-md text-white">
+                                <button onClick={() => validate()} className="block w-32 bg-green-500 font-bold border-solid border-2 border-black text-center rounded-md text-white">
                                     Validate
                                 </button>
                             </Link>
+
+                            {/* </Link> */}
                         </div>
                     </div>
                 </section>
@@ -56,10 +53,16 @@ export default function VerifyIdPage() {
 
 export async function loader({ request }) {
     const userId = await requireUserSession(request);    
-    
-    console.log(userId);
-
     const userInfo = await getUserInfo(userId);
     
     return userInfo;
 }
+export async function action({ request }) {
+    return await testStatus(request);
+
+    //     const updateStatus = await prisma.user.update({
+    //         where: {id: userId}
+    //     });
+    //     return null;
+}
+

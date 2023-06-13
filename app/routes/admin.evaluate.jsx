@@ -1,11 +1,19 @@
-import workInProgress from "../../public/work-in-progress.png";
+import { Outlet } from "@remix-run/react";
+import UserList from "../components/admininstrator/UserList";
+import { getEvaluationUsers } from "../data/admin.server";
 
-export default function AdminDashboard() {
+export default function EvaluationAdminPage() {
   return (
-    <div className="flex items-center justify-center m-auto mt-32">
-      <figure className="max-w-xs">
-        <img className="h-auto max-w-full" src={workInProgress} />
-      </figure>
-    </div>
+    <>
+      <Outlet />
+      <div className="flex flex-col mx-auto min-h-full w-full">
+        <UserList />
+      </div>
+    </>
   );
+}
+
+export async function loader() {
+  const users = await getEvaluationUsers();
+  return users;
 }
