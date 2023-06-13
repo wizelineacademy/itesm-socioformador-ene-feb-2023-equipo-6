@@ -76,7 +76,7 @@ export async function action({ request }) {
         }); 
     
         //Extraer preguntas por primera vez
-        if(userTest.status == (0 || 1)){
+        if(userTest.status == 0 || userTest.status == 1){
             return redirect("/evaluation/instructions"); 
         }
 

@@ -29,13 +29,6 @@ export async function getEnglishScore(transcript, question, keys, user_id){
       }),
     });
 
-    /*const score = await openai.createCompletion(
-        JSON.stringify({
-          model: "text-davinci-003",
-          prompt: prompt,
-          max_tokens: 250
-        })
-      );*/
     console.log("Resultado en openai/aws: ", score); 
     const englishScoresPre = score.data.choices[0].text; 
     const eng = englishScoresPre.replace(/[\n\s]/g, ''); 
@@ -52,9 +45,7 @@ export async function getSoftSkills(transcript, question, keys, user_id){
     });
     const openai = new OpenAIApi(configuration);
 
-/*     console.log("Question in OPENAI: ", question);  */
-
-    const prompt = "Assume the role of a recruiter for a tech company. You have to give a score from 0 to 100 the vocabulary, grammar and coherence of the following answer that must be in english: '" + transcript + "' to the following question '" + question + '" . Also identify 5 softskills detected in the answer, do not bias by the words the person used to detect the softskills. Just provide me as answer a json as the following: {"vocabulary": 100, "grammar":100, "coherence":100, "softskills": "leadership, commitment, communication, problem-solving, caring"}, do not justify.'; 
+    const prompt = "Assume the role of a recruiter for a tech company. You have to give a score from 0 to 100 the vocabulary, grammar and coherence of the following answer that must be in english: '" + transcript + "' to the following question '" + question + '" . Also identify 5 softskills detected in the answer, do not bias by the words the person used to detect the softskills, separate them with a coma and the softskills composed by two or more words use space like the following "good communication". Just provide me as answer a json as the following: {"vocabulary": 100, "grammar":100, "coherence":100, "softskills": "leadership, commitment, communication, problem-solving, caring"}, do not justify.'; 
     console.log(prompt); 
 
     const score = await openai.createChatCompletion(
@@ -63,15 +54,7 @@ export async function getSoftSkills(transcript, question, keys, user_id){
         messages: [{role: "user", content: prompt}],
       })
     );
-    
-    
-/*     const score = await openai.createCompletion(
-        JSON.stringify({
-          model: "gpt-3.5-turbo",
-          prompt: prompt,
-          max_tokens: 250
-        })
-      ); */
+
     console.log("Resultado en openai/aws: ", score.data.choices[0].message); 
     const englishScoresPre = score.data.choices[0].message.content; 
     const eng = englishScoresPre.replace(/[\n\s]/g, ''); 
@@ -115,7 +98,7 @@ export async function getFinalSoftSkills(keys, softskills){
 
 /*     console.log("Question in OPENAI: ", question);  */
 
-  const prompt = "Assume the role of a recruiter for a tech company. From the following softskills " + softskills + " select the 5 that are more repeated and consider the most important, your final answer must be the softskills separated by a comma, just provide the list of softskills in the final answer"; 
+  const prompt = "Assume the role of a recruiter for a tech company. From the following softskills " + softskills + " select the 5 that are more repeated and consider the most important, your final answer must be the softskills separated by a comma the softskills composed by two or more words use space like the following 'good communication', just provide the list of softskills in the final answer"; 
   console.log(prompt); 
   const score = await openai.createChatCompletion(
     JSON.stringify({
