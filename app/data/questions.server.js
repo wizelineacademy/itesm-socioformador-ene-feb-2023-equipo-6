@@ -72,9 +72,6 @@ export async function unansweredQuestions(userSession) {
     return questionsIncomplete;
 }
 
-
-
-
 export async function getQuestionsDB(userId) {
     const user = await prisma.user.findFirst({ where: { id: userId } })
     const evaluationType = await prisma.evaluation.findFirst({ where: { id: user.evaluation_type } })

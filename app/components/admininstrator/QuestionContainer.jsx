@@ -33,10 +33,10 @@ export default function QuestionContainer() {
                     </select>
                 </div>
                 <div>
-                    <button className="bg-gray-200 rounded-sm w-20 text-center">Add
-                        <Link to="add">
-                        </Link>
-                    </button>
+                    <Link to="add">
+                        <button className="bg-gray-200 rounded-sm w-20 text-center">Add
+                        </button>
+                    </Link>
                 </div>
                 <div className=''>
                     <div className="w-full relative flex-none h-[20.5em] overflow-y-auto shadow-md sm:rounded-sm">
