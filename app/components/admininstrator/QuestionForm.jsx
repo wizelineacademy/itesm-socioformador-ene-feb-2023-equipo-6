@@ -74,7 +74,7 @@ export default function QuestionForm() {
                                 <div className='flex flex-col gap-y-5'>
                                     <div>
                                         <label htmlFor="minTime" className="block mb-2 text-sm font-medium text-gray-90">Min Time: </label>
-                                        <input required id="minTime" type='number' name="minTime" defaultValue={defaultValues.minTime} min="30" step="5" max="180" className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300" />
+                                        <input required id="minTime" type='number' name="minTime" defaultValue={defaultValues.minTime} min="5" step="5" max="180" className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300" />
                                     </div>
                                     <div>
                                         <label htmlFor="maxTime" className="block mb-2 text-sm font-medium text-gray-90">Max Time: </label>
