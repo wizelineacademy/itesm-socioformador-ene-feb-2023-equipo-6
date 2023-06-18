@@ -8,7 +8,7 @@ export async function getCategoryQuestions(category) {
     const category_questions = await prisma.questionPool.findMany(
         { where: { categoria: category } }
     );
-    return category_questions;get
+    return category_questions; get
 }
 // Function to get all the registered questions
 
@@ -128,7 +128,15 @@ export async function getUserEvaluation(userId) {
         throw new Error('Failed to get user evaluation data.');
     }
 
-    const fullData = [data, questionData, data.softskills.split(',').slice(0, 2)];
+    let softskills;
+    
+    try {
+        softskills = data.softskills.split(',').slice(0, 2);
+    } catch (error) {
+        softskills = null;
+    }
+
+    const fullData = [data, questionData, softskills];
 
     //In index 0 the user data is returned and in index 1 the questions data is returned.
     //Both have the same index in the array.
@@ -179,44 +187,44 @@ export async function getDashboardData() {
 
         const users = await prisma.user.findMany();
         let userScoresArray = [];
-        for (let i = 0; i < users.length; i++){
+        for (let i = 0; i < users.length; i++) {
             userScoresArray.push(users[i].overall)
         }
         const scoreRanges = new Array(10).fill(0);
-        for (let i = 0; i < userScoresArray.length; i++){
-            if (userScoresArray[i] > 1 && userScoresArray <= 10){
+        for (let i = 0; i < userScoresArray.length; i++) {
+            if (userScoresArray[i] > 1 && userScoresArray <= 10) {
                 scoreRanges[0]++;
             }
-            else if(userScoresArray[i] >= 11 && userScoresArray[i] <= 20){
+            else if (userScoresArray[i] >= 11 && userScoresArray[i] <= 20) {
                 scoreRanges[1]++;
             }
-            else if(userScoresArray[i] >= 21 && userScoresArray[i] <= 30){
+            else if (userScoresArray[i] >= 21 && userScoresArray[i] <= 30) {
                 scoreRanges[2]++;
             }
-            else if(userScoresArray[i] >= 31 && userScoresArray[i] <= 40){
+            else if (userScoresArray[i] >= 31 && userScoresArray[i] <= 40) {
                 scoreRanges[3]++;
             }
-            else if(userScoresArray[i] >= 41 && userScoresArray[i] <= 50){
+            else if (userScoresArray[i] >= 41 && userScoresArray[i] <= 50) {
                 scoreRanges[4]++;
             }
-            else if(userScoresArray[i] >= 51 && userScoresArray[i] <= 60){
+            else if (userScoresArray[i] >= 51 && userScoresArray[i] <= 60) {
                 scoreRanges[5]++;
             }
-            else if(userScoresArray[i] >= 61 && userScoresArray[i] <= 70){
+            else if (userScoresArray[i] >= 61 && userScoresArray[i] <= 70) {
                 scoreRanges[6]++;
             }
-            else if(userScoresArray[i] >= 71 && userScoresArray[i] <= 80){
+            else if (userScoresArray[i] >= 71 && userScoresArray[i] <= 80) {
                 scoreRanges[7]++;
             }
-            else if(userScoresArray[i] >= 81 && userScoresArray[i] <= 90){
+            else if (userScoresArray[i] >= 81 && userScoresArray[i] <= 90) {
                 scoreRanges[8]++;
             }
-            else if(userScoresArray[i] >= 91 && userScoresArray[i] <= 100){
+            else if (userScoresArray[i] >= 91 && userScoresArray[i] <= 100) {
                 scoreRanges[9]++;
             }
         }
 
-        const questionDataScores = await prisma.questions.findMany({ 
+        const questionDataScores = await prisma.questions.findMany({
             include: {
                 QuestionPool: {},
             }
@@ -224,30 +232,30 @@ export async function getDashboardData() {
         let englishCount = 0, frontendCount = 0, backendCount = 0, fullstackCount = 0;
         let scoreTotal = new Array(4).fill(0);
         let scoreAvgs = new Array(4).fill(0);
-        for (let  i = 0; i < questionDataScores.length; i++){
-            if (questionDataScores[i].score != 0){
-                if (questionDataScores[i].QuestionPool.categoria == 'english'){
+        for (let i = 0; i < questionDataScores.length; i++) {
+            if (questionDataScores[i].score != 0) {
+                if (questionDataScores[i].QuestionPool.categoria == 'english') {
                     scoreTotal[0] += questionDataScores[i].score;
                     englishCount++;
                 }
-                else if (questionDataScores[i].QuestionPool.categoria == 'frontend'){
+                else if (questionDataScores[i].QuestionPool.categoria == 'frontend') {
                     scoreTotal[1] += questionDataScores[i].score;
                     frontendCount++;
                 }
-                else if (questionDataScores[i].QuestionPool.categoria == 'backend'){
+                else if (questionDataScores[i].QuestionPool.categoria == 'backend') {
                     scoreTotal[2] += questionDataScores[i].score;
                     backendCount++;
                 }
-                else if (questionDataScores[i].QuestionPool.categoria == 'fullstack'){
+                else if (questionDataScores[i].QuestionPool.categoria == 'fullstack') {
                     scoreTotal[3] += questionDataScores[i].score;
                     fullstackCount++;
                 }
             }
         }
-        scoreAvgs[0] = Math.round(scoreTotal[0]/englishCount * 10);
-        scoreAvgs[1] = Math.round(scoreTotal[1]/frontendCount * 10);
-        scoreAvgs[2] = Math.round(scoreTotal[2]/backendCount * 10);
-        scoreAvgs[3] = Math.round(scoreTotal[3]/fullstackCount * 10);
+        scoreAvgs[0] = Math.round(scoreTotal[0] / englishCount * 10);
+        scoreAvgs[1] = Math.round(scoreTotal[1] / frontendCount * 10);
+        scoreAvgs[2] = Math.round(scoreTotal[2] / backendCount * 10);
+        scoreAvgs[3] = Math.round(scoreTotal[3] / fullstackCount * 10);
         console.log(scoreAvgs);
 
         return [evAI_sum, evManual_sum, recentEvaluations, userScores, scoreRanges, scoreAvgs];
@@ -258,7 +266,7 @@ export async function getDashboardData() {
 }
 
 export async function setScore(scoreData) {
-    
+
     console.log(scoreData);
 
     try {
@@ -276,14 +284,14 @@ export async function setScore(scoreData) {
     }
 }
 
-export async function setEvaluationState(userId){
+export async function setEvaluationState(userId) {
     console.log(userId);
-    try { 
+    try {
         return await prisma.user.update({
-            where: {id: +userId.id},
+            where: { id: +userId.id },
             data: {
                 status: {
-                    set: 3, 
+                    set: 3,
                 }
             }
 
@@ -295,43 +303,43 @@ export async function setEvaluationState(userId){
 
 }
 
-export async function getGraphData(){
+export async function getGraphData() {
     try {
         const users = await prisma.user.findMany();
         let userScores = [];
-        for (let i = 0; i < users.length; i++){
+        for (let i = 0; i < users.length; i++) {
             userScores.push(users[i].overall)
         }
         const scoreRanges = new Array(10).fill(0);
-        for (let i = 0; i < userScores.length; i++){
-            if (userScores[i] > 0 && userScores <= 9){
+        for (let i = 0; i < userScores.length; i++) {
+            if (userScores[i] > 0 && userScores <= 9) {
                 scoreRanges[0]++;
             }
-            else if(userScores[i] >= 10 && userScores <= 19){
+            else if (userScores[i] >= 10 && userScores <= 19) {
                 scoreRanges[1]++;
             }
-            else if(userScores[i] >= 20 && userScores <= 29){
+            else if (userScores[i] >= 20 && userScores <= 29) {
                 scoreRanges[2]++;
             }
-            else if(userScores[i] >= 30 && userScores <= 39){
+            else if (userScores[i] >= 30 && userScores <= 39) {
                 scoreRanges[3]++;
             }
-            else if(userScores[i] >= 40 && userScores <= 49){
+            else if (userScores[i] >= 40 && userScores <= 49) {
                 scoreRanges[4]++;
             }
-            else if(userScores[i] >= 50 && userScores <= 59){
+            else if (userScores[i] >= 50 && userScores <= 59) {
                 scoreRanges[5]++;
             }
-            else if(userScores[i] >= 60 && userScores <= 69){
+            else if (userScores[i] >= 60 && userScores <= 69) {
                 scoreRanges[6]++;
             }
-            else if(userScores[i] >= 70 && userScores <= 79){
+            else if (userScores[i] >= 70 && userScores <= 79) {
                 scoreRanges[7]++;
             }
-            else if(userScores[i] >= 80 && userScores <= 89){
+            else if (userScores[i] >= 80 && userScores <= 89) {
                 scoreRanges[8]++;
             }
-            else if(userScores[i] >= 90 && userScores <= 100){
+            else if (userScores[i] >= 90 && userScores <= 100) {
                 scoreRanges[9]++;
             }
         }

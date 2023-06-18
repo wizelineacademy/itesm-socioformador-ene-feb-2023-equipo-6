@@ -9,10 +9,10 @@ export default function QuestionItem({ index, description, value, minTime, maxTi
     const fetcher = useFetcher();
 
     function deleteQuestionItemHandler() {
-        const proceed = confirm("Are you sure you want to delete this question?");
+        /* const proceed = confirm("Are you sure you want to delete this question?");
         if (!proceed) {
             return;
-        }
+        } */
         fetcher.submit(null, {
             method: "DELETE",
             action: `/admin/questions/${id}`
@@ -37,7 +37,7 @@ export default function QuestionItem({ index, description, value, minTime, maxTi
                 {maxTime}
             </td>
             <td className="px-6 py-2">
-                <button onClick={deleteQuestionItemHandler}><FiTrash2 /></button>
+                <button id="deletear" onClick={deleteQuestionItemHandler}><FiTrash2 /></button>
             </td>
             <td className="px-6 py-2">
                 <Link to={`/admin/questions/${id}`}>
