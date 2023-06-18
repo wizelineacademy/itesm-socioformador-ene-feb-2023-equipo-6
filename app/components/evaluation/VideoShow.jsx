@@ -2,10 +2,6 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { Configuration, OpenAIApi } from 'openai';
 import { audioContext } from "../../routes/evaluation.question";
 import { s3Upload } from "../aws/s3";
-import { getUserFromSession } from "../../data/auth.server";
-import { Request } from "@remix-run/node";
-import { getOutputAudio } from "../aws/getOutputAudio";
-import { prismaTest } from "../aws/prismaTest";
 
 export default function WebCamRecorder() {
   const [isRecording, setIsRecording] = useState(false);
@@ -23,8 +19,6 @@ export default function WebCamRecorder() {
   const [videoSourceOptions, setVideoSourceOptions] = useState([]);
   const [error, setError] = useState(null);
   const [audioBlobFile, setAudioBlob] = useState(null);
-  const [transcript, setTranscript] = useState("");
-  const [startRecordingState, setStartRecordingState] = useState(false); 
   const [seconds, setSeconds] = useState(0);
   const [videoBlob, setBlob] = useState(null); 
   const val = useContext(audioContext); 

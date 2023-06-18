@@ -1,8 +1,4 @@
 import { Configuration, OpenAIApi } from 'openai';
-import { json } from '@remix-run/node';
-import { prisma } from './database.server';
-import { useActionData } from '@remix-run/react';
-import { saveLocalEnglishScores } from './questions.server';
 
 
 export async function getEnglishScore(transcript, question, keys, user_id){

@@ -1,4 +1,4 @@
-import { destroyUserSession, getUserFromSession, requireUserSession } from "../data/auth.server";
+import { getUserFromSession } from "../data/auth.server";
 import { useNavigate, Form, useLoaderData } from "@remix-run/react";
 import CircularProgress from '@mui/joy/CircularProgress';
 import { getUserInfo } from "../data/evaluation.server";

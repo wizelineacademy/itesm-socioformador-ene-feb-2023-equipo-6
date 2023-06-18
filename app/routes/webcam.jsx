@@ -17,7 +17,6 @@ export default function WebCamRecorder() {
   const [videoSourceOptions, setVideoSourceOptions] = useState([]);
   const [error, setError] = useState(null);
   const [audioBlobFile, setAudioBlob] = useState(null);
-  const [transcript, setTranscript] = useState("");
 
   function startRecording() {
     if (isRecording) {

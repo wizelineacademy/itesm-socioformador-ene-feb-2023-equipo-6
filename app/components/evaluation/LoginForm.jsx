@@ -1,4 +1,4 @@
-import { Form, Link, useNavigation } from "@remix-run/react";
+import { Form, useNavigation } from "@remix-run/react";
 
 export default function LoginForm() {
   const navigation = useNavigation();

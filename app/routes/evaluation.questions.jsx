@@ -1,17 +1,14 @@
-import { useLoaderData, useNavigation, useSubmit } from "@remix-run/react";
+import { useLoaderData, useNavigate, useSubmit } from "@remix-run/react";
 import { answeredQuestion, getStoredQuestions, unansweredQuestions } from "../data/questions.server"
 import { requireUserSession } from "../data/auth.server";
 import { BsPlay, BsFillPlayFill } from "react-icons/bs";
-import { Form, useNavigate } from "@remix-run/react";
 import VideoFunctionality from '../components/evaluation/VideoFunctionality';
 import { createContext, useEffect, useState } from "react";
 import useSound from "use-sound";
-import { finishTest, getUserInfo, saveEnglishScores, saveSoftSkills, saveTechAnswers } from "../data/evaluation.server";
-import { prisma } from "../data/database.server";
+import { finishTest, saveSoftSkills, saveTechAnswers } from "../data/evaluation.server";
 import { redirect } from "@remix-run/node";
-import { s3Upload } from "../components/aws/s3";
 import { s3GetTranscript } from "../components/aws/getTranscript";
-import { getEnglishScore, getSoftSkills, getTechSkills } from "../data/openai";
+import { getSoftSkills, getTechSkills } from "../data/openai";
 import GeneratingResults from "../components/GeneratingResults";
 
 

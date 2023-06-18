@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import LineChart from "../components/admininstrator/LineChart";
-import { getAvgScores, getDashboardData } from "../data/admin.server";
-import { useLoaderData, Link, useNavigate } from "react-router-dom";
+import { getDashboardData } from "../data/admin.server";
+import { useLoaderData, Link } from "react-router-dom";
 import { RiArrowRightSFill } from "react-icons/ri";
 import CircularProgress from '@mui/joy/CircularProgress';
 
