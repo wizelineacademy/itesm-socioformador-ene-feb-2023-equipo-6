@@ -1,6 +1,4 @@
-import { useAsyncValue, useLoaderData } from "@remix-run/react";
-import { useEffect, useRef, useState } from "react";
-import { getTranscript } from "../data/api";
+import { useEffect, useState } from "react";
 import { OpenAIApi, Configuration } from "openai";
 
 

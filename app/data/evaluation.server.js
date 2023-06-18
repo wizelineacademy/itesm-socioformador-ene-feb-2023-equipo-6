@@ -1,6 +1,6 @@
 import { redirect } from '@remix-run/node';
 import { prisma } from './database.server';
-import { getEnglishQuestionScore, saveLocalQuestions } from './questions.server';
+import { getEnglishQuestionScore } from './questions.server';
 import { getFinalSoftSkills } from './openai';
 
 export async function getUserInfo(userId) {

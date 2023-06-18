@@ -1,6 +1,5 @@
 import fs from 'fs/promises'
 import { prisma } from './database.server';
-import { requireUserSession } from "../data/auth.server";
 
 
 export async function getQuestionsDBJSON() {

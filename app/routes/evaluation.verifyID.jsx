@@ -1,6 +1,6 @@
-import { Form, Link, useLoaderData } from "@remix-run/react"
+import { Form, useLoaderData } from "@remix-run/react"
 import { requireUserSession } from "../data/auth.server";
-import { getUserInfo, testStatus} from "../data/evaluation.server";
+import { getUserInfo } from "../data/evaluation.server";
 import { redirect } from "@remix-run/node";
 import { prisma } from "../data/database.server";
 

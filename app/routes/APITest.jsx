@@ -1,6 +1,3 @@
-import { json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react"
-
 const firstSystemPrompt = "You are interviewing someone for a job.";
 const secondSystemPrompt = "You have asked the following question: How do you prioritize your tasks and manage your time effectively? Can you give an example of a project where you had to manage multiple tasks and deadlines?.";
 const userPrompt = "Which soft skills (write only 3 of them and separate them with a comma) can you detect from the following response to the question: My role was to develop the front-end of the project, and I had to work closely with the back-end developers and project manager. I made sure to communicate regularly with the team to ensure that we were all aligned with the project goals and timelines. During the development process, I encountered some roadblocks and had to find a workaround, so I proposed a solution and collaborated with my teammates to implement it. Through open communication and teamwork, we were able to complete the project on time and exceed the client's expectations.";

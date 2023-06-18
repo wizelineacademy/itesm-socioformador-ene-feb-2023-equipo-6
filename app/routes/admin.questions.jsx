@@ -1,6 +1,6 @@
 import { Outlet } from "@remix-run/react";
 import QuestionContainer from "../components/admininstrator/QuestionContainer";
-import { getCategoryQuestions, getAllQuestions } from "../data/admin.server";
+import { getAllQuestions } from "../data/admin.server";
 
 export const questionFilter = async (category) => {
     const data = {

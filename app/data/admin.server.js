@@ -8,7 +8,7 @@ export async function getCategoryQuestions(category) {
     const category_questions = await prisma.questionPool.findMany(
         { where: { categoria: category } }
     );
-    return category_questions; get
+    return category_questions;
 }
 // Function to get all the registered questions
 

@@ -1,5 +1,5 @@
 import { Form, Link } from "@remix-run/react"
-import { getUserFromSession, requireUserSession } from "../data/auth.server";
+import { requireUserSession } from "../data/auth.server";
 import { prisma } from "../data/database.server";
 import { redirect } from "@remix-run/node";
 import { saveEvaluationQuestions } from "../data/evaluation.server";
