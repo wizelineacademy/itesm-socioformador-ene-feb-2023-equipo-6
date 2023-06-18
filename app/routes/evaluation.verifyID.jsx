@@ -1,6 +1,8 @@
 import { Form, Link, useLoaderData } from "@remix-run/react"
 import { requireUserSession } from "../data/auth.server";
 import { getUserInfo, testStatus} from "../data/evaluation.server";
+import { redirect } from "@remix-run/node";
+import { prisma } from "../data/database.server";
 
 export default function VerifyIdPage() {
 
@@ -36,12 +38,9 @@ export default function VerifyIdPage() {
                             </Form>
                             <div className="w-20"></div>
                             {/* <Link to="/evaluation/instructions"> */}
-                            <Link to="/evaluation/instructions">
-                                <button onClick={() => validate()} className="block w-32 bg-green-500 font-bold border-solid border-2 border-black text-center rounded-md text-white">
-                                    Validate
-                                </button>
-                            </Link>
-
+                            <Form method='post' className="block w-32 bg-green-500 font-bold border-solid border-2 border-black text-center rounded-md text-white">
+                                <button classname="text-center">Validate</button>
+                            </Form>
                             {/* </Link> */}
                         </div>
                     </div>
@@ -57,12 +56,34 @@ export async function loader({ request }) {
     
     return userInfo;
 }
-export async function action({ request }) {
-    return await testStatus(request);
 
-    //     const updateStatus = await prisma.user.update({
-    //         where: {id: userId}
-    //     });
-    //     return null;
+export async function action({ request }) {
+    if (request.method !== 'POST') {
+        throw json(
+        {
+            message: 'Invalid request method',
+        },
+            { status: 400 });
+    }
+
+    else{
+        const userSession = await requireUserSession(request); 
+    
+        const userTest = await prisma.user.findUnique({
+            where: {
+                id: userSession,
+            }
+        }); 
+    
+        //Extraer preguntas por primera vez
+        if(userTest.status == 0 || userTest.status == 1){
+            return redirect("/evaluation/instructions"); 
+        }
+
+        else{
+            return redirect("/evaluation/results"); 
+        }
+    }
+    
 }
 

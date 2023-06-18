@@ -85,7 +85,7 @@ export default function AdminStructurePage() {
                     <div className="flex flex-col w-full h-full flex-1">
                         <div className="flex bg-wizewhite-100 items-center p-1">
                             <div className="flex flex-row w-full mx-[2rem] content justify-between">
-                                <div className="font-bold text-lg">
+                                <div className="font-bold text-lg" id='header'>
                                     {pageHeader}
                                 </div>
                                 <div className="flex flex-row items-center text-xl gap-x-5">
