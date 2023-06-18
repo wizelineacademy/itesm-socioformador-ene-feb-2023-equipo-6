@@ -14,7 +14,7 @@ permissions:
 env:
   AWS_REGION: ${{ secrets.AWS_REGION }}
   AWS_LIGHTSAIL_SERVICE_NAME: wizetalk-dev
-  
+
 jobs:
   deploy:
     name: 🚀 Deploy
@@ -77,7 +77,7 @@ jobs:
           OPEN_AI: ${{ secrets.OPEN_AI }}
         with:
           timeout: 60s
-          command_timeout: 30m
+          command_timeout: 60m
           envs: DATABASE_URL,SESSION_SECRET,AWS_REGION,AWS_KEY,AWS_SECRET,COGNITO_POOLID,BUCKET_MP4,BUCKET_MP3,BUCKET_TXT,OPEN_AI
           host: ${{ secrets.LIGHTSAIL_IP }}
           username: ${{ secrets.LIGHTSAIL_USER }}
