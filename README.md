@@ -1,4 +1,4 @@
-### WizeTalk
+# WizeTalk
 WizeTalk es un sistema que le otorga la oportunidad a la empresa de Wizeline de eficientizar su proceso de reclutamiento, agilizando la evaluación del nivel de inglés y conocimientos técnicos de los aplicantes en cuestión de minutos por medio del uso de las herramientas AI de Whisper y ChatGPT. 
 
 ## Stack
@@ -32,6 +32,9 @@ En la siguiente liga pueden visualizar un video donde se exponen las funcionalid
 ## Ambientes de desarrollo 
 
 El proyecto fue desplegado en AWS empleando un ambiente de desarrollo. Para la instancia web se implementó Lightsail, mientras que en la base de datos se utilizó RDS. Así mismo se empleó S3 como servicio de almacenamiento en la nube para los archivos mp4, mp3 y txt generados en el proyecto. 
+
+## Liga a la página web
+[WizeTalk link](http://equipo6-dev.labs.wizeline.io:3000/)
 
 
 ### Integrantes del equipo
