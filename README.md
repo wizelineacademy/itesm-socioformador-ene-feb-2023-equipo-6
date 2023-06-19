@@ -1,6 +1,17 @@
 ### WizeTalk
 WizeTalk es un sistema que le otorga la oportunidad a la empresa de Wizeline de eficientizar su proceso de reclutamiento, agilizando la evaluación del nivel de inglés y conocimientos técnicos de los aplicantes en cuestión de minutos por medio del uso de las herramientas AI de Whisper y ChatGPT. 
 
+<details>
+<summary>Features</summary>
+
+```
+CODE!
+```
+</details>
+
+## Stack
+- Deployment - [Lightsail](https://remix.run/docs)
+
 ## Instalación
 Para correr el sistema de manera local es necesario clonar el repositorio empleando el comando "git clone". Posteriormente será necesario instalar los modulos empleados con el siguiente comando: 
 ```
