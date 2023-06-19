@@ -5,7 +5,9 @@ WizeTalk es un sistema que le otorga la oportunidad a la empresa de Wizeline de 
 <summary>Features</summary>
 
 ```
-CODE!
+![image](https://github.com/wizelineacademy/itesm-socioformador-ene-feb-2023-equipo-6/assets/104392762/ae6c89f0-539b-44a0-ab31-424aa692af25)
+
+
 ```
 </details>
 
