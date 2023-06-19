@@ -8,34 +8,20 @@ npm install
 ```
 ## Correr el sistema
 Una vez se hayan instalado las dependencias se debe correr el siguiente comando: 
-
-- [Remix Docs](https://remix.run/docs)
-
-## Development
-
-From your terminal:
-
 ```
 npm run dev
 ```
 
-This starts your app in development mode, rebuilding assets on file changes.
+## Video explicativo
 
-## Deployment
+En la siguiente liga pueden visualizar un video donde se exponen las funcionalidades del proyecto: 
 
-First, build your app for production:
+- [Remix Docs](https://remix.run/docs)
 
-```sh
-npm run build
-```
+## Ambientes de desarrollo 
 
-Then run the app in production mode:
+El proyecto fue desplegado en AWS empleando un ambiente de desarrollo. Para la instancia web se implementó Lightsail, mientras que en la base de datos se utilizó RDS. Así mismo se empleó S3 como servicio de almacenamiento en la nube para los archivos mp4, mp3 y txt generados en el proyecto. 
 
-```sh
-npm start
-```
-
-Now you'll need to pick a host to deploy it to.
 
 ### DIY
 
