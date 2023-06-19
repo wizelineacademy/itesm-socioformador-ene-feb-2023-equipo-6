@@ -1,18 +1,16 @@
 ### WizeTalk
 WizeTalk es un sistema que le otorga la oportunidad a la empresa de Wizeline de eficientizar su proceso de reclutamiento, agilizando la evaluación del nivel de inglés y conocimientos técnicos de los aplicantes en cuestión de minutos por medio del uso de las herramientas AI de Whisper y ChatGPT. 
 
-<details>
-<summary>Features</summary>
-
-```
-![image](https://github.com/wizelineacademy/itesm-socioformador-ene-feb-2023-equipo-6/assets/104392762/ae6c89f0-539b-44a0-ab31-424aa692af25)
-
-
-```
-</details>
-
 ## Stack
-- Deployment - [Lightsail](https://remix.run/docs)
+- Deployment [Lightsail](https://aws.amazon.com/es/lightsail/)
+- Database deployment [RDS](https://aws.amazon.com/es/rds/)
+- Database [Postgres](https://www.postgresql.org/)
+- ORM [Prisma](https://www.prisma.io/)
+- API [gpt-3.5-turbo](https://platform.openai.com/docs/guides/gpt)
+- API [Whisper](https://platform.openai.com/docs/guides/speech-to-text)
+- Testing [Cypress](https://www.cypress.io/)
+- Code formatiting [Prettier](https://prettier.io/)
+- Framework [Remix](https://remix.run/)
 
 ## Instalación
 Para correr el sistema de manera local es necesario clonar el repositorio empleando el comando "git clone". Posteriormente será necesario instalar los modulos empleados con el siguiente comando: 
@@ -25,11 +23,11 @@ Una vez se hayan instalado las dependencias se debe correr el siguiente comando:
 npm run dev
 ```
 
-## Video explicativo
+## Video prueba
 
 En la siguiente liga pueden visualizar un video donde se exponen las funcionalidades del proyecto: 
 
-- [Remix Docs](https://remix.run/docs)
+- [WizeTalk video](https://youtu.be/RE-gCAjyXK8)
 
 ## Ambientes de desarrollo 
 
