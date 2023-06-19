@@ -23,11 +23,8 @@ En la siguiente liga pueden visualizar un video donde se exponen las funcionalid
 El proyecto fue desplegado en AWS empleando un ambiente de desarrollo. Para la instancia web se implementó Lightsail, mientras que en la base de datos se utilizó RDS. Así mismo se empleó S3 como servicio de almacenamiento en la nube para los archivos mp4, mp3 y txt generados en el proyecto. 
 
 
-### DIY
-
-If you're familiar with deploying node applications, the built-in Remix app server is production-ready.
-
-Make sure to deploy the output of `remix build`
-
-- `build/`
-- `public/build/`
+### Integrantes del equipo
+- Santiago Ortiz
+- Diego Bugarin
+- Hugo Palomares
+- Edgar Castillo
